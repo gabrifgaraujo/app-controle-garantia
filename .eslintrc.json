@@ -1,0 +1,12 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "rules": {
+    "prefer-const": "error",
+    "no-var": "error",
+    "@typescript-eslint/no-explicit-any": "error"
+  }
+}
