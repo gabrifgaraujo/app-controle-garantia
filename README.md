@@ -39,7 +39,7 @@ Certifique-se de ter as seguintes ferramentas instaladas:
     # Rode a aplicação.
     npm run dev
     ```
-    O aplicativo estará acessível em `http://localhost:3000`.
+    O aplicativo estará acessível em `http://localhost:5173`.
 
 ---
 
