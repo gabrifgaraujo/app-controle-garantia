@@ -1,119 +1,236 @@
-# Aponti: Sistema de Controle de Garantia
+# Aponti — Sistema de Controle de Garantia
 
-## Descrição do Projeto
-
-O **Aponti** é o projeto integrador do curso de Frontend, desenvolvido para resolver o problema da má gestão de notas fiscais e certificados de garantia. O aplicativo tem como objetivo centralizar, organizar e emitir alertas sobre o prazo de validade das garantias de equipamentos adquiridos pelos usuários.
+O Aponti é o projeto integrador do curso de Frontend, desenvolvido para resolver o problema da má gestão de notas fiscais e certificados de garantia. O aplicativo tem como objetivo centralizar, organizar e emitir alertas sobre o prazo de validade das garantias de equipamentos adquiridos pelos usuários.
 
 Este projeto está sendo desenvolvido em um ambiente ágil, com foco em aprendizado e boas práticas de desenvolvimento.
 
----
+## Visão Geral
+
+O Aponti é um projeto frontend moderno, construído com:
+
+*   **React**
+*   **TypeScript**
+*   **Vite** (versão atual)
+*   **TailwindCSS**
+*   **ESLint + Prettier**
+*   **Estrutura para colaboração**: `.github`, `.vscode`, `.gitignore`, templates e scripts padronizados
+
+O objetivo é garantir um fluxo de desenvolvimento limpo, organizado e pronto para contribuir.
 
 ## Início Rápido (Quick Start)
 
-Siga estes passos para ter o projeto rodando em sua máquina local.
-
 ### 1. Pré-requisitos
 
-Certifique-se de ter as seguintes ferramentas instaladas:
+Certifique-se de ter instalado:
 
-*   **Node.js:** Versão 18 ou superior.
-*   **VS Code:** Editor de código.
-*   **Git:** Para controle de versão.
+*   Node.js 18+
+*   Git
+*   VSCode
 
-### 2. Configuração do Ambiente
+### 2. Instalando o projeto
 
-1.  **Clone o Repositório:**
-    ```bash
-    git clone https://github.com/gabrifgaraujo/app-controle-garantia/
-    cd aponti-controle-garantia
-    ```
+**Clone o repo:**
 
-2.  **Instale as Dependências:**
-    ```bash
-    # Não esqueça desse ponto, ele é importantíssimo para instalar as dependências necessárias.
-    npm install
-    ```
-
-3.  **Execute o Projeto:**
-    ```bash
-    # Rode a aplicação.
-    npm run dev
-    ```
-    O aplicativo estará acessível em `http://localhost:5173`.
-
----
-
-## Tecnologias e Padrões
-
-| Categoria | Tecnologia | Descrição |
-| :--- | :--- | :--- |
-| **Frontend** | React | Biblioteca principal para construção da interface. |
-| **Linguagem** | TypeScript | Garante tipagem estática, essencial para evitar erros e aumentar a qualidade do código. |
-| **Estilização** | CSS / Styled Components | Estilização com foco em Mobile First. |
-| **Qualidade** | ESLint | Ferramenta para identificar e reportar padrões problemáticos no código. |
-| **Formatação** | Prettier | Formata o código automaticamente, garantindo consistência visual em todo o projeto. |
-
----
-
-## Fluxo de Contribuição (Git)
-
-**ATENÇÃO:** O envio de código diretamente para a branch `main` é **bloqueado**. Todo o código deve passar por um **Pull Request (PR)** e ser revisado pelo Líder Técnico ou SCRUM Master.
-
-### O Fluxo de Trabalho Diário
-
-1.  **Atualize sua Main:** Antes de começar a trabalhar, garanta que sua branch `main` local esteja atualizada.
-    ```bash
-    git checkout main
-    git pull origin main
-    ```
-
-2.  **Crie sua Branch de Feature:** Crie uma nova branch para a sua tarefa. Use o padrão `feat/nome-da-tarefa` ou `fix/nome-do-bug`.
-    ```bash
-    git checkout -b feat/cadastro-simples
-    ```
-
-3.  **Codifique e Teste:** Faça suas alterações e teste localmente.
-
-4.  **Adicione e Comite:** Adicione os arquivos alterados e faça o commit.
-    ```bash
-    git add .
-    git commit -m "feat: Implementa o formulário de cadastro simplificado"
-    ```
-    *Use o padrão de commit: `feat:` (nova funcionalidade), `fix:` (correção de bug), `refactor:` (refatoração).*
-
-5.  **Envie para o GitHub:**
-    ```bash
-    git push origin feat/cadastro-simples
-    ```
-
-6.  **Abra o Pull Request (PR):** Vá para o GitHub e abra um Pull Request da sua branch para a `main`. Preencha o template de PR detalhando o que foi feito.
-
----
-
-## Comandos Úteis
-
-| Comando | Descrição |
-| :--- | :--- |
-| `npm run dev` | Inicia o projeto em modo de desenvolvimento. |
-| `npm install` | Instala todas as dependências do projeto. |
-| `npm run lint` | Executa o ESLint para verificar erros de código. |
-| `npm run format` | Executa o Prettier para formatar todos os arquivos. |
-| `npm run build` | Cria a versão de produção do aplicativo. |
-
----
-
-## Configuração do VS Code (Recomendado)
-
-Para garantir que o Prettier e o ESLint funcionem automaticamente, instale as seguintes extensões e verifique se a formatação ao salvar está ativada:
-
-*   **ESLint**
-*   **Prettier - Code formatter**
-
-**Configuração Local:** O projeto já inclui um arquivo `.vscode/settings.json` que deve forçar a formatação ao salvar. Se não funcionar, verifique as configurações do seu editor.
-```json
-// .vscode/settings.json
-{
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-}
+```bash
+git clone https://github.com/gabrifgaraujo/aponti-controle-garantia
+cd aponti-controle-garantia
 ```
+
+**Instale as dependências:**
+
+```bash
+npm install
+```
+
+**Execute:**
+
+```bash
+npm run dev
+```
+
+**Acesse:**
+
+O projeto estará disponível em `http://localhost:5173`.
+
+## Tecnologias e Motivos
+
+| Tecnologia | Uso |
+| :--- | :--- |
+| React | Interface do usuário |
+| TypeScript | Tipagem estática e segurança |
+| Vite | Build rápido e moderno |
+| TailwindCSS | Estilização utilitária e produtiva |
+| ESLint | Padronização e qualidade do código |
+| Prettier | Formatação consistente |
+
+## Arquivos e Pastas Criadas (explicação clara)
+
+Aqui está o que existe no projeto e por quê:
+
+### `.github/pull_request_template.md`
+
+Template automático para qualquer Pull Request. Serve pra manter o histórico organizado e padronizado.
+
+### `.vscode/settings.json`
+
+Configura o VSCode pra formatar automaticamente ao salvar, usando o Prettier:
+
+```json
+"editor.formatOnSave": true
+"editor.defaultFormatter": "esbenp.prettier-vscode"
+```
+
+Resultado: zero arquivos desformatados no repositório.
+
+### `.gitignore`
+
+Exclui arquivos que nunca devem ir para o Git:
+
+```
+node_modules/
+dist/
+.env
+logs
+```
+
+Mantém o repo limpo e leve.
+
+### `.prettierrc`
+
+Configura a formatação global:
+
+*   ponto e vírgula
+*   aspas duplas
+*   trailing comma
+*   etc.
+
+Deixa tudo consistente entre devs.
+
+### `.eslintrc.json`
+
+Criado automaticamente via:
+
+```bash
+npm init @eslint/config@latest
+```
+
+Inclui regras para:
+
+*   TypeScript
+*   React
+*   Plugins do Prettier
+*   Padrão atualizado do ESLint
+*   Integração com importações modernas
+
+Ele evita erros bobos e mantém o código limpo.
+
+### `tsconfig.json`
+
+Arquivo de configuração do TypeScript usando opções recomendadas pelo Vite moderno:
+
+```json
+"target": "ES2020"
+"moduleResolution": "bundler"
+"jsx": "react-jsx"
+"strict": true
+```
+
+Garantindo tipagem forte e suporte aos recursos recentes do JS.
+
+### `tailwind.config.js`
+
+Criado com:
+
+```bash
+npx tailwindcss init -p
+```
+
+Inclui:
+
+```javascript
+content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+```
+
+Necessário pra que o Tailwind remova classes não usadas no build.
+
+### `postcss.config.js`
+
+Usado pelo Vite para processar Tailwind + Autoprefixer.
+
+## Estilos
+
+No `src/index.css` foram adicionadas as diretivas:
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+Isso habilita todo o Tailwind na aplicação.
+
+## Scripts do Projeto
+
+Adicionados via `npm pkg set`:
+
+| Script | Para que serve |
+| :--- | :--- |
+| `npm run dev` | Inicia o servidor Vite |
+| `npm run build` | Gera build de produção |
+| `npm run preview` | Previsualiza o build localmente |
+| `npm run lint` | Verifica problemas com ESLint |
+| `npm run format` | Formata todo o projeto com Prettier |
+
+## Fluxo de Contribuição
+
+A branch `main` é protegida. Toda alteração precisa:
+
+**Criar branch:**
+
+```bash
+git checkout -b feat/nome-da-feature
+```
+
+**Comitar:**
+
+```bash
+git add .
+git commit -m "feat: descrição da mudança"
+```
+
+**Enviar:**
+
+```bash
+git push origin feat/nome-da-feature
+```
+
+Abrir um Pull Request (PR) usando o template criado em `.github/`.
+
+## Extensões Recomendadas no VSCode
+
+*   ESLint
+*   Prettier
+*   Tailwind CSS IntelliSense
+*   TypeScript Importer (opcional)
+
+## Comandos úteis (resumo)
+
+| Comando | Função |
+| :--- | :--- |
+| `npm run dev` | Roda o projeto |
+| `npm run build` | Gera build |
+| `npm run preview` | Testa build |
+| `npm run lint` | Checa qualidade |
+| `npm run format` | Formata tudo |
+| `npm install` | Instala dependências |
+
+## Conclusão
+
+Esse README descreve todo o setup moderno utilizado:
+
+*   Estrutura atual do Vite
+*   Configuração do Tailwind oficial
+*   ESLint + Prettier atualizados
+*   Pastas automáticas (`.github`, `.vscode`)
+*   Scripts saneados
+*   Fluxo de contribuição profissional
