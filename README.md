@@ -1,73 +1,236 @@
-# React + TypeScript + Vite
+# Aponti — Sistema de Controle de Garantia
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+O Aponti é o projeto integrador do curso de Frontend, desenvolvido para resolver o problema da má gestão de notas fiscais e certificados de garantia. O aplicativo tem como objetivo centralizar, organizar e emitir alertas sobre o prazo de validade das garantias de equipamentos adquiridos pelos usuários.
 
-Currently, two official plugins are available:
+Este projeto está sendo desenvolvido em um ambiente ágil, com foco em aprendizado e boas práticas de desenvolvimento.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Visão Geral
 
-## React Compiler
+O Aponti é um projeto frontend moderno, construído com:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+*   **React**
+*   **TypeScript**
+*   **Vite** (versão atual)
+*   **TailwindCSS**
+*   **ESLint + Prettier**
+*   **Estrutura para colaboração**: `.github`, `.vscode`, `.gitignore`, templates e scripts padronizados
 
-## Expanding the ESLint configuration
+O objetivo é garantir um fluxo de desenvolvimento limpo, organizado e pronto para contribuir.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Início Rápido (Quick Start)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### 1. Pré-requisitos
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Certifique-se de ter instalado:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+*   Node.js 18+
+*   Git
+*   VSCode
+
+### 2. Instalando o projeto
+
+**Clone o repo:**
+
+```bash
+git clone https://github.com/gabrifgaraujo/aponti-controle-garantia
+cd aponti-controle-garantia
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+**Instale as dependências:**
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
+
+**Execute:**
+
+```bash
+npm run dev
+```
+
+**Acesse:**
+
+O projeto estará disponível em `http://localhost:5173`.
+
+## Tecnologias e Motivos
+
+| Tecnologia | Uso |
+| :--- | :--- |
+| React | Interface do usuário |
+| TypeScript | Tipagem estática e segurança |
+| Vite | Build rápido e moderno |
+| TailwindCSS | Estilização utilitária e produtiva |
+| ESLint | Padronização e qualidade do código |
+| Prettier | Formatação consistente |
+
+## Arquivos e Pastas Criadas (explicação clara)
+
+Aqui está o que existe no projeto e por quê:
+
+### `.github/pull_request_template.md`
+
+Template automático para qualquer Pull Request. Serve pra manter o histórico organizado e padronizado.
+
+### `.vscode/settings.json`
+
+Configura o VSCode pra formatar automaticamente ao salvar, usando o Prettier:
+
+```json
+"editor.formatOnSave": true
+"editor.defaultFormatter": "esbenp.prettier-vscode"
+```
+
+Resultado: zero arquivos desformatados no repositório.
+
+### `.gitignore`
+
+Exclui arquivos que nunca devem ir para o Git:
+
+```
+node_modules/
+dist/
+.env
+logs
+```
+
+Mantém o repo limpo e leve.
+
+### `.prettierrc`
+
+Configura a formatação global:
+
+*   ponto e vírgula
+*   aspas duplas
+*   trailing comma
+*   etc.
+
+Deixa tudo consistente entre devs.
+
+### `.eslintrc.json`
+
+Criado automaticamente via:
+
+```bash
+npm init @eslint/config@latest
+```
+
+Inclui regras para:
+
+*   TypeScript
+*   React
+*   Plugins do Prettier
+*   Padrão atualizado do ESLint
+*   Integração com importações modernas
+
+Ele evita erros bobos e mantém o código limpo.
+
+### `tsconfig.json`
+
+Arquivo de configuração do TypeScript usando opções recomendadas pelo Vite moderno:
+
+```json
+"target": "ES2020"
+"moduleResolution": "bundler"
+"jsx": "react-jsx"
+"strict": true
+```
+
+Garantindo tipagem forte e suporte aos recursos recentes do JS.
+
+### `tailwind.config.js`
+
+Criado com:
+
+```bash
+npx tailwindcss init -p
+```
+
+Inclui:
+
+```javascript
+content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+```
+
+Necessário pra que o Tailwind remova classes não usadas no build.
+
+### `postcss.config.js`
+
+Usado pelo Vite para processar Tailwind + Autoprefixer.
+
+## Estilos
+
+No `src/index.css` foram adicionadas as diretivas:
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+Isso habilita todo o Tailwind na aplicação.
+
+## Scripts do Projeto
+
+Adicionados via `npm pkg set`:
+
+| Script | Para que serve |
+| :--- | :--- |
+| `npm run dev` | Inicia o servidor Vite |
+| `npm run build` | Gera build de produção |
+| `npm run preview` | Previsualiza o build localmente |
+| `npm run lint` | Verifica problemas com ESLint |
+| `npm run format` | Formata todo o projeto com Prettier |
+
+## Fluxo de Contribuição
+
+A branch `main` é protegida. Toda alteração precisa:
+
+**Criar branch:**
+
+```bash
+git checkout -b feat/nome-da-feature
+```
+
+**Comitar:**
+
+```bash
+git add .
+git commit -m "feat: descrição da mudança"
+```
+
+**Enviar:**
+
+```bash
+git push origin feat/nome-da-feature
+```
+
+Abrir um Pull Request (PR) usando o template criado em `.github/`.
+
+## Extensões Recomendadas no VSCode
+
+*   ESLint
+*   Prettier
+*   Tailwind CSS IntelliSense
+*   TypeScript Importer (opcional)
+
+## Comandos úteis (resumo)
+
+| Comando | Função |
+| :--- | :--- |
+| `npm run dev` | Roda o projeto |
+| `npm run build` | Gera build |
+| `npm run preview` | Testa build |
+| `npm run lint` | Checa qualidade |
+| `npm run format` | Formata tudo |
+| `npm install` | Instala dependências |
+
+## Conclusão
+
+Esse README descreve todo o setup moderno utilizado:
+
+*   Estrutura atual do Vite
+*   Configuração do Tailwind oficial
+*   ESLint + Prettier atualizados
+*   Pastas automáticas (`.github`, `.vscode`)
+*   Scripts saneados
+*   Fluxo de contribuição profissional
