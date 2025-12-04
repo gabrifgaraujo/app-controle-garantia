@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
 
 *,
 *::before,
@@ -12,21 +13,21 @@ body {
     background: #ffffff;
 }
 
-.cadastro-container {
+.senha-container {
     display: flex;
     width: 100%;
     min-height: 100vh;
 }
 
-.side-image-cadastro {
+.side-image-senha {
     flex: 1;
-    background-image: url("/src/assets/cadastro.jpg"); 
+    background-image: url("/src/assets/esqueceu-senha.jpg"); 
     background-size: 120%;
     background-position: center;
     background-repeat: no-repeat;
 }
 
-.cadastro-right {
+.senha-right {
     flex: 1;
     display: flex;
     justify-content: center;
@@ -35,7 +36,7 @@ body {
     background: #ffffff;
 }
 
-.cadastro-card {
+.senha-card {
     width: 100%;
     max-width: 100%;
     background: #fff;
@@ -51,19 +52,19 @@ body {
     to   { opacity: 1; transform: translateY(0); }
 }
 
-.cadastro-card h2 {
+.senha-card h2 {
     font-size: 2rem;
     font-weight: 700;
     color: #6b21a8;
     margin-bottom: 0.5rem;
 }
 
-.cadastro-card p {
+.senha-card p {
     color: #a78bfa;
     margin-bottom: 2rem;
 }
 
-.cadastro-card input {
+.senha-card input {
     width: 100%;
     padding: 0.9rem 1rem;
     margin-bottom: 1rem;
@@ -75,12 +76,12 @@ body {
     background: #fafafa;
 }
 
-.cadastro-card input:focus {
+.senha-card input:focus {
     border-color: #7c3aed;
     box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.25);
 }
 
-.cadastro-card button {
+.senha-card button {
     width: 100%;
     background-color: #6b21a8;
     color: white;
@@ -93,35 +94,35 @@ body {
     transition: 0.2s;
 }
 
-.cadastro-card button:hover {
+.senha-card button:hover {
     background-color: #7c3aed;
     box-shadow: 0 8px 20px rgba(124, 58, 237, 0.3);
 }
 
-.cadastro-card .links {
+.senha-card .links {
     margin-top: 1.3rem;
     text-align: center;
 }
 
-.cadastro-card .links a {
+.senha-card .links a {
     color: #6b21a8;
     font-size: 0.95rem;
     text-decoration: none;
     transition: 0.2s;
 }
 
-.cadastro-card .links a:hover {
+.senha-card .links a:hover {
     text-decoration: underline;
 }
 
 @media (max-width: 900px) {
     .side-image-login,
-    .side-image-cadastro {
+    .side-image-senha {
         display: none;
     }
 
     .form-container,
-    .cadastro-right {
+    .senha-right {
         flex: 1;
         padding: 2rem;
         background: linear-gradient(180deg,
@@ -130,7 +131,7 @@ body {
     }
 
     .form-card,
-    .cadastro-card {
+    .senha-card {
         background: #ffffff;
         box-shadow: 0 8px 24px rgba(13, 12, 29, 0.06);
         padding: 2.2rem;
@@ -142,30 +143,30 @@ body {
     }
 
     .form-card h2,
-    .cadastro-card h2 {
+    .senha-card h2 {
         color: #6b21a8;
     }
 
     .form-card p,
-    .cadastro-card p {
+    .senha-card p {
         color: #7c3aed;
         opacity: 0.9;
     }
 
     .form-card input,
-    .cadastro-card input {
+    .senha-card input {
         background: #fafafa;
         border-color: #e6e0f8;
         color: #111827;
     }
 
     .form-card input::placeholder,
-    .cadastro-card input::placeholder {
+    .senha-card input::placeholder {
         color: #9f9acb;
     }
 
     .form-card button,
-    .cadastro-card button {
+    .senha-card button {
         box-shadow: 0 6px 16px rgba(124,58,237,0.15);
     }
 }

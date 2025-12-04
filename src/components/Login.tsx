@@ -20,7 +20,7 @@ const Login: React.FC = () => {
           </form>
 
           <div className="links">
-            <a href="#">Esqueceu a senha?</a>
+            <Link to="/esqueceu-senha">Esqueceu a senha?</Link>
 
             <Link to="/cadastro">Não tem uma conta? Cadastre-se</Link>
           </div>
