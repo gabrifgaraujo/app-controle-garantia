@@ -5,9 +5,7 @@ import '../style/Cadastro.css';
 const Cadastro: React.FC = () => {
     return (
         <div className="cadastro-container">
-
             <div className="side-image-cadastro"></div>
-
             <div className="cadastro-right">
                 <div className="cadastro-card">
                     <h2>Cadastre-se</h2>
