@@ -1,0 +1,250 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+  font-family: 'Inter', Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #faf7ff;
+  font-size: 14px;
+  color: #1f1f1f;
+}
+
+.pagina {
+  display: flex;
+  justify-content: center;
+  padding: 18px;
+}
+
+.cartao {
+  width: 100%;
+  max-width: 420px;
+  background: white;
+  border-radius: 18px;
+  padding: 22px;
+}
+
+
+.voltar {
+  color: #7a2ff5;
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-block;
+  margin-bottom: 10px;
+  transition: 0.2s;
+}
+
+.voltar:hover {
+  opacity: 0.8;
+}
+
+.cabecalho {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.icone {
+  width: 40px;
+  height: 40px;
+  background: #ede4ff;
+  color: #7a2ff5;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+
+.titulo {
+  margin: 0;
+  color: #7a2ff5;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.subtitulo {
+  margin: 4px 0 0;
+  color: #999;
+  font-size: 13px;
+}
+
+.passos {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.passo {
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: #ede4ff;
+  color: #7a2ff5;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.passo.ativo {
+  background: #7a2ff5;
+  color: white;
+}
+
+.area-linha {
+  position: relative;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+}
+
+.linha {
+  width: 100%;
+  height: 2px;
+  background: #e2d8ff;
+}
+
+.texto-linha {
+  position: absolute;
+  top: -8px;
+  background: white;
+  padding: 0 6px;
+  font-size: 11px;
+  color: #999;
+}
+
+/* Formulário */
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+label {
+  color: #7a2ff5;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+input, select, textarea {
+  background: #f8f6ff;
+  border: none;
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 14px;
+}
+
+textarea {
+  min-height: 90px;
+}
+
+/* Upload */
+.linha-arquivo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+  gap: 10px;
+}
+
+.texto-upload {
+  color: #494444;
+  font-size: 13px;
+}
+
+.input-arquivo {
+  display: none;
+}
+.button.small {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  transition: 0.2s;
+}
+
+
+.button:hover {
+  filter: brightness(1.12);
+}
+
+.button.purple {
+  background:#6b21a8;
+  color: rgb(255, 254, 254);
+}
+
+.button.outline {
+    color: #6b21a8;
+  background: rgb(230, 217, 217);
+
+}
+@media (max-width: 600px) {
+
+  .pagina {
+    padding: 12px;
+  }
+
+  .cartao {
+    padding: 18px;
+    border-radius: 14px;
+  }
+
+  .cabecalho {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .titulo {
+    font-size: 18px;
+  }
+
+  .subtitulo {
+    font-size: 12px;
+  }
+
+  .passos {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .area-linha {
+    width: 100%;
+  }
+
+  .linha {
+    width: 100%;
+  }
+
+  .linha-arquivo {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .button {
+    width: 100%;
+  }
+
+  .acoes {
+    flex-direction: column;
+  }
+}
