@@ -1,0 +1,142 @@
+/* --- ESTILO ORIGINAL (inalterado) --- */
+
+.pagina-lista {
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.topo-notas {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.logo-app {
+  font-size: 22px;
+  font-weight: 700;
+  color: #7428f4;
+}
+
+.btn-voltar {
+  background: white;
+  color: #7428f4;
+  padding: 4px 10px;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid #ddd;
+  transition: 0.2s;
+}
+
+.btn-voltar:hover {
+  filter: brightness(1.05);
+  transform: translateY(-2px);
+}
+
+.cabecalho-lista {
+  width: 100%;
+  max-width: 900px;
+  margin-bottom: 20px;
+}
+
+.cabecalho-lista h2 {
+  font-size: 28px;
+  margin: 0;
+  color: #7428f4;
+  font-weight: 700;
+}
+
+.cabecalho-lista p {
+  margin: 6px 0 0 0;
+  color: #6a6a6a;
+  font-size: 14px;
+}
+
+.lista-notas {
+  display: flex;
+  flex-direction: column;
+  gap: 14px; 
+}
+
+@media (min-width: 600px) {
+  .lista-notas {
+    gap: 18px;
+  }
+}
+
+.container-notas{
+    display: flex;
+    flex-direction: column;
+}
+
+.btn-nova-nota {
+    background: #7a2ff5;
+    color: white;
+    padding: 7px;
+    border-radius: 14px;
+    font-weight: 700;
+    margin: 10px 0;
+    text-decoration: none;
+}
+
+
+/* --- RESPONSIVIDADE (ADICIONADO) --- */
+
+/* Telas muito pequenas (até 360px) */
+@media (max-width: 360px) {
+  .topo-notas {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .logo-app {
+    font-size: 20px;
+  }
+
+  .btn-voltar {
+    width: 100%;
+    text-align: center;
+  }
+
+  .cabecalho-lista h2 {
+    font-size: 22px;
+  }
+}
+
+/* Telas pequenas (até 500px) */
+@media (max-width: 500px) {
+  .topo-notas {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .cabecalho-lista h2 {
+    font-size: 24px;
+  }
+}
+
+/* Tablets (até 768px) */
+@media (max-width: 768px) {
+  .topo-notas,
+  .cabecalho-lista {
+    padding: 0 10px;
+  }
+
+  .btn-nova-nota {
+    width: 50%;
+    text-align: center;
+  }
+
+  .btn-nova-nota {
+    width: 100%;
+    text-align: center;
+  }
+}

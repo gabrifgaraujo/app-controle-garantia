@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+/* Layout geral */
+.pagina-notas {
+  display: flex;
+  justify-content: center;
+  padding: 4px;
+}
+
+/* Card principal */
+.cartao-nota {
+  width: 100%;
+  max-width: 440px;
+  background: white;
+  border-radius: 20px;
+  padding: 26px;
+  box-shadow: 0 6px 16px rgba(122, 47, 245, 0.08);
+  border: 1px solid #f1e9ff;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Header */
+.cabecalho-nota {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 24px;
+  align-items: center;
+}
+
+.icone-nota {
+  width: 30px;
+  height: 30px;
+  background: linear-gradient(135deg, #ede4ff, #f6f1ff);
+  color: #7a2ff5;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.titulo-nota {
+  margin: 0;
+  color: #711ff0;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.sub-nota {
+  margin: 0;
+  font-size: 11px;
+  color: #8a86a3;
+}
+
+/* Botões */
+.btn {
+  padding: 10px;
+  border: none;
+  font-weight: 600;
+  font-size: 11px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: transform 0.15s ease, filter 0.2s ease;
+}
+
+.btn:hover {
+  filter: brightness(1.14);
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background: #7a2ff5;
+  color: white;
+  box-shadow: 0 4px 12px rgba(122, 47, 245, 0.25);
+}
+
+.btn-outline {
+  background: #f4ecff;
+  color: #7428f4;
+  border: 1px solid #e0cfff;
+}
+
+/* Itens de informação */
+.info-item {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+  padding: 5px;
+  border-radius: 14px;
+  border: 1px solid #efe7ff;
+  transition: 0.2s;
+}
+
+.info-item:hover {
+  background: #f5f0ff;
+  border-color: #e7dbff;
+}
+
+.info-item i {
+  width: 36px;
+  height: 36px;
+  background: #ede4ff;
+  color: #7a2ff5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.info-item p {
+  margin: 0;
+  font-size: 12px;
+  color: #3f3b49;
+}
+
+/* Animação suave no card */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
