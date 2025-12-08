@@ -1,14 +1,71 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Nota from "../components/Nota.tsx";
+import Nota from "../components/Nota";
+import notasFiscais from "../mock/notasFiscais";
 import "../style/Notas.css";
-import notasFiscais from "../mock/notasFiscais.ts";
+import { IoNotificationsOutline } from "react-icons/io5";
+import { AiOutlineCheck, AiOutlineCheckCircle } from "react-icons/ai";
 
 const Notas = () => {
   const [busca, setBusca] = useState("");
-  
-  const notasFiltradas = notasFiscais.filter((nota) =>
-    nota.produto.toLowerCase().includes(busca.toLowerCase())
+  const [modalNotificacoes, setModalNotificacoes] = useState(false);
+
+  useEffect(() => {
+    document.body.style.overflow = modalNotificacoes ? "hidden" : "auto";
+  }, [modalNotificacoes]);
+
+  const gerarNotificacoes = () => {
+    const hoje = new Date("2024-09-01");
+
+    return notasFiscais
+      .map((nota) => {
+        const [dia, mes, ano] = nota.dataCompra.split("/");
+        const dataCompra = new Date(`${ano}-${mes}-${dia}`);
+
+        const meses = parseInt(nota.duracaoGarantia);
+        const dataExp = new Date(dataCompra);
+        dataExp.setMonth(dataExp.getMonth() + meses);
+
+        const diasRestantes =
+          (dataExp.getTime() - hoje.getTime()) / (1000 * 60 * 60 * 24);
+
+        let tipo: "Expirada" | "Próxima de Expirar" | "" = "";
+
+        if (diasRestantes < 0) tipo = "Expirada";
+        else if (diasRestantes <= 30) tipo = "Próxima de Expirar";
+
+        if (!tipo) return null;
+
+        return {
+          id: nota.numeroNota,
+          produto: nota.produto,
+          dataCompra: nota.dataCompra,
+          duracaoGarantia: nota.duracaoGarantia,
+          tipo,
+          lida: false,
+        };
+      })
+      .filter((item): item is NonNullable<typeof item> => item !== null);
+  };
+
+  const [notificacoesState, setNotificacoesState] = useState(
+    gerarNotificacoes()
+  );
+
+  const marcarComoLida = (index: number) => {
+    setNotificacoesState((prev) =>
+      prev.map((n, i) => (i === index ? { ...n, lida: !n.lida } : n))
+    );
+  };
+
+  const marcarTodasComoLidas = () => {
+    setNotificacoesState((prev) => prev.map((n) => ({ ...n, lida: true })));
+  };
+
+  const notasFiltradas = notasFiscais.filter(
+    (nota) =>
+      nota.produto.toLowerCase().includes(busca.toLowerCase()) ||
+      nota.descricao.toLowerCase().includes(busca.toLowerCase())
   );
 
   return (
@@ -16,52 +73,178 @@ const Notas = () => {
       <header className="topo-notas">
         <h1 className="logo-app">Controle de Garantias</h1>
 
-        <Link to="/" className="btn-sair">
-          ← Sair
-        </Link>
+        <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+          <Link to="/" className="btn-sair">
+            ← Sair
+          </Link>
+        </div>
       </header>
-
       <section className="cabecalho-lista">
         <h2>Minhas Notas Fiscais</h2>
         <p>Veja todas as notas fiscais cadastradas abaixo.</p>
 
-        {/* Controles: botão + busca */}
-        <div className="cabecalho-controles">
-          <Link to="/cadastro-nota" className="btn-nova-nota">
-            + Nova Nota Fiscal
-          </Link>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginTop: "14px",
+            gap: "14px",
+          }}
+        >
+          <button className="btn-nova-nota">
+            <Link
+              to="/cadastro-nota"
+              style={{ color: "white", textDecoration: "none" }}
+            >
+              + Nova Nota Fiscal
+            </Link>
+          </button>
 
           <input
             type="text"
-            placeholder="Buscar nota pelo produto..."
+            placeholder="Buscar nota..."
             value={busca}
             onChange={(e) => setBusca(e.target.value)}
-            className="input-busca"
+            style={{
+              flex: 1,
+              padding: "6px 12px",
+              borderRadius: "10px",
+              border: "1px solid #ccc",
+            }}
           />
+
+          <div style={{ position: "relative" }}>
+            <button
+              style={{
+                background: "transparent",
+                border: "none",
+                fontSize: "26px",
+                cursor: "pointer",
+                color: "#7428f4",
+              }}
+              onClick={() => setModalNotificacoes(true)}
+            >
+              <IoNotificationsOutline />
+            </button>
+
+            {notificacoesState.some((n) => !n.lida) && (
+              <span
+                style={{
+                  position: "absolute",
+                  top: "-2px",
+                  right: "-2px",
+                  width: "10px",
+                  height: "10px",
+                  background: "red",
+                  borderRadius: "50%",
+                }}
+              ></span>
+            )}
+          </div>
         </div>
       </section>
 
       <div className="container-notas">
-        {notasFiltradas.length > 0 ? (
-          notasFiltradas.map((nota, index) => (
-            <Nota
-              key={index}
-              produto={nota.produto}
-              descricao={nota.descricao}
-              dataCompra={nota.dataCompra}
-              duracaoGarantia={nota.duracaoGarantia}
-              statusGarantia={nota.statusGarantia}
-              tipoNota={nota.tipoNota}
-              loja={nota.loja}
-              numeroNota={nota.numeroNota}
-              valor={nota.valor}
-              observacoes={nota.observacoes}
-            />
-          ))
-        ) : (
-          <p>Nenhuma nota encontrada.</p>
-        )}
+        {notasFiltradas.map((nota, index) => (
+          <Nota key={index} {...nota} />
+        ))}
       </div>
+
+      {modalNotificacoes && (
+        <div
+          className="modal-overlay"
+          onClick={() => setModalNotificacoes(false)}
+          style={{ overflow: "hidden" }}
+        >
+          <div
+            className="modal-content"
+            onClick={(e) => e.stopPropagation()}
+            style={{ maxHeight: "70vh", overflowY: "auto" }}
+          >
+            <button
+              className="btn-fechar"
+              onClick={() => setModalNotificacoes(false)}
+            >
+              ×
+            </button>
+
+            <h2 className="modal-titulo">Notificações</h2>
+            <p className="modal-subtitulo">
+              Notas próximas de expirar ou expiradas
+            </p>
+
+            <button
+              onClick={marcarTodasComoLidas}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+                background: "#7a2ff5",
+                color: "white",
+                border: "none",
+                padding: "6px 12px",
+                borderRadius: "8px",
+                cursor: "pointer",
+                marginBottom: "12px",
+              }}
+            >
+              <AiOutlineCheckCircle /> Marcar todas
+            </button>
+
+            <div className="info-modal">
+              {notificacoesState.length === 0 && <p>Nenhuma notificação</p>}
+
+              {notificacoesState.map((nota, index) => (
+                <div
+                  key={index}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    padding: "10px",
+                    borderRadius: "8px",
+                    marginBottom: "10px",
+                    background: nota.lida ? "#f5f5f5" : "#dfd7f8",
+                  }}
+                >
+                  <div>
+                    <p>
+                      <strong>{nota.produto}</strong> –{" "}
+                      <span
+                        style={{
+                          color:
+                            nota.tipo === "Expirada" ? "red" : "#f39c12",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {nota.tipo}
+                      </span>
+                    </p>
+
+                    <p style={{ fontSize: "12px", color: "#555" }}>
+                      Compra: {nota.dataCompra} | Garantia:{" "}
+                      {nota.duracaoGarantia} meses
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={() => marcarComoLida(index)}
+                    style={{
+                      border: "none",
+                      background: "transparent",
+                      cursor: "pointer",
+                      fontSize: "18px",
+                      color: nota.lida ? "#2ecc71" : "#7a2ff5",
+                    }}
+                  >
+                    <AiOutlineCheck />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
