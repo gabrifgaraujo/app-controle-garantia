@@ -52,21 +52,48 @@
 }
 
 .cabecalho-lista p {
-  margin: 6px 0 0 0;
+  margin: 6px 0 10px 0;
   color: #6a6a6a;
   font-size: 14px;
+}
+
+.cabecalho-controles {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.btn-nova-nota {
+  background: #7a2ff5;
+  color: white;
+  padding: 7px 14px;
+  border-radius: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  text-align: center;
+  min-width: 160px;
+}
+
+.input-busca {
+  flex: 1;
+  padding: 7px 12px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  outline: none;
+  transition: 0.2s;
+}
+
+.input-busca:focus {
+  border-color: #7a2ff5;
+  box-shadow: 0 0 4px rgba(122, 47, 245, 0.3);
 }
 
 .lista-notas {
   display: flex;
   flex-direction: column;
   gap: 14px;
-}
-
-@media (min-width: 600px) {
-  .lista-notas {
-    gap: 18px;
-  }
 }
 
 .container-notas {
@@ -90,17 +117,6 @@
   }
 }
 
-.btn-nova-nota {
-  background: #7a2ff5;
-  color: white;
-  padding: 7px;
-  border-radius: 14px;
-  font-weight: 700;
-  margin: 10px 0;
-  text-decoration: none;
-  text-align: center;
-}
-
 @media (max-width: 500px) {
   .topo-notas {
     flex-direction: column;
@@ -119,6 +135,15 @@
   .btn-sair {
     width: 30%;
     text-align: center;
+  }
+
+  .cabecalho-controles {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .input-busca {
+    width: 100%;
   }
 }
 
