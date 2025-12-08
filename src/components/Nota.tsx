@@ -11,9 +11,7 @@ interface NotaProps {
   statusGarantia: string;
 }
 
-
-
-const Notas = ({ produto, descricao, dataCompra, duracaoGarantia, statusGarantia }: NotaProps ) => {
+const Notas = ({ produto, descricao, dataCompra, duracaoGarantia, statusGarantia }: NotaProps) => {
   return (
     <div className="pagina-notas">
       <div className="cartao-nota">
@@ -27,20 +25,40 @@ const Notas = ({ produto, descricao, dataCompra, duracaoGarantia, statusGarantia
             <p className="sub-nota">{descricao}.</p>
           </article>
 
-          <button className="btn btn-primary ml-auto">{statusGarantia}</button>
-          <button className="btn btn-outline">{statusGarantia}</button>
+          <div className="status-group">
+            <button
+              className={
+                statusGarantia === "Ativa"
+                  ? "btn btn-primary"
+                  : "btn btn-outline"
+              }
+            >
+              Ativa
+            </button>
+
+            <button
+              className={
+                statusGarantia === "Expirada"
+                  ? "btn btn-primary"
+                  : "btn btn-outline"
+              }
+            >
+              Expirada
+            </button>
+          </div>
+
         </section>
 
         <section className="infos-nota">
           <div className="info-item">
             <i><CiCalendarDate />
-      </i>
+            </i>
             <p>{dataCompra}</p>
             <i><CiShirt /></i>
             <p>Garantia: {duracaoGarantia}</p>
           </div>
 
-        
+
         </section>
 
       </div>

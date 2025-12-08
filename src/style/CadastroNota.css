@@ -20,12 +20,11 @@ body {
 
 .cartao {
   width: 100%;
-  max-width: 420px;
+  max-width: 1200px;
   background: white;
   border-radius: 18px;
   padding: 22px;
 }
-
 
 .voltar {
   color: #7a2ff5;
@@ -59,7 +58,6 @@ body {
   font-size: 18px;
 }
 
-
 .titulo {
   margin: 0;
   color: #7a2ff5;
@@ -73,54 +71,31 @@ body {
   font-size: 13px;
 }
 
-.passos {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-.passo {
-  padding: 8px 14px;
-  border-radius: 10px;
-  background: #ede4ff;
-  color: #7a2ff5;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.passo.ativo {
-  background: #7a2ff5;
-  color: white;
-}
-
-.area-linha {
-  position: relative;
-  width: 100px;
-  display: flex;
-  justify-content: center;
-}
-
-.linha {
-  width: 100%;
-  height: 2px;
-  background: #e2d8ff;
-}
-
-.texto-linha {
-  position: absolute;
-  top: -8px;
-  background: white;
-  padding: 0 6px;
-  font-size: 11px;
-  color: #999;
-}
-
-/* Formulário */
 .formulario {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   gap: 14px;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .formulario {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .campo:nth-child(1),
+  .campo:nth-child(5),
+  .campo:nth-child(8),
+  .campo:nth-child(9)
+  {
+    grid-column: span 4;
+  }
+
+  .campo:nth-child(4),
+  .campo:nth-child(6),
+  .campo:nth-child(7)  
+  {
+    grid-column: span 2;
+  }
 }
 
 .campo {
@@ -147,7 +122,6 @@ textarea {
   min-height: 90px;
 }
 
-/* Upload */
 .linha-arquivo {
   display: flex;
   align-items: center;
@@ -164,10 +138,12 @@ textarea {
 .input-arquivo {
   display: none;
 }
+
 .button.small {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
 }
 
 .button {
@@ -181,7 +157,6 @@ textarea {
   transition: 0.2s;
 }
 
-
 .button:hover {
   filter: brightness(1.12);
 }
@@ -192,10 +167,10 @@ textarea {
 }
 
 .button.outline {
-    color: #6b21a8;
+  color: #6b21a8;
   background: rgb(230, 217, 217);
-
 }
+
 @media (max-width: 600px) {
 
   .pagina {
@@ -221,30 +196,15 @@ textarea {
     font-size: 12px;
   }
 
-  .passos {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-
-  .area-linha {
-    width: 100%;
-  }
-
-  .linha {
-    width: 100%;
-  }
-
-  .linha-arquivo {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
   .button {
     width: 100%;
   }
 
-  .acoes {
-    flex-direction: column;
+  .formulario {
+    grid-template-columns: 1fr;
+  }
+
+  .campo {
+    grid-column: span 1 !important;
   }
 }

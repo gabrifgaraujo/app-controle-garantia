@@ -16,7 +16,9 @@ const Login: React.FC = () => {
           <form>
             <input type="email" placeholder="seu@email.com" />
             <input type="password" placeholder="••••••••" />
-            <button type="submit">Entrar</button>
+            <Link to="/notas">
+              <button type="button">Entrar</button>
+            </Link>
           </form>
 
           <div className="links">

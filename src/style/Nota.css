@@ -5,14 +5,12 @@
   font-family: "Inter", sans-serif;
 }
 
-/* Layout geral */
 .pagina-notas {
   display: flex;
   justify-content: center;
   padding: 4px;
 }
 
-/* Card principal */
 .cartao-nota {
   width: 100%;
   max-width: 440px;
@@ -24,7 +22,6 @@
   animation: fadeIn 0.3s ease;
 }
 
-/* Header */
 .cabecalho-nota {
   display: flex;
   gap: 14px;
@@ -58,15 +55,21 @@
   color: #8a86a3;
 }
 
-/* Botões */
 .btn {
   padding: 10px;
   border: none;
   font-weight: 600;
-  font-size: 11px;
+  font-size: 10px;
   border-radius: 14px;
-  cursor: pointer;
   transition: transform 0.15s ease, filter 0.2s ease;
+  min-width: 50px;
+  text-align: center;
+  padding: 5px 10px;
+}
+
+.status-group {
+  display: flex;
+  flex-wrap: nowrap;
 }
 
 .btn:hover {
@@ -84,9 +87,9 @@
   background: #f4ecff;
   color: #7428f4;
   border: 1px solid #e0cfff;
+  margin: 10px;
 }
 
-/* Itens de informação */
 .info-item {
   display: flex;
   gap: 12px;
@@ -122,7 +125,6 @@
   color: #3f3b49;
 }
 
-/* Animação suave no card */
 @keyframes fadeIn {
   from {
     opacity: 0;

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Nota from "../UI/Nota";
+import Nota from "../components/Nota.tsx";
 import "../style/Notas.css";
 import notasFiscais from "../mock/notasFiscais.ts"
 
@@ -9,8 +9,8 @@ const Notas = () => {
       <header className="topo-notas">
         <h1 className="logo-app">Controle de Garantias</h1>
 
-        <Link to="/" className="btn-voltar">
-          ← Voltar
+        <Link to="/" className="btn-sair">
+          ← Sair
         </Link>
       </header>
 
@@ -23,7 +23,7 @@ const Notas = () => {
       </section>
 
       <div className="container-notas">
-        {notasFiscais.map((nota,index) => (
+        {notasFiscais.map((nota, index) => (
           <Nota
             key={index}
             produto={nota.produto}
