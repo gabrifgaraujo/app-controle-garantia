@@ -9,7 +9,8 @@ const notasFiscais = [
     loja: "Magazine Luiza",
     numeroNota: "NF-2023-001234",
     valor: "R$ 2.499,00",
-    observacoes: "Garantia estendida por 6 meses"
+    observacoes: "Garantia estendida por 6 meses",
+    arquivo: "https://via.placeholder.com/300x200.png?text=Nota+Samsung"
   },
   {
     produto: "Notebook Lenovo",
@@ -21,7 +22,8 @@ const notasFiscais = [
     loja: "FastShop",
     numeroNota: "NF-2023-005678",
     valor: "R$ 3.199,00",
-    observacoes: "Sem observações"
+    observacoes: "Sem observações",
+    arquivo: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
   },
   {
     produto: "Fone Bluetooth JBL",
@@ -33,7 +35,8 @@ const notasFiscais = [
     loja: "Submarino",
     numeroNota: "NF-2023-009876",
     valor: "R$ 299,00",
-    observacoes: "Produto sem defeitos"
+    observacoes: "Produto sem defeitos",
+    arquivo: "https://via.placeholder.com/300x200.png?text=Nota+JBL"
   },
   {
     produto: "TV LG",
@@ -45,7 +48,8 @@ const notasFiscais = [
     loja: "Casas Bahia",
     numeroNota: "NF-2023-012345",
     valor: "R$ 2.799,00",
-    observacoes: "Inclui suporte de parede"
+    observacoes: "Inclui suporte de parede",
+    arquivo: "https://via.placeholder.com/300x200.png?text=Nota+TV+LG"
   },
   {
     produto: "Geladeira Electrolux",
@@ -57,7 +61,8 @@ const notasFiscais = [
     loja: "Magazine Luiza",
     numeroNota: "NF-2023-016789",
     valor: "R$ 3.499,00",
-    observacoes: "Entrega agendada"
+    observacoes: "Entrega agendada",
+    arquivo: "https://via.placeholder.com/300x200.png?text=Nota+Geladeira"
   },
   {
     produto: "Air Fryer Mondial",
@@ -69,7 +74,8 @@ const notasFiscais = [
     loja: "Americanas",
     numeroNota: "NF-2023-020123",
     valor: "R$ 399,00",
-    observacoes: "Produto testado"
+    observacoes: "Produto testado",
+    arquivo: "https://via.placeholder.com/300x200.png?text=Nota+AirFryer"
   },
   {
     produto: "Relógio Xiaomi",
@@ -81,7 +87,8 @@ const notasFiscais = [
     loja: "Amazon",
     numeroNota: "NF-2023-025678",
     valor: "R$ 249,00",
-    observacoes: "Sem observações"
+    observacoes: "Sem observações",
+    arquivo: "https://via.placeholder.com/300x200.png?text=Nota+Xiaomi"
   },
   {
     produto: "Ventilador Arno",
@@ -93,7 +100,8 @@ const notasFiscais = [
     loja: "Leroy Merlin",
     numeroNota: "NF-2023-030123",
     valor: "R$ 199,00",
-    observacoes: "Entrega realizada"
+    observacoes: "Entrega realizada",
+    arquivo: "https://via.placeholder.com/300x200.png?text=Nota+Ventilador"
   },
   {
     produto: "Cafeteira Philips",
@@ -105,7 +113,8 @@ const notasFiscais = [
     loja: "FastShop",
     numeroNota: "NF-2023-035678",
     valor: "R$ 1.299,00",
-    observacoes: "Inclui café grátis"
+    observacoes: "Inclui café grátis",
+    arquivo: "https://via.placeholder.com/300x200.png?text=Nota+Cafeteira"
   },
   {
     produto: "Console PlayStation 5",
@@ -117,7 +126,8 @@ const notasFiscais = [
     loja: "Americanas",
     numeroNota: "NF-2023-040123",
     valor: "R$ 4.499,00",
-    observacoes: "Entrega em 7 dias"
+    observacoes: "Entrega em 7 dias",
+    arquivo: "https://via.placeholder.com/300x200.png?text=Nota+PS5"
   },
   {
     produto: "Macbook Air",
@@ -129,7 +139,8 @@ const notasFiscais = [
     loja: "Apple Store",
     numeroNota: "NF-2022-050123",
     valor: "R$ 9.499,00",
-    observacoes: "Produto sem danos"
+    observacoes: "Produto sem danos",
+    arquivo: "https://via.placeholder.com/300x200.png?text=Nota+Macbook"
   }
 ];
 

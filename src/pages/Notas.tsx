@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import Nota from "../components/Nota";
 import notasFiscais from "../mock/notasFiscais";
 import "../style/Notas.css";
@@ -9,6 +10,7 @@ import { AiOutlineCheck, AiOutlineCheckCircle } from "react-icons/ai";
 const Notas = () => {
   const [busca, setBusca] = useState("");
   const [modalNotificacoes, setModalNotificacoes] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.body.style.overflow = modalNotificacoes ? "hidden" : "auto";
@@ -68,17 +70,35 @@ const Notas = () => {
       nota.descricao.toLowerCase().includes(busca.toLowerCase())
   );
 
+  const handleSair = () => {
+    Swal.fire({
+      title: 'Deseja realmente sair da sua conta?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sim, sair',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#f44336',
+      cancelButtonColor: '#6b21a8',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.removeItem('token');
+        navigate('/');
+      }
+    });
+  };
+
   return (
     <div className="pagina-lista">
       <header className="topo-notas">
         <h1 className="logo-app">Controle de Garantias</h1>
 
         <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-          <Link to="/" className="btn-sair">
+          <button className="btn-sair" onClick={handleSair}>
             ← Sair
-          </Link>
+          </button>
         </div>
       </header>
+
       <section className="cabecalho-lista">
         <h2>Minhas Notas Fiscais</h2>
         <p>Veja todas as notas fiscais cadastradas abaixo.</p>
@@ -222,8 +242,7 @@ const Notas = () => {
                     </p>
 
                     <p style={{ fontSize: "12px", color: "#555" }}>
-                      Compra: {nota.dataCompra} | Garantia:{" "}
-                      {nota.duracaoGarantia} meses
+                      Compra: {nota.dataCompra} | Garantia: {nota.duracaoGarantia} meses
                     </p>
                   </div>
 

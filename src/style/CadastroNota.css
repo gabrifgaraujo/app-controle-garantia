@@ -46,6 +46,18 @@ body {
   align-items: center;
 }
 
+.input-erro {
+  border: 1px solid #f44336;
+  outline: none;
+}
+
+.erro-texto {
+  color: #f44336;
+  font-size: 13px;
+  margin-top: 4px;
+  display: block;
+}
+
 .icone {
   width: 40px;
   height: 40px;
@@ -84,17 +96,25 @@ body {
 
   .campo:nth-child(1),
   .campo:nth-child(5),
-  .campo:nth-child(8),
-  .campo:nth-child(9)
+  .campo:nth-child(9),
+  .campo:nth-child(10)
   {
     grid-column: span 4;
   }
 
-  .campo:nth-child(4),
-  .campo:nth-child(6),
-  .campo:nth-child(7)  
+  .campo:nth-child(2),
+  .campo:nth-child(3),
+  .campo:nth-child(4)
   {
-    grid-column: span 2;
+    grid-column: span 1;
+  }
+
+  .campo:nth-child(6),
+  .campo:nth-child(7),
+  .campo:nth-child(8)
+  
+  {
+    grid-column: span 1;
   }
 }
 

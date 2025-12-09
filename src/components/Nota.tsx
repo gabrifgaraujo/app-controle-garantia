@@ -15,6 +15,7 @@ interface NotaProps {
   numeroNota: string;
   valor: string;
   observacoes: string;
+  arquivo?: string | null;
 }
 
 const Nota = ({
@@ -27,24 +28,31 @@ const Nota = ({
   loja,
   numeroNota,
   valor,
-  observacoes
+  observacoes,
+  arquivo,
 }: NotaProps) => {
   const [modalAberto, setModalAberto] = useState(false);
   const navigate = useNavigate();
 
   const editarNota = () => {
-    navigate("/cadastro-nota", { state: { modoEdicao: true, nota: {
-      produto,
-      descricao,
-      dataCompra,
-      duracaoGarantia,
-      statusGarantia,
-      tipoNota,
-      loja,
-      numeroNota,
-      valor,
-      observacoes
-    } } });
+    navigate("/cadastro-nota", {
+      state: {
+        modoEdicao: true,
+        nota: {
+          produto,
+          descricao,
+          dataCompra,
+          duracaoGarantia,
+          statusGarantia,
+          tipoNota,
+          loja,
+          numeroNota,
+          valor,
+          observacoes,
+          arquivo,
+        },
+      },
+    });
   };
 
   return (
@@ -62,13 +70,17 @@ const Nota = ({
             </p>
           </article>
 
-          <div className="status-group">
-            <button className={statusGarantia === "Ativa" ? "btn btn-primary" : "btn btn-outline"}>
-              Ativa
-            </button>
-            <button className={statusGarantia === "Expirada" ? "btn btn-primary" : "btn btn-outline"}>
-              Expirada
-            </button>
+          <div className="status-badge" style={{
+            backgroundColor: statusGarantia === "Expirada" ? "#f44336" : "#7a2ff5",
+            color: "white",
+            padding: "4px 10px",
+            borderRadius: "12px",
+            fontSize: "12px",
+            fontWeight: "600",
+            userSelect: "none",
+            pointerEvents: "none"
+          }}>
+            {statusGarantia}
           </div>
         </section>
 
@@ -82,7 +94,9 @@ const Nota = ({
       {modalAberto && (
         <div className="modal-overlay" onClick={() => setModalAberto(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="btn-fechar" onClick={() => setModalAberto(false)}>×</button>
+            <button className="btn-fechar" onClick={() => setModalAberto(false)}>
+              ×
+            </button>
             <h2 className="modal-titulo">{produto}</h2>
             <p className="modal-subtitulo">{descricao}</p>
 
@@ -95,6 +109,33 @@ const Nota = ({
               <p><strong>Número da Nota Fiscal:</strong> {numeroNota}</p>
               <p><strong>Valor:</strong> {valor}</p>
               <p><strong>Observações:</strong> {observacoes}</p>
+
+              {arquivo && (
+                <div style={{ marginTop: "12px" }}>
+                  <strong>Arquivo Anexado:</strong>
+                  {arquivo.startsWith("data:image") ? (
+                    <img
+                      src={arquivo}
+                      alt="Nota Fiscal"
+                      style={{
+                        width: "100%",
+                        marginTop: "8px",
+                        borderRadius: "8px",
+                        border: "1px solid #ccc"
+                      }}
+                    />
+                  ) : (
+                    <a
+                      href={arquivo}
+                      target="_blank"
+                      rel="noreferrer"
+                      style={{ color: "blue" }}
+                    >
+                      {arquivo.endsWith(".pdf") ? "📄 Abrir PDF" : "🖼️ Abrir Imagem"}
+                    </a>
+                  )}
+                </div>
+              )}
             </div>
 
             <button className="btn-editar" onClick={editarNota}>
