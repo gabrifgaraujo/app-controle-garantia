@@ -108,7 +108,29 @@
         opacity: 0;
         transform: translateY(25px);
     }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
+.erro-texto {
+    display: block;
+    width: 100%;
+    text-align: left;
+    color: #dc2626;
+    font-size: 0.88rem;
+    margin-top: -1rem;
+    margin-bottom: 1rem;
+    font-weight: 500;
+    animation: fadeError 0.3s ease;
+}
+
+@keyframes fadeError {
+    from {
+        opacity: 0;
+        transform: translateY(-3px);
+    }
     to {
         opacity: 1;
         transform: translateY(0);
@@ -116,13 +138,11 @@
 }
 
 @media (max-width: 900px) {
-    .side-image-login,
-    .side-image-cadastro {
+    .side-image-login {
         display: none;
     }
 
-    .form-container,
-    .cadastro-right {
+    .form-container {
         flex: 1;
         padding: 2rem;
         background: linear-gradient(180deg,
@@ -130,8 +150,7 @@
             rgba(107,33,168,0.04) 100%);
     }
 
-    .form-card,
-    .cadastro-card {
+    .form-card {
         background: #ffffff;
         box-shadow: 0 8px 24px rgba(13, 12, 29, 0.06);
         padding: 2.2rem;
@@ -140,33 +159,5 @@
         width: 100%;
         margin: 0 auto;
         text-align: center;
-    }
-
-    .form-card h2,
-    .cadastro-card h2 {
-        color: #6b21a8;
-    }
-
-    .form-card p,
-    .cadastro-card p {
-        color: #7c3aed;
-        opacity: 0.9;
-    }
-
-    .form-card input,
-    .cadastro-card input {
-        background: #fafafa;
-        border-color: #e6e0f8;
-        color: #111827;
-    }
-
-    .form-card input::placeholder,
-    .cadastro-card input::placeholder {
-        color: #9f9acb;
-    }
-
-    .form-card button,
-    .cadastro-card button {
-        box-shadow: 0 6px 16px rgba(124,58,237,0.15);
     }
 }
