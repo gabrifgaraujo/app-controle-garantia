@@ -111,7 +111,7 @@ const Nota = ({
               <p><strong>Observações:</strong> {observacoes}</p>
 
               {arquivo && (
-                <div style={{ marginTop: "12px" }}>
+                <p>
                   <strong>Arquivo Anexado:</strong>
                   {arquivo.startsWith("data:image") ? (
                     <img
@@ -134,7 +134,7 @@ const Nota = ({
                       {arquivo.endsWith(".pdf") ? "📄 Abrir PDF" : "🖼️ Abrir Imagem"}
                     </a>
                   )}
-                </div>
+                </p>
               )}
             </div>
 
