@@ -8,98 +8,75 @@ Este projeto está sendo desenvolvido em um ambiente ágil, com foco em aprendiz
 A partir de agora, seguiremos um fluxo de branches estruturado para evitar conflitos, perda de código e garantir organização. TODOS DEVEM SEGUIR À RISCA.
 Regras do Novo Fluxo (GitFlow Simplificado)
   1. main = Produção: Contém apenas o código estável, testado e pronto. NINGUÉM faz push direto aqui.
-  2. dev = Integração: É a branch principal de desenvolvimento. Todo o trabalho das features é integrado aqui primeiro via Pull Request.
-  3. feature-seunome = Trabalho Individual: Cada pessoa trabalha exclusivamente na sua própria branch.
+  2. develop = Integração: É a branch principal de desenvolvimento. Todo o trabalho das features é integrado aqui primeiro.
 
-# Fluxo de Trabalho Passo a Passo (Como Trabalhar)
+# **Guia de Instalação, Configuração do Git e Fluxo Completo de Contribuição**
+Leiam por favor eu imploro façam direitinho amo vocês
+
+## 1. Instalando o Git
+### **Windows**
+1. Acesse: https://git-scm.com/downloads
+2. Baixe o instalador de Windows.
+3. Execute o arquivo `.exe`.
+4. Mantenha as opções padrão.
+5. Conclua a instalação.
+### **Linux (Ubuntu/Debian)**
+```bash
+sudo apt update
+sudo apt install git
+```
+### **MacOS**
+```bash
+brew install git
+```
 ---
-
-## 1. Preparação: Sincronização com `dev`
-
-**SEMPRE** comece seu trabalho a partir do branch `dev` mais atualizado.
-
+## 2. Configurando Git ( na hora que você instala antes de tudo você tem que configurar seu email e nome )
 ```bash
-# 1. Troca para o branch de desenvolvimento
-git checkout dev
-
-# 2. Puxa as últimas alterações do repositório remoto
-git pull origin dev
+git config --global user.name "Seu Nome"
+git config --global user.email "seuemail@exemplo.com"
 ```
-
-## 2. Criação do Branch de Trabalho
-
-Crie um novo branch para a sua tarefa (feature ou correção). O nome do branch **DEVE** seguir o padrão `feature-seunome` para fácil identificação.
-
+---
+## 3. Clonando o Repositório
 ```bash
-# Cria e troca para o seu novo branch
-git checkout -b feature-seunome
+git clone https://github.com/gabrifgaraujo/aponti-controle-garantia
 
-# Exemplos de nomes de branch:
-# feature-mariane
-# feature-joao
 ```
+depois você abre o vscode e seleciona a pasta onde está esse projeto que você clonou.
+
+## 4. Seu fluxo de trabalho padrão
+```bash
+# serve pra puxar todas as alterações que provavelmente tem SEMPRE FAÇA GIT PULL ANTES DE QUALQUER COISA!!
+git pull
+# pra entrar na branch develop e mexer só nela, SO MEXA NELA POR FAVOR
+git checkout develop
+# primeiro passo pra lançar pro repositório suas alterações
+git add .
+git commit -m "(o tipo lá de commit): sua alteração"
+# pra enviar todas as suas alterações :) 
+git push origin develop
+
+```
+---
+## 12. Regras OBRIGATÓRIAS!!
+| Regra | Motivo |
+|------|--------|
+| Não comitarás em cima do código do teu irmão | Pecado Grave |
+| Não enviarás código para a main | Sujeito á Chicotada |
+| Não mexerás no mesmo código que teu irmão ao mesmo tempo | Burrice |
+| Manterás teu vscode atualizado | Evita conflitos |
+| Lembra-te de irritar Maria | Divertido |
+---
+## 13. SEU Checklist rápido (guarde em um bloquinho de notas)
+- [ ] Atualizei dev
+- [ ] Criei branch
+- [ ] Commits feitos
+- [ ] Push realizado
+- [ ] PR aberto
+- [ ] Branch deletada
 
 ## 3. Desenvolvimento e Commits
 
-Trabalhe normalmente no seu branch. Certifique-se de que seus **commits são descritivos** e seguem um padrão de mensagem [Conventional Commits](https://medium.com/linkapi-solutions/conventional-commits-pattern-3778d1a1e657).
-
-```bash
-# 1. Adiciona todas as alterações
-git add .
-
-# 2. Cria um commit descritivo
-git commit -m "feat: adiciona formulário de login"
-# Outros exemplos:
-# fix: corrige erro de validação no campo X
-# refactor: melhora a performance da função Y
-```
-
-## 4. Envio para o GitHub
-
-Envie o seu branch local para o repositório remoto no GitHub.
-
-```bash
-# Envia o branch para o GitHub
-git push origin feature-seunome
-```
-
-## 5. Abertura do Pull Request (PR)
-
-Após o envio, **ABRA UM PULL REQUEST (PR) NO GITHUB** para iniciar o processo de revisão de código.
-
-1.  **Acesse o Repositório:** Vá para a página do seu repositório no GitHub.
-2.  **Novo PR:** Clique em "Pull Requests" > "New Pull Request".
-3.  **Configuração:**
-    *   **BASE:** `dev`
-    *   **COMPARE:** `feature-seunome` (o seu branch)
-4.  **Template:** Use o template de PR que aparece automaticamente.
-5.  **Revisão:** Aguarde a revisão e aprovação do **Líder Técnico (Mariane)**.
-
-> ⚠️ **ATENÇÃO:** **NUNCA** abra um PR diretamente para o branch `main`. O branch `dev` é o alvo de todas as features.
-
-## 6. Pós-Merge (Limpeza)
-
-Após o seu PR ser **APROVADO** e **MERGEADO** no branch `dev`:
-
-1.  **Exclusão do Branch:** Sua branch `feature-seunome` pode ser deletada no GitHub (opcional, mas recomendado para manter a organização).
-2.  **Próxima Tarefa:** Crie uma **nova branch** a partir do `dev` atualizado para a próxima tarefa.
-
-## 7. Atualização da Versão de Produção
-
-O branch `main` só será atualizado quando o `dev` estiver **estável e testado**.
-
-*   Um PR será aberto da `dev` para a `main` para atualizar a "versão de produção".
-
----
-
-# ❌ O QUE NÃO FAZER (Regras Inegociáveis)
-
-| Ação Proibida | Descrição |
-| :--- | :--- |
-| ❌ **Trabalhar em `dev` ou `main`** | **NUNCA** faça commits diretamente nos branches `dev` ou `main`. |
-| ❌ **Push Direto** | **NUNCA** faça `push` direto para `dev` ou `main`. A integração é **SEMPRE** via Pull Request. |
-| ❌ **PR para `main`** | **NUNCA** abra PR de `feature-*` para `main`. O alvo é **SEMPRE** o branch `dev`. |
-| ❌ **Branch Parado** | **NUNCA** deixe sua branch parada por dias. Atualize-a regularmente com o `dev` para evitar conflitos: `git merge origin/dev`. |
+Cada novo commit faça desse jeitinho e tenha certeza de que seus **commits são descritivos** e seguem um padrão de mensagem [Conventional Commits](https://medium.com/linkapi-solutions/conventional-commits-pattern-3778d1a1e657).
 
 ## Visão Geral
 
