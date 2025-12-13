@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../style/Cadastro.css";
 
+import olhoAberto from "../assets/olho-aberto.png";
+import olhoFechado from "../assets/olho-fechado.png";
+
 const Cadastro: React.FC = () => {
   const navigate = useNavigate();
 
@@ -20,6 +23,12 @@ const Cadastro: React.FC = () => {
   const [erroConfirmarSenha, setErroConfirmarSenha] = useState("");
 
   const [modalSucesso, setModalSucesso] = useState(false);
+
+  const [mostrarSenha, setMostrarSenha] = useState(false);
+
+  const toggleSenha = () => {
+    setMostrarSenha(!mostrarSenha);
+  };
 
   const validar = () => {
     let valido = true;
@@ -127,20 +136,38 @@ const Cadastro: React.FC = () => {
             />
             {erroTelefone && <span className="erro-texto">{erroTelefone}</span>}
 
-            <input
-              type="password"
-              placeholder="Senha"
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
-            />
+            <div className="relative">
+              <input
+                type={mostrarSenha ? "text" : "password"}
+                placeholder="Senha"
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
+                className="pr-10"
+              />
+              <img
+                src={mostrarSenha ? olhoAberto : olhoFechado}
+                onClick={toggleSenha}
+                className="olho-senha"
+                alt="Mostrar senha"
+              />
+            </div>
             {erroSenha && <span className="erro-texto">{erroSenha}</span>}
 
-            <input
-              type="password"
-              placeholder="Confirmar senha"
-              value={confirmarSenha}
-              onChange={(e) => setConfirmarSenha(e.target.value)}
-            />
+            <div className="relative">
+              <input
+                type={mostrarSenha ? "text" : "password"}
+                placeholder="Confirmar senha"
+                value={confirmarSenha}
+                onChange={(e) => setConfirmarSenha(e.target.value)}
+                className="pr-10"
+              />
+              <img
+                src={mostrarSenha ? olhoAberto : olhoFechado}
+                onClick={toggleSenha}
+                className="olho-senha"
+                alt="Mostrar senha"
+              />
+            </div>
             {erroConfirmarSenha && (
               <span className="erro-texto">{erroConfirmarSenha}</span>
             )}

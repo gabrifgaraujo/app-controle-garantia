@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../style/Login.css";
 
+import olhoAberto from "../assets/olho-aberto.png";
+import olhoFechado from "../assets/olho-fechado.png";
+
 interface Usuario {
   email: string;
   senha: string;
@@ -18,15 +21,21 @@ const Login: React.FC = () => {
   const [senha, setSenha] = useState("");
   const [erro, setErro] = useState("");
 
+
+  const [mostrarSenha, setMostrarSenha] = useState(false);
+
   const validarEmail = (email: string) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
   };
 
+  const toggleSenha = () => {
+    setMostrarSenha(!mostrarSenha);
+  };
+
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validação dos campos
     if (!email || !senha) {
       setErro("Todos os campos são obrigatórios.");
       return;
@@ -59,23 +68,43 @@ const Login: React.FC = () => {
           <h2>Sistema de Controle de Garantia</h2>
           <p>Entre com suas credenciais para acessar</p>
 
-          <form onSubmit={handleLogin}>
+          <form onSubmit={handleLogin} className="space-y-4">
             <input
               type="text"
               placeholder="seu@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-            />
-            <input
-              type="password"
-              placeholder="••••••••"
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
+              className="w-full border rounded px-3 py-2"
             />
 
-            {erro && <span className="erro-texto">{erro}</span>}
+            {}
+            <div className="relative">
+              <input
+                type={mostrarSenha ? "text" : "password"}
+                placeholder="••••••••"
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
+                className="w-full border rounded px-3 py-2 pr-10"
+              />
 
-            <button type="submit">Entrar</button>
+              <img
+                src={mostrarSenha ? olhoAberto : olhoFechado}
+                alt="Mostrar senha"
+                onClick={toggleSenha}
+                className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 cursor-pointer"
+              />
+            </div>
+
+            {erro && (
+              <span className="text-red-500 text-sm">{erro}</span>
+            )}
+
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+            >
+              Entrar
+            </button>
           </form>
 
           <div className="links">
