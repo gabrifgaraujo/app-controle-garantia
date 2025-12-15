@@ -191,19 +191,7 @@ const Cadastro: React.FC = () => {
             {erroConfirmarSenha && (
               <span className="erro-texto">{erroConfirmarSenha}</span>
             )}
-
-            <button type="submit">Criar conta</button>
-          </form>
-
-          <div className="links">
-            <Link to="/">Já tem conta? Fazer login</Link>
-          </div>
-
-          <div className="termos">
-            <p className="termos-texto">
-              Ao clicar no botão, você declara que leu e aceitou nossos Termos e Condições de Uso e nossa Política de Privacidade.
-            </p>
-
+                      <div className="termos">
           <div className="termos-aceite">
             <input
               type="checkbox"
@@ -223,6 +211,14 @@ const Cadastro: React.FC = () => {
             Seus dados serão tratados conforme a Lei Geral de Proteção de Dados (LGPD) para a prestação dos nossos serviços.
           </p>
         </div>
+
+          <div className="links">
+            <Link to="/">Já tem conta? Fazer login</Link>
+          </div>
+
+        
+            <button type="submit">Criar conta</button>
+          </form>
       </div>
       </div>
 
