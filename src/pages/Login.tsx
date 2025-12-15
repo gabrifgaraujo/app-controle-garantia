@@ -130,7 +130,9 @@ const Login: React.FC = () => {
           <div className="links">
             <Link to="/esqueceu-senha">Esqueceu a senha?</Link>
             <Link to="/cadastro">Não tem uma conta? Cadastre-se</Link>
+            <Link to="/notas">Entrar como visitante </Link>
           </div>
+
         </div>
       </div>
     </div>

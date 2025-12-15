@@ -198,7 +198,32 @@ const Cadastro: React.FC = () => {
           <div className="links">
             <Link to="/">Já tem conta? Fazer login</Link>
           </div>
+
+          <div className="termos">
+            <p className="termos-texto">
+              Ao clicar no botão, você declara que leu e aceitou nossos Termos e Condições de Uso e nossa Política de Privacidade.
+            </p>
+
+          <div className="termos-aceite">
+            <input
+              type="checkbox"
+              id="aceite_termos"
+              name="aceite_termos"
+              required
+            />
+
+            <label htmlFor="aceite_termos">
+              Eu li e concordo com os{" "}
+              <a href="./public/termos/termos.html" target="_blank">Termos e Condições de Uso</a>{" "}
+              e com a{" "}
+              <a href="./public/termos/politica.html" target="_blank">Política de Privacidade</a>.
+            </label>
+          </div>
+          <p className="LGPD-aviso">
+            Seus dados serão tratados conforme a Lei Geral de Proteção de Dados (LGPD) para a prestação dos nossos serviços.
+          </p>
         </div>
+      </div>
       </div>
 
       {modalSucesso && (

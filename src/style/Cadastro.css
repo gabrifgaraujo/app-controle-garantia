@@ -56,7 +56,7 @@ body {
     margin-bottom: 0.5rem;
 }
 
-.cadastro-card p {
+.cadastro-card > p {
     color: #a78bfa;
     margin-bottom: 2rem;
 }
@@ -136,6 +136,57 @@ body {
     opacity: 1;
 }
 
+.termos {
+    margin-top: 18px;
+    padding: 14px 16px;
+    border-radius: 10px;/* lilás bem suave */
+    border: 1px solid #ede9fe;
+    text-align: left;
+}
+
+.termos-texto {
+    font-size: 0.78rem;
+    line-height: 1.45;
+    color: #6b7280;
+    margin-bottom: 10px;
+}
+
+.termos-aceite {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.termos-aceite input {
+    width: 18px;
+    height: 18px;
+    margin-top: 3px;
+    accent-color: #6b21a8; /* checkbox bonito */
+    cursor: pointer;
+}
+
+.termos-aceite label {
+    font-size: 0.9rem;
+    line-height: 1.45;
+    color: #111827;
+}
+
+.termos a {
+    color: #6b21a8;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.termos a:hover {
+    text-decoration: underline;
+}
+
+.LGPD-aviso {
+    font-size: 0.7rem;
+    line-height: 1.35;
+    color: #6b7280;
+}
 
 @media (max-width: 900px) {
     .side-image-login,
@@ -190,5 +241,23 @@ body {
     .form-card button,
     .cadastro-card button {
         box-shadow: 0 6px 16px rgba(124,58,237,0.15);
+    }
+
+    .termos {
+        margin-top: 16px;
+        padding: 12px 14px;
+    }
+
+    .termos-texto {
+        font-size: 0.75rem;
+        margin-bottom: 8px;
+    }
+
+    .termos-aceite label {
+        font-size: 0.85rem;
+    }
+
+    .LGPD-aviso {
+        font-size: 0.68rem;
     }
 }
