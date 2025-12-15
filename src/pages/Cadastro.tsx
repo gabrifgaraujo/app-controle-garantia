@@ -1,13 +1,22 @@
+//React e hook de estado
 import React, { useState } from "react";
+//Navegação entre rotas
 import { Link, useNavigate } from "react-router-dom";
+//Estilos de página
 import "../style/Cadastro.css";
-
+//Ícones/imagens para mostrar/ocultar senha
 import olhoAberto from "../assets/olho-aberto.png";
 import olhoFechado from "../assets/olho-fechado.png";
 
+//Página de cadastro
 const Cadastro: React.FC = () => {
+  /*
+  Controle de navegação
+  Usado para redirecionar o usuário após o cadastro
+  */
   const navigate = useNavigate();
 
+  //Estados dos campos
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [cpf, setCpf] = useState("");
@@ -15,6 +24,7 @@ const Cadastro: React.FC = () => {
   const [senha, setSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
 
+  //Estados de erro por campo
   const [erroNome, setErroNome] = useState("");
   const [erroEmail, setErroEmail] = useState("");
   const [erroCpf, setErroCpf] = useState("");
@@ -22,22 +32,26 @@ const Cadastro: React.FC = () => {
   const [erroSenha, setErroSenha] = useState("");
   const [erroConfirmarSenha, setErroConfirmarSenha] = useState("");
 
+  //Estado do modal de sucesso
   const [modalSucesso, setModalSucesso] = useState(false);
-
+  //Estado para mostrar/ocultar senha
   const [mostrarSenha, setMostrarSenha] = useState(false);
-
+  //Função para alternar mostrar/ocultar senha
   const toggleSenha = () => {
     setMostrarSenha(!mostrarSenha);
   };
 
+  //Função de validação dos campos
   const validar = () => {
     let valido = true;
 
+    //Nome
     if (!nome.trim()) {
       setErroNome("Por favor, preencha o nome completo.");
       valido = false;
     } else setErroNome("");
 
+    //Email
     const emailRegex = /\S+@\S+\.\S+/;
     if (!email.trim()) {
       setErroEmail("Por favor, preencha o e-mail.");
@@ -47,6 +61,7 @@ const Cadastro: React.FC = () => {
       valido = false;
     } else setErroEmail("");
 
+    //CPF
     if (!cpf.trim()) {
       setErroCpf("Por favor, preencha o CPF.");
       valido = false;
@@ -55,6 +70,7 @@ const Cadastro: React.FC = () => {
       valido = false;
     } else setErroCpf("");
 
+    //Telefone
     if (!telefone.trim()) {
       setErroTelefone("Por favor, preencha o telefone.");
       valido = false;
@@ -63,6 +79,7 @@ const Cadastro: React.FC = () => {
       valido = false;
     } else setErroTelefone("");
 
+    //Senha
     if (!senha.trim()) {
       setErroSenha("Por favor, preencha a senha.");
       valido = false;
@@ -71,6 +88,7 @@ const Cadastro: React.FC = () => {
       valido = false;
     } else setErroSenha("");
 
+    //Confirmar senha
     if (!confirmarSenha.trim()) {
       setErroConfirmarSenha("Confirme sua senha.");
       valido = false;
@@ -82,6 +100,7 @@ const Cadastro: React.FC = () => {
     return valido;
   };
 
+  //Submissão do formulário
   const handleCadastro = (e: React.FormEvent) => {
     e.preventDefault();
     if (validar()) {
@@ -89,6 +108,7 @@ const Cadastro: React.FC = () => {
     }
   };
 
+  //Fechar modal
   const fecharModal = () => {
     setModalSucesso(false);
     navigate("/");

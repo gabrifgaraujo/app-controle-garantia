@@ -1,15 +1,23 @@
+//React e hook de estado
 import React, { useState } from 'react';
+//Ferramentas de navegação do React Router
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+//Biblioteca para modais e alertas
 import Swal from 'sweetalert2';
+//Estilos CSS específicos para este componente
 import "../style/CadastroNota.css";
 
 const CadastroNota: React.FC = () => {
+  //Recupera informações da localização atual e função de navegação
   const location = useLocation();
+  //Permite navegação programática entre rotas
   const navigate = useNavigate();
-
+  //Verifica se está em modo de edição e obtém os dados da nota, se disponíveis
   const modoEdicao = location.state?.modoEdicao || false;
+  //Dados da nota para edição, se houver
   const nota = location.state?.nota;
 
+  //Dados principais da nota fiscal
   const [formData, setFormData] = useState({
     tipoNota: nota?.tipoNota || "Nota Fiscal Digital",
     produto: nota?.produto || "",
@@ -21,41 +29,52 @@ const CadastroNota: React.FC = () => {
     garantiaEstendida: nota?.garantiaEstendida || "Não"
   });
 
+  //Observações adicionais
   const [observacoes, setObservacoes] = useState(nota?.observacoes || "");
+  //Arquivo anexado (imagem ou documento)
   const [arquivo, setArquivo] = useState<string | null>(nota?.arquivo || null);
+  //Erros de validação do formulário
   const [erros, setErros] = useState<{ [key: string]: string }>({});
 
+  //Atualiza campos de input/select
   const handleChange = (e: any) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    //limpa o erro do campo ao digitar
     setErros({ ...erros, [e.target.name]: "" });
   };
 
+  //Atualiza campo de observações
   const handleObservacoesChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setObservacoes(e.target.value);
   };
 
+  //Lida com o update de arquivo
   const handleArquivoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
+      //Converte o arquivo para Base64 para facilitar o preview
       reader.onloadend = () => setArquivo(reader.result as string);
       reader.readAsDataURL(file);
     }
+    //limpa o erro do campo ao selecionar um arquivo
     setErros({ ...erros, arquivo: "" });
   };
-
+  //Remove o arquivo anexado
   const removerArquivo = () => setArquivo(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     let novosErros: { [key: string]: string } = {};
 
+    //Validação dos campos obrigatórios
     Object.entries(formData).forEach(([key, value]) => {
       if (!value) novosErros[key] = "Campo obrigatório";
     });
     if (!arquivo) novosErros["arquivo"] = "Campo obrigatório";
 
     setErros(novosErros);
+    //Se houver erros, não prossegue
     if (Object.keys(novosErros).length > 0) return;
 
     const resumoHtml = `
@@ -73,6 +92,7 @@ const CadastroNota: React.FC = () => {
       </div>
     `;
 
+    //Modal de confirmação dos dados
     const result = await Swal.fire({
       title: "Confirme os dados da nota",
       html: resumoHtml,
@@ -84,6 +104,7 @@ const CadastroNota: React.FC = () => {
       width: 500,
     });
 
+    //Se confirmado, mostra mensagem de sucesso e navega de volta para a lista de notas
     if (result.isConfirmed) {
       await Swal.fire({
         icon: "success",
@@ -94,12 +115,14 @@ const CadastroNota: React.FC = () => {
     }
   };
 
+  //Renderiza o label com asterisco para campos obrigatórios
   const renderLabel = (label: string, campo: string) => (
     <label>
       {label} {campo !== "observacoes" && <span style={{ color: "#f44336" }}>*</span>}
     </label>
   );
 
+  //Retorna a classe de erro se o campo tiver erro
   const erroClass = (campo: string) => erros[campo] ? "input-erro" : "";
 
   return (

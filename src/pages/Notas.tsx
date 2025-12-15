@@ -1,41 +1,58 @@
+//Hooks do React
 import { useState, useEffect } from "react";
+//Navegação entre rotas
 import { Link, useNavigate } from "react-router-dom";
+//Alertas estilizados
 import Swal from "sweetalert2";
+//Componentes de nota fiscal
 import Nota from "../components/Nota";
+//Mock de notas fiscais
 import notasFiscais from "../mock/notasFiscais";
+//Estilos de página
 import "../style/Notas.css";
+//Ícones
 import { IoNotificationsOutline } from "react-icons/io5";
 import { AiOutlineCheck, AiOutlineCheckCircle } from "react-icons/ai";
 
 const Notas = () => {
+  //Texto digitado na busca
   const [busca, setBusca] = useState("");
+  //Controle do modal de notificações
   const [modalNotificacoes, setModalNotificacoes] = useState(false);
+  //Controle de navegação
   const navigate = useNavigate();
 
+  //Bloquear scroll com modal aberto
   useEffect(() => {
     document.body.style.overflow = modalNotificacoes ? "hidden" : "auto";
   }, [modalNotificacoes]);
 
+  //Gera notificações com base nas notas fiscais
   const gerarNotificacoes = () => {
+    //Data atual para comparação
     const hoje = new Date("2024-09-01");
 
     return notasFiscais
       .map((nota) => {
+        //Converter dataCompra para objeto Date
         const [dia, mes, ano] = nota.dataCompra.split("/");
         const dataCompra = new Date(`${ano}-${mes}-${dia}`);
 
+        //Soma duração da garantia em meses
         const meses = parseInt(nota.duracaoGarantia);
         const dataExp = new Date(dataCompra);
         dataExp.setMonth(dataExp.getMonth() + meses);
 
+        //Calcula dias restantes
         const diasRestantes =
           (dataExp.getTime() - hoje.getTime()) / (1000 * 60 * 60 * 24);
 
+        //Define tipo de notificação
         let tipo: "Expirada" | "Próxima de Expirar" | "" = "";
 
         if (diasRestantes < 0) tipo = "Expirada";
         else if (diasRestantes <= 30) tipo = "Próxima de Expirar";
-
+        //Ignora notas sem notificação
         if (!tipo) return null;
 
         return {
@@ -47,29 +64,35 @@ const Notas = () => {
           lida: false,
         };
       })
+      //Remove notificações nulas
       .filter((item): item is NonNullable<typeof item> => item !== null);
   };
 
+  //Estado das notificações
   const [notificacoesState, setNotificacoesState] = useState(
     gerarNotificacoes()
   );
 
+  //Marca uma notificação como lida/não lida
   const marcarComoLida = (index: number) => {
     setNotificacoesState((prev) =>
       prev.map((n, i) => (i === index ? { ...n, lida: !n.lida } : n))
     );
   };
 
+  //Marca todas as notificações como lidas
   const marcarTodasComoLidas = () => {
     setNotificacoesState((prev) => prev.map((n) => ({ ...n, lida: true })));
   };
 
+  //Filtra notas com base na busca
   const notasFiltradas = notasFiscais.filter(
     (nota) =>
       nota.produto.toLowerCase().includes(busca.toLowerCase()) ||
       nota.descricao.toLowerCase().includes(busca.toLowerCase())
   );
 
+  //Função para sair da conta
   const handleSair = () => {
     Swal.fire({
       title: 'Deseja realmente sair da sua conta?',
