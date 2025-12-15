@@ -1,9 +1,19 @@
+
+// react 
 import { useState, useEffect } from "react";
+
+// router
 import { Link, useNavigate } from "react-router-dom";
+
+// outros
 import Swal from "sweetalert2";
 import Nota from "../components/Nota";
 import notasFiscais from "../mock/notasFiscais";
+
+// estilos
 import "../style/Notas.css";
+
+// icons
 import { IoNotificationsOutline } from "react-icons/io5";
 import { AiOutlineCheck, AiOutlineCheckCircle } from "react-icons/ai";
 
@@ -90,7 +100,9 @@ const Notas = () => {
   return (
     <div className="pagina-lista">
       <header className="topo-notas">
-        <h1 className="logo-app">Controle de Garantias</h1>
+        <Link to="/notas" className="logo">
+         <h1 className="logo-app">Controle de Garantias</h1>
+        </Link>
 
         <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
           <button className="btn-sair" onClick={handleSair}>
