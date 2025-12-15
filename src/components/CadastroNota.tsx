@@ -1,23 +1,23 @@
-//React e hook de estado
+// React e hook de estado
 import React, { useState } from 'react';
-//Ferramentas de navegação do React Router
+// Ferramentas de navegação do React Router
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-//Biblioteca para modais e alertas
+// Biblioteca para modais e alertas
 import Swal from 'sweetalert2';
-//Estilos CSS específicos para este componente
+// Estilos CSS específicos para este componente
 import "../style/CadastroNota.css";
 
 const CadastroNota: React.FC = () => {
-  //Recupera informações da localização atual e função de navegação
+  // Recupera informações da localização atual e função de navegação
   const location = useLocation();
-  //Permite navegação programática entre rotas
+  // Permite navegação programática entre rotas
   const navigate = useNavigate();
-  //Verifica se está em modo de edição e obtém os dados da nota, se disponíveis
+  // Verifica se está em modo de edição e obtém os dados da nota, se disponíveis
   const modoEdicao = location.state?.modoEdicao || false;
-  //Dados da nota para edição, se houver
+  // Dados da nota para edição, se houver
   const nota = location.state?.nota;
 
-  //Dados principais da nota fiscal
+  // Dados principais da nota fiscal
   const [formData, setFormData] = useState({
     tipoNota: nota?.tipoNota || "Nota Fiscal Digital",
     produto: nota?.produto || "",
@@ -29,56 +29,56 @@ const CadastroNota: React.FC = () => {
     garantiaEstendida: nota?.garantiaEstendida || "Não"
   });
 
-  //Observações adicionais
+  // Observações adicionais
   const [observacoes, setObservacoes] = useState(nota?.observacoes || "");
-  //Arquivo anexado (imagem ou documento)
+  // Arquivo anexado (imagem ou documento)
   const [arquivo, setArquivo] = useState<string | null>(nota?.arquivo || null);
-  //Erros de validação do formulário
+  // Erros de validação do formulário
   const [erros, setErros] = useState<{ [key: string]: string }>({});
 
-const handleChange = (
-  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-) => {
-  const { name, value } = e.target;
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
 
-  setFormData({ ...formData, [name]: value });
-  // limpa o erro do campo ao digitar
-  setErros({ ...erros, [name]: "" });
-};
+    setFormData({ ...formData, [name]: value });
+    // limpa o erro do campo ao digitar
+    setErros({ ...erros, [name]: "" });
+  };
 
-
-  //Atualiza campo de observações
+  // Atualiza campo de observações
   const handleObservacoesChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setObservacoes(e.target.value);
   };
 
-  //Lida com o update de arquivo
+  // Lida com o update de arquivo
   const handleArquivoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      //Converte o arquivo para Base64 para facilitar o preview
+      // Converte o arquivo para Base64 para facilitar o preview
       reader.onloadend = () => setArquivo(reader.result as string);
       reader.readAsDataURL(file);
     }
-    //limpa o erro do campo ao selecionar um arquivo
+    // limpa o erro do campo ao selecionar um arquivo
     setErros({ ...erros, arquivo: "" });
   };
-  //Remove o arquivo anexado
+
+  // Remove o arquivo anexado
   const removerArquivo = () => setArquivo(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const novosErros: { [key: string]: string } = {};
 
-    //Validação dos campos obrigatórios
+    // Validação dos campos obrigatórios
     Object.entries(formData).forEach(([key, value]) => {
       if (!value) novosErros[key] = "Campo obrigatório";
     });
     if (!arquivo) novosErros["arquivo"] = "Campo obrigatório";
 
     setErros(novosErros);
-    //Se houver erros, não prossegue
+    // Se houver erros, não prossegue
     if (Object.keys(novosErros).length > 0) return;
 
     const resumoHtml = `
@@ -92,11 +92,10 @@ const handleChange = (
         <p><strong>Número da Nota:</strong> ${formData.numeroNota}</p>
         <p><strong>Valor:</strong> ${formData.valor}</p>
         <p><strong>Observações:</strong> ${observacoes || "-"}</p>
-        <p><strong>Arquivo:</strong> ${arquivo ? `<a href="${arquivo}" target="_blank" style="color:#7428f4; text-decoration:underline;">Abrir</a>` : "Não selecionado"}</p>
       </div>
     `;
 
-    //Modal de confirmação dos dados
+    // Modal de confirmação dos dados
     const result = await Swal.fire({
       title: "Confirme os dados da nota",
       html: resumoHtml,
@@ -108,7 +107,7 @@ const handleChange = (
       width: 500,
     });
 
-    //Se confirmado, mostra mensagem de sucesso e navega de volta para a lista de notas
+    // Se confirmado, mostra mensagem de sucesso e navega de volta para a lista de notas
     if (result.isConfirmed) {
       await Swal.fire({
         icon: "success",
@@ -119,14 +118,14 @@ const handleChange = (
     }
   };
 
-  //Renderiza o label com asterisco para campos obrigatórios
+  // Renderiza o label com asterisco para campos obrigatórios
   const renderLabel = (label: string, campo: string) => (
     <label>
-      {label} {campo !== "observacoes" && <span style={{ color: "#f44336" }}>*</span>}
+      {label} {campo !== "observacoes" && <span className="obrigatorio">*</span>}
     </label>
   );
 
-  //Retorna a classe de erro se o campo tiver erro
+  // Retorna a classe de erro se o campo tiver erro
   const erroClass = (campo: string) => erros[campo] ? "input-erro" : "";
 
   return (
@@ -137,12 +136,18 @@ const handleChange = (
         <div className="cabecalho">
           <div className="icone">📄</div>
           <div>
-            <h1 className="titulo">{modoEdicao ? "Editar Nota Fiscal" : "Cadastro de Nota Fiscal"}</h1>
-            <p className="subtitulo">Preencha os dados da nota fiscal e produto</p>
+            <h1 className="titulo">
+              {modoEdicao ? "Editar Nota Fiscal" : "Cadastro de Nota Fiscal"}
+            </h1>
+            <p className="subtitulo">
+              Preencha os dados da nota fiscal e produto
+            </p>
           </div>
         </div>
 
         <form className="formulario" onSubmit={handleSubmit}>
+
+          {/* Tipo de Garantia */}
           <div className="campo">
             {renderLabel("Tipo de Garantia", "tipoNota")}
             <select
@@ -157,6 +162,7 @@ const handleChange = (
             {erros.tipoNota && <span className="erro-texto">{erros.tipoNota}</span>}
           </div>
 
+          {/* Nome do Produto */}
           <div className="campo">
             {renderLabel("Nome do Produto", "produto")}
             <input
@@ -170,6 +176,7 @@ const handleChange = (
             {erros.produto && <span className="erro-texto">{erros.produto}</span>}
           </div>
 
+          {/* Nome da Loja */}
           <div className="campo">
             {renderLabel("Nome da Loja", "loja")}
             <input
@@ -183,6 +190,7 @@ const handleChange = (
             {erros.loja && <span className="erro-texto">{erros.loja}</span>}
           </div>
 
+          {/* Data de Compra */}
           <div className="campo">
             {renderLabel("Data de Compra", "dataCompra")}
             <input
@@ -196,6 +204,7 @@ const handleChange = (
             {erros.dataCompra && <span className="erro-texto">{erros.dataCompra}</span>}
           </div>
 
+          {/* Período de Garantia */}
           <div className="campo">
             {renderLabel("Período de Garantia", "duracaoGarantia")}
             <select
@@ -212,6 +221,7 @@ const handleChange = (
             {erros.duracaoGarantia && <span className="erro-texto">{erros.duracaoGarantia}</span>}
           </div>
 
+          {/* Garantia Estendida */}
           <div className="campo">
             {renderLabel("Garantia Estendida", "garantiaEstendida")}
             <select
@@ -226,6 +236,7 @@ const handleChange = (
             {erros.garantiaEstendida && <span className="erro-texto">{erros.garantiaEstendida}</span>}
           </div>
 
+          {/* Número da Nota Fiscal */}
           <div className="campo">
             {renderLabel("Número da Nota Fiscal", "numeroNota")}
             <input
@@ -239,6 +250,7 @@ const handleChange = (
             {erros.numeroNota && <span className="erro-texto">{erros.numeroNota}</span>}
           </div>
 
+          {/* Valor */}
           <div className="campo">
             {renderLabel("Valor", "valor")}
             <input
@@ -252,6 +264,7 @@ const handleChange = (
             {erros.valor && <span className="erro-texto">{erros.valor}</span>}
           </div>
 
+          {/* Observações */}
           <div className="campo">
             {renderLabel("Observações", "observacoes")}
             <textarea
@@ -259,49 +272,32 @@ const handleChange = (
               value={observacoes}
               onChange={handleObservacoesChange}
               placeholder="Informações adicionais sobre a garantia."
-            ></textarea>
+            />
           </div>
 
+          {/* Upload da Nota */}
           <div className="campo">
             {renderLabel("Anexar Nota", "arquivo")}
 
             {arquivo ? (
-              <div className="preview-arquivo" style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "10px" }}>
+              <div className="preview-arquivo">
                 {arquivo.startsWith("data:image") ? (
-                  <img
-                    src={arquivo}
-                    alt="Preview"
-                    style={{ width: "100px", height: "auto", borderRadius: "8px", border: "1px solid #ccc" }}
-                  />
+                  <img src={arquivo} alt="Preview" className="preview-imagem" />
                 ) : (
-                  <span
-                    style={{
-                      padding: "6px 12px",
-                      background: "#eee",
-                      borderRadius: "6px",
-                      fontWeight: "bold"
-                    }}
-                  >
-                    Documento carregado
-                  </span>
+                  <span className="preview-documento">Documento carregado</span>
                 )}
+
                 <a
                   href={arquivo}
                   target="_blank"
                   rel="noreferrer"
-                  style={{
-                    padding: "6px 12px",
-                    background: "#7428f4",
-                    color: "white",
-                    borderRadius: "6px",
-                    textDecoration: "none",
-                    fontWeight: "bold"
-                  }}
+                  className="preview-abrir"
                 >
                   Abrir
                 </a>
+
                 <span
-                  style={{ cursor: "pointer", color: "#f44336", fontWeight: "bold", fontSize: "18px" }}
+                  className="preview-remover"
                   onClick={removerArquivo}
                   title="Remover arquivo"
                 >
@@ -317,7 +313,9 @@ const handleChange = (
                   className={`input-arquivo ${erros.arquivo ? "input-erro" : ""}`}
                   onChange={handleArquivoChange}
                 />
-                <label htmlFor="arquivo" className="button small purple">Anexar Nota</label>
+                <label htmlFor="arquivo" className="button small purple">
+                  Anexar Nota
+                </label>
                 {erros.arquivo && <span className="erro-texto">{erros.arquivo}</span>}
               </div>
             )}
@@ -328,8 +326,11 @@ const handleChange = (
           </button>
 
           <Link to="/notas">
-            <button type="button" className="button outline">Cancelar</button>
+            <button type="button" className="button outline">
+              Cancelar
+            </button>
           </Link>
+
         </form>
       </section>
     </main>

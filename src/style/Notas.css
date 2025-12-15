@@ -27,10 +27,9 @@
   padding: 6px 12px;
   border-radius: 12px;
   font-weight: 600;
-  text-decoration: none;
   border: 1px solid #ddd;
-  transition: 0.2s;
   cursor: pointer;
+  transition: 0.2s;
 }
 
 .btn-sair:hover {
@@ -52,7 +51,7 @@
 }
 
 .cabecalho-lista p {
-  margin: 6px 0 12px 0;
+  margin: 6px 0 12px;
   color: #6a6a6a;
   font-size: 14px;
 }
@@ -60,9 +59,8 @@
 .cabecalho-controles {
   display: flex;
   align-items: center;
-  gap: 12px;
-  width: 100%;
-  margin-top: 12px;
+  gap: 14px;
+  margin-top: 14px;
 }
 
 .btn-nova-nota {
@@ -71,23 +69,40 @@
   padding: 8px 16px;
   border-radius: 14px;
   font-weight: 700;
-  text-align: center;
-  min-width: 150px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .input-busca {
   flex: 1;
-  padding: 8px 12px;
-  border-radius: 12px;
+  padding: 6px 12px;
+  border-radius: 10px;
   border: 1px solid #ccc;
   font-size: 14px;
-  outline: none;
-  transition: 0.2s;
 }
 
-.input-busca:focus {
-  border-color: #7a2ff5;
-  box-shadow: 0 0 4px rgba(122, 47, 245, 0.3);
+.icone-notificacao {
+  position: relative;
+}
+
+.btn-notificacao {
+  background: transparent;
+  border: none;
+  font-size: 26px;
+  cursor: pointer;
+  color: #7428f4;
+}
+
+.notificacao-alerta {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 10px;
+  height: 10px;
+  background: red;
+  border-radius: 50%;
 }
 
 .container-notas {
@@ -99,7 +114,176 @@
   grid-template-columns: 1fr;
 }
 
-@media (min-width: 600px) {
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  width: 90%;
+  max-width: 550px;
+  max-height: 70vh;
+  overflow-y: auto;
+  border-radius: 18px;
+  padding: 24px;
+  position: relative;
+}
+
+.btn-fechar {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.modal-titulo {
+  margin: 0;
+  color: #7428f4;
+  font-weight: 700;
+}
+
+.modal-subtitulo {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 12px;
+}
+
+.btn-marcar-todas {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #7a2ff5;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 12px;
+}
+
+.item-notificacao {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.item-notificacao.nao-lida {
+  background: #dfd7f8;
+}
+
+.item-notificacao.lida {
+  background: #f5f5f5;
+}
+
+.tipo-notificacao.expirada {
+  color: red;
+  font-weight: bold;
+}
+
+.tipo-notificacao.proxima {
+  color: #f39c12;
+  font-weight: bold;
+}
+
+.info-nota {
+  font-size: 12px;
+  color: #555;
+}
+
+.btn-lida {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 18px;
+  color: #7a2ff5;
+}
+
+@media (max-width: 600px) {
+
+  .pagina-lista {
+    padding: 8px;
+  }
+
+  .container-notas {
+    display: grid;
+    gap: 22px;
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 20px;
+    grid-template-columns: 1fr;
+  }
+
+  .topo-notas {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+
+  .logo-app {
+    font-size: 18px;
+  }
+
+  .btn-sair {
+    padding: 4px 10px;
+    font-size: 13px;
+    border-radius: 10px;
+  }
+
+  .cabecalho-lista {
+    text-align: left;
+    margin-bottom: 14px;
+  }
+
+  .cabecalho-lista h2 {
+    font-size: 22px;
+    line-height: 1.2;
+  }
+
+  .cabecalho-lista p {
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+
+  .cabecalho-lista>div {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .btn-nova-nota {
+    grid-column: 1 / -1;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 14px;
+  }
+
+  .cabecalho-lista input {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 14px;
+    border-radius: 12px;
+  }
+
+  .cabecalho-lista button svg {
+    font-size: 24px;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 899px) {
   .container-notas {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -108,70 +292,5 @@
 @media (min-width: 900px) {
   .container-notas {
     grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 500px) {
-  .topo-notas {
-    flex-direction: column;
-    gap: 12px;
-    align-items: flex-start;
-  }
-
-  .logo-app {
-    font-size: 20px;
-  }
-
-  .cabecalho-lista h2 {
-    font-size: 24px;
-  }
-
-  .btn-sair {
-    width: 100%;
-    text-align: center;
-  }
-
-  .cabecalho-controles {
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
-  }
-
-  .btn-nova-nota {
-    width: 100%;
-  }
-
-  .input-busca {
-    width: 100%;
-  }
-}
-
-@media (max-width: 360px) {
-  .logo-app {
-    font-size: 18px;
-  }
-
-  .cabecalho-lista h2 {
-    font-size: 22px;
-  }
-
-  .btn-nova-nota {
-    padding: 6px 0;
-    font-size: 14px;
-  }
-}
-
-@media (min-width: 768px) {
-  .cabecalho-lista {
-    text-align: center;
-  }
-
-  .topo-notas,
-  .cabecalho-lista {
-    padding: 0 10px;
-  }
-
-  .btn-nova-nota {
-    width: auto;
   }
 }

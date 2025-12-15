@@ -89,6 +89,53 @@ body {
   grid-template-columns: 1fr;
 }
 
+.preview-arquivo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.preview-imagem {
+  width: 100px;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.preview-documento {
+  padding: 6px 12px;
+  background: #eee;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.preview-abrir {
+  padding: 6px 12px;
+  background: #6b21a8;
+  color: #fff;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.preview-abrir:hover {
+  filter: brightness(1.1);
+}
+
+.preview-remover {
+  cursor: pointer;
+  color: #f44336;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.obrigatorio {
+  color: #f44336;
+}
+
 @media (min-width: 768px) {
   .formulario {
     grid-template-columns: repeat(4, 1fr);
