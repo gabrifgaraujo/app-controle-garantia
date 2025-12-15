@@ -36,12 +36,16 @@ const CadastroNota: React.FC = () => {
   //Erros de validação do formulário
   const [erros, setErros] = useState<{ [key: string]: string }>({});
 
-  //Atualiza campos de input/select
-  const handleChange = (e: any) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    //limpa o erro do campo ao digitar
-    setErros({ ...erros, [e.target.name]: "" });
-  };
+const handleChange = (
+  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+) => {
+  const { name, value } = e.target;
+
+  setFormData({ ...formData, [name]: value });
+  // limpa o erro do campo ao digitar
+  setErros({ ...erros, [name]: "" });
+};
+
 
   //Atualiza campo de observações
   const handleObservacoesChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -65,7 +69,7 @@ const CadastroNota: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    let novosErros: { [key: string]: string } = {};
+    const novosErros: { [key: string]: string } = {};
 
     //Validação dos campos obrigatórios
     Object.entries(formData).forEach(([key, value]) => {
@@ -79,7 +83,7 @@ const CadastroNota: React.FC = () => {
 
     const resumoHtml = `
       <div style="text-align:left">
-        <p><strong>Tipo de Nota:</strong> ${formData.tipoNota}</p>
+        <p><strong>Tipo de Garantia:</strong> ${formData.tipoNota}</p>
         <p><strong>Produto:</strong> ${formData.produto}</p>
         <p><strong>Loja:</strong> ${formData.loja}</p>
         <p><strong>Data de Compra:</strong> ${formData.dataCompra}</p>
@@ -140,7 +144,7 @@ const CadastroNota: React.FC = () => {
 
         <form className="formulario" onSubmit={handleSubmit}>
           <div className="campo">
-            {renderLabel("Tipo de Nota Fiscal", "tipoNota")}
+            {renderLabel("Tipo de Garantia", "tipoNota")}
             <select
               name="tipoNota"
               value={formData.tipoNota}

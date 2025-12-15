@@ -117,7 +117,7 @@ const Notas = () => {
 
         <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
           <button className="btn-sair" onClick={handleSair}>
-            ← Sair
+            Sair
           </button>
         </div>
       </header>

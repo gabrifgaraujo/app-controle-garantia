@@ -111,7 +111,7 @@ const Nota = ({
             <p className="modal-subtitulo">{descricao}</p>
 
             <div className="info-modal">
-              <p><strong>Tipo de Nota Fiscal:</strong> {tipoNota}</p>
+              <p><strong>Tipo de Garantia:</strong> {tipoNota}</p>
               <p><strong>Nome do Produto:</strong> {produto}</p>
               <p><strong>Nome da Loja:</strong> {loja}</p>
               <p><strong>Data de Compra:</strong> {dataCompra}</p>
