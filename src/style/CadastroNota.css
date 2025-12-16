@@ -136,35 +136,6 @@ body {
   color: #f44336;
 }
 
-@media (min-width: 768px) {
-  .formulario {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  .campo:nth-child(1),
-  .campo:nth-child(5),
-  .campo:nth-child(9),
-  .campo:nth-child(10)
-  {
-    grid-column: span 4;
-  }
-
-  .campo:nth-child(2),
-  .campo:nth-child(3),
-  .campo:nth-child(4)
-  {
-    grid-column: span 1;
-  }
-
-  .campo:nth-child(6),
-  .campo:nth-child(7),
-  .campo:nth-child(8)
-  
-  {
-    grid-column: span 1;
-  }
-}
-
 .campo {
   display: flex;
   flex-direction: column;
@@ -190,7 +161,7 @@ textarea {
 }
 
 .linha-arquivo {
-  display: flex;
+  display: grid;
   align-items: center;
   justify-content: space-between;
   margin-top: 6px;
@@ -228,6 +199,12 @@ textarea {
   filter: brightness(1.12);
 }
 
+.button.small.purple {
+  background: #ede4ff;
+  color: #6b21a8;
+  border: 1px dashed #6b21a8;
+}
+
 .button.purple {
   background:#6b21a8;
   color: rgb(255, 254, 254);
@@ -238,7 +215,48 @@ textarea {
   background: rgb(230, 217, 217);
 }
 
+.acoes-formulario {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  grid-column: 1 / -1;
+  margin-top: 20px;
+}
+
+@media (min-width: 768px) {
+  .formulario {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .campo:nth-child(1),
+  .campo:nth-child(5),
+  .campo:nth-child(9),
+  .campo:nth-child(10)
+  {
+    grid-column: span 4;
+  }
+
+  .campo:nth-child(2),
+  .campo:nth-child(3),
+  .campo:nth-child(4)
+  {
+    grid-column: span 1;
+  }
+
+  .campo:nth-child(6),
+  .campo:nth-child(7),
+  .campo:nth-child(8)
+  
+  {
+    grid-column: span 1;
+  }
+}
+
 @media (max-width: 600px) {
+
+  .acoes-formulario {
+    grid-template-columns: 1fr;
+  }
 
   .pagina {
     padding: 12px;

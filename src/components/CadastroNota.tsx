@@ -42,13 +42,13 @@ const CadastroNota: React.FC = () => {
   ) => {
     const { name, value } = e.target;
 
-    if(name === "duracaoGarantia"){
+    if (name === "duracaoGarantia") {
       setFormData({
         ...formData,
         duracaoGarantia: value,
         tempoGarantiaEstendida: ""
-    });
-  } else {
+      });
+    } else {
       setFormData({ ...formData, [name]: value });
     }
 
@@ -223,11 +223,11 @@ const CadastroNota: React.FC = () => {
               onChange={handleChange}
               className={erroClass("duracaoGarantia")}
             >
-                <option value="">Selecione o tempo</option>
-                <option value="3">3 mês</option>
-                <option value="6">6 meses</option>
-                <option value="12">1 ano</option>
-                <option value="24">2 anos</option>
+              <option value="">Selecione o tempo</option>
+              <option value="3">3 mês</option>
+              <option value="6">6 meses</option>
+              <option value="12">1 ano</option>
+              <option value="24">2 anos</option>
             </select>
             {erros.duracaoGarantia && <span className="erro-texto">{erros.duracaoGarantia}</span>}
           </div>
@@ -367,15 +367,17 @@ const CadastroNota: React.FC = () => {
             )}
           </div>
 
-          <button type="submit" className="button purple">
-            {modoEdicao ? "Atualizar Nota Fiscal" : "Salvar Nota Fiscal"}
-          </button>
-
-          <Link to="/notas">
-            <button type="button" className="button outline">
-              Cancelar
+          <div className="acoes-formulario">
+            <button type="submit" className="button purple">
+              {modoEdicao ? "Atualizar Nota Fiscal" : "Salvar Nota Fiscal"}
             </button>
-          </Link>
+
+            <Link to="/notas">
+              <button type="button" className="button outline">
+                Cancelar
+              </button>
+            </Link>
+          </div>
 
         </form>
       </section>
