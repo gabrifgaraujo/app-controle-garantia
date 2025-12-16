@@ -177,7 +177,7 @@ label {
   font-size: 13px;
 }
 
-input, select, textarea {
+input, select, textarea, option {
   background: #f8f6ff;
   border: none;
   border-radius: 12px;
