@@ -1,19 +1,10 @@
-// React e hook de estado
 import React, { useState } from "react";
-// Navegação entre rotas
 import { Link, useNavigate } from "react-router-dom";
-// Estilos de página
 import "../style/Cadastro.css";
-// Ícones/imagens para mostrar/ocultar senha
 import olhoAberto from "../assets/olho-aberto.png";
 import olhoFechado from "../assets/olho-fechado.png";
 
-// Página de cadastro
 const Cadastro: React.FC = () => {
-  /*
-  Controle de navegação
-  Usado para redirecionar o usuário após o cadastro
-  */
   const navigate = useNavigate();
 
   // Estados dos campos
@@ -24,84 +15,92 @@ const Cadastro: React.FC = () => {
   const [senha, setSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
 
-  // Estados de erro por campo
+  // Estados de erro
   const [erroNome, setErroNome] = useState("");
   const [erroEmail, setErroEmail] = useState("");
   const [erroCpf, setErroCpf] = useState("");
   const [erroTelefone, setErroTelefone] = useState("");
   const [erroSenha, setErroSenha] = useState("");
   const [erroConfirmarSenha, setErroConfirmarSenha] = useState("");
+  const [erroTermos, setErroTermos] = useState("");
 
-  // Estado do modal de sucesso
+  // Checkbox termos
+  const [aceitouTermos, setAceitouTermos] = useState(false);
+
+  // Modal
   const [modalSucesso, setModalSucesso] = useState(false);
-  // Estado para mostrar/ocultar senha
+
+  // Mostrar/ocultar senha
   const [mostrarSenha, setMostrarSenha] = useState(false);
 
-  // Função para alternar mostrar/ocultar senha
   const toggleSenha = () => {
     setMostrarSenha(!mostrarSenha);
   };
 
-  // Função de validação dos campos
+  // Funções para limpar erro ao focar
+  const limparErro = (setErro: React.Dispatch<React.SetStateAction<string>>) => {
+    setErro("");
+  };
+
+  // Validação
   const validar = () => {
     let valido = true;
 
-    // Nome
     if (!nome.trim()) {
       setErroNome("Por favor, preencha o nome completo.");
       valido = false;
-    } else setErroNome("");
+    }
 
-    // Email
     const emailRegex = /\S+@\S+\.\S+/;
     if (!email.trim()) {
       setErroEmail("Por favor, preencha o e-mail.");
       valido = false;
     } else if (!emailRegex.test(email)) {
-      setErroEmail("Digite um e-mail válido (ex: exemplo@gmail.com).");
+      setErroEmail("Digite um e-mail válido.");
       valido = false;
-    } else setErroEmail("");
+    }
 
-    // CPF
     if (!cpf.trim()) {
       setErroCpf("Por favor, preencha o CPF.");
       valido = false;
     } else if (cpf.replace(/\D/g, "").length !== 11) {
       setErroCpf("CPF deve conter 11 números.");
       valido = false;
-    } else setErroCpf("");
+    }
 
-    // Telefone
     if (!telefone.trim()) {
       setErroTelefone("Por favor, preencha o telefone.");
       valido = false;
     } else if (telefone.replace(/\D/g, "").length < 10) {
       setErroTelefone("Digite um telefone válido.");
       valido = false;
-    } else setErroTelefone("");
+    }
 
-    // Senha
     if (!senha.trim()) {
       setErroSenha("Por favor, preencha a senha.");
       valido = false;
     } else if (senha.length < 9) {
       setErroSenha("A senha deve ter no mínimo 9 caracteres.");
       valido = false;
-    } else setErroSenha("");
+    }
 
-    // Confirmar senha
     if (!confirmarSenha.trim()) {
       setErroConfirmarSenha("Confirme sua senha.");
       valido = false;
     } else if (senha !== confirmarSenha) {
       setErroConfirmarSenha("As senhas não coincidem.");
       valido = false;
-    } else setErroConfirmarSenha("");
+    }
+
+    if (!aceitouTermos) {
+      setErroTermos("Você precisa aceitar os termos para continuar.");
+      valido = false;
+    }
 
     return valido;
   };
 
-  // Submissão do formulário
+  // Submissão
   const handleCadastro = (e: React.FormEvent) => {
     e.preventDefault();
     if (validar()) {
@@ -109,7 +108,6 @@ const Cadastro: React.FC = () => {
     }
   };
 
-  // Fechar modal
   const fecharModal = () => {
     setModalSucesso(false);
     navigate("/");
@@ -130,6 +128,7 @@ const Cadastro: React.FC = () => {
               placeholder="Nome completo"
               value={nome}
               onChange={(e) => setNome(e.target.value)}
+              onFocus={() => limparErro(setErroNome)}
             />
             {erroNome && <span className="erro-texto">{erroNome}</span>}
 
@@ -138,6 +137,7 @@ const Cadastro: React.FC = () => {
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              onFocus={() => limparErro(setErroEmail)}
             />
             {erroEmail && <span className="erro-texto">{erroEmail}</span>}
 
@@ -146,6 +146,7 @@ const Cadastro: React.FC = () => {
               placeholder="CPF"
               value={cpf}
               onChange={(e) => setCpf(e.target.value)}
+              onFocus={() => limparErro(setErroCpf)}
             />
             {erroCpf && <span className="erro-texto">{erroCpf}</span>}
 
@@ -154,17 +155,17 @@ const Cadastro: React.FC = () => {
               placeholder="Telefone"
               value={telefone}
               onChange={(e) => setTelefone(e.target.value)}
+              onFocus={() => limparErro(setErroTelefone)}
             />
             {erroTelefone && <span className="erro-texto">{erroTelefone}</span>}
 
-            {/* Senha */}
             <div className="relative">
               <input
                 type={mostrarSenha ? "text" : "password"}
                 placeholder="Senha"
                 value={senha}
                 onChange={(e) => setSenha(e.target.value)}
-                className="pr-10"
+                onFocus={() => limparErro(setErroSenha)}
               />
               <img
                 src={mostrarSenha ? olhoAberto : olhoFechado}
@@ -175,14 +176,13 @@ const Cadastro: React.FC = () => {
             </div>
             {erroSenha && <span className="erro-texto">{erroSenha}</span>}
 
-            {/* Confirmar senha */}
             <div className="relative">
               <input
                 type={mostrarSenha ? "text" : "password"}
                 placeholder="Confirmar senha"
                 value={confirmarSenha}
                 onChange={(e) => setConfirmarSenha(e.target.value)}
-                className="pr-10"
+                onFocus={() => limparErro(setErroConfirmarSenha)}
               />
               <img
                 src={mostrarSenha ? olhoAberto : olhoFechado}
@@ -195,14 +195,16 @@ const Cadastro: React.FC = () => {
               <span className="erro-texto">{erroConfirmarSenha}</span>
             )}
 
-            {/* Termos */}
             <div className="termos">
               <div className="termos-aceite">
                 <input
                   type="checkbox"
                   id="aceite_termos"
-                  name="aceite_termos"
-                  required
+                  checked={aceitouTermos}
+                  onChange={(e) => {
+                    setAceitouTermos(e.target.checked);
+                    setErroTermos("");
+                  }}
                 />
                 <label htmlFor="aceite_termos">
                   Eu li e concordo com os{" "}
@@ -216,13 +218,17 @@ const Cadastro: React.FC = () => {
                 </label>
               </div>
 
+              {erroTermos && <span className="erro-texto">{erroTermos}</span>}
+
               <p className="LGPD-aviso">
                 Seus dados serão tratados conforme a Lei Geral de Proteção de
                 Dados (LGPD).
               </p>
             </div>
 
-            <button type="submit" className="criarConta">Criar conta</button>
+            <button type="submit" className="criarConta">
+              Criar conta
+            </button>
 
             <div className="links">
               <Link to="/">Já tem conta? Fazer login</Link>
@@ -234,10 +240,7 @@ const Cadastro: React.FC = () => {
       {/* Modal de sucesso */}
       {modalSucesso && (
         <div className="modal-overlay" onClick={fecharModal}>
-          <div
-            className="modal-content"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <button className="btn-fechar" onClick={fecharModal}>
               ×
             </button>

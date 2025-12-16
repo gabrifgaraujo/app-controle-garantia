@@ -1,80 +1,79 @@
-//React e hook
 import React, { useState } from "react";
-//Navegação entre rotas
 import { Link, useNavigate } from "react-router-dom";
-//Estilos de página
 import "../style/Login.css";
-//Ícones/imagens para mostrar/ocultar senha
 import olhoAberto from "../assets/olho-aberto.png";
 import olhoFechado from "../assets/olho-fechado.png";
 
-//Define estrutura do usuário
+// Define estrutura do usuário
 interface Usuario {
   email: string;
   senha: string;
 }
 
-//Usuários cadastrados (exemplo estático)
+// Usuários cadastrados (exemplo estático)
 const usuariosCadastrados: Usuario[] = [
   { email: "user@gmail.com", senha: "123456789" },
 ];
 
-//Página de login
+// Página de login
 const Login: React.FC = () => {
-  /*
-  Controle de navegação
-  Redireciona o usuário após o login bem-sucedido
-  */
+  
   const navigate = useNavigate();
 
-  //Estados do formulário
+  // Estados do formulário
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  //Estado de erro geral
+
+  // Estado de erro geral
   const [erro, setErro] = useState("");
 
-  //Controla a visibilidade da senha
+  // Controla a visibilidade da senha
   const [mostrarSenha, setMostrarSenha] = useState(false);
 
-  //Função para validar o formato do email
+  // Função para validar o formato do email
   const validarEmail = (email: string) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
   };
 
-  //Função para alternar mostrar/ocultar senha
+  // Função para alternar mostrar/ocultar senha
   const toggleSenha = () => {
     setMostrarSenha(!mostrarSenha);
   };
 
-  //Função de submissão do formulário
+  // Limpa o erro ao focar em qualquer input
+  const limparErro = () => {
+    if (erro) setErro("");
+  };
+
+  // Função de submissão do formulário
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
 
-    //Campos obrigatórios
+    // Campos obrigatórios
     if (!email || !senha) {
       setErro("Todos os campos são obrigatórios.");
       return;
     }
 
-    //Email inválido
+    // Email inválido
     if (!validarEmail(email)) {
       setErro("Por favor, digite um endereço de email válido.");
       return;
     }
 
-    //Verifica se o usuário existe
+    // Verifica se o usuário existe
     const usuarioEncontrado = usuariosCadastrados.find(
       (u) => u.email === email && u.senha === senha
     );
 
-    //Usuário não encontrado
+    // Usuário não encontrado
     if (!usuarioEncontrado) {
       setErro("Usuário não cadastrado ou senha incorreta.");
       return;
     }
 
-    //Login bem-sucedido
+    // Login bem-sucedido
     setErro("");
     navigate("/notas");
   };
@@ -94,6 +93,7 @@ const Login: React.FC = () => {
               placeholder="seu@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              onFocus={limparErro}
             />
 
             <div className="campo-senha">
@@ -102,6 +102,7 @@ const Login: React.FC = () => {
                 placeholder="••••••••"
                 value={senha}
                 onChange={(e) => setSenha(e.target.value)}
+                onFocus={limparErro}
               />
 
               <img
