@@ -135,14 +135,17 @@ body {
 }
 
 .olho-senha {
-    width: 18px;
-    height: 18px;
+    width: 26px;
+    height: 26px;
+    filter: brightness(0) saturate(100%) 
+            invert(20%) sepia(90%) 
+            saturate(600%) hue-rotate(260deg);
+    opacity: 0.8;
     position: absolute;
     right: 14px;
-    top: 50%;
+    top: 40%;
     transform: translateY(-50%);
     cursor: pointer;
-    opacity: 0.6;
 }
 
 .olho-senha:hover {
