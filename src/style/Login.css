@@ -54,10 +54,16 @@
     margin-bottom: 2rem;
 }
 
+/* FORM */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
 .form-card input {
     width: 100%;
     padding: 0.85rem 1rem;
-    margin-bottom: 1.4rem;
     border: 1px solid #e5e7eb;
     border-radius: 0.5rem;
     font-size: 1rem;
@@ -69,7 +75,34 @@
     box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.25);
 }
 
-.form-card button {
+/* Campo senha */
+.campo-senha {
+    position: relative;
+}
+
+.icone-senha {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+/* Erro */
+.erro-texto {
+    display: block;
+    width: 100%;
+    text-align: left;
+    color: #dc2626;
+    font-size: 0.88rem;
+    font-weight: 500;
+    animation: fadeError 0.3s ease;
+}
+
+/* Botão */
+.botao-login {
     width: 100%;
     background: #6b21a8;
     color: #fff;
@@ -82,11 +115,12 @@
     transition: 0.2s;
 }
 
-.form-card button:hover {
+.botao-login:hover {
     background: #7c3aed;
     box-shadow: 0px 5px 15px rgba(124, 58, 237, 0.25);
 }
 
+/* Links */
 .links {
     margin-top: 1.3rem;
 }
@@ -103,6 +137,7 @@
     text-decoration: underline;
 }
 
+/* Animações */
 @keyframes fadeUp {
     from {
         opacity: 0;
@@ -112,18 +147,6 @@
         opacity: 1;
         transform: translateY(0);
     }
-}
-
-.erro-texto {
-    display: block;
-    width: 100%;
-    text-align: left;
-    color: #dc2626;
-    font-size: 0.88rem;
-    margin-top: -1rem;
-    margin-bottom: 1rem;
-    font-weight: 500;
-    animation: fadeError 0.3s ease;
 }
 
 @keyframes fadeError {
@@ -137,13 +160,13 @@
     }
 }
 
+/* Responsivo */
 @media (max-width: 900px) {
     .side-image-login {
         display: none;
     }
 
     .form-container {
-        flex: 1;
         padding: 2rem;
         background: linear-gradient(180deg,
             rgba(124,58,237,0.06) 0%,
@@ -151,13 +174,9 @@
     }
 
     .form-card {
-        background: #ffffff;
-        box-shadow: 0 8px 24px rgba(13, 12, 29, 0.06);
         padding: 2.2rem;
         border-radius: 12px;
         max-width: 640px;
         width: 100%;
-        margin: 0 auto;
-        text-align: center;
     }
 }

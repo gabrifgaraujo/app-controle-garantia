@@ -1,13 +1,22 @@
+// React e hook de estado
 import React, { useState } from "react";
+// Navegação entre rotas
 import { Link, useNavigate } from "react-router-dom";
+// Estilos de página
 import "../style/Cadastro.css";
-
+// Ícones/imagens para mostrar/ocultar senha
 import olhoAberto from "../assets/olho-aberto.png";
 import olhoFechado from "../assets/olho-fechado.png";
 
+// Página de cadastro
 const Cadastro: React.FC = () => {
+  /*
+  Controle de navegação
+  Usado para redirecionar o usuário após o cadastro
+  */
   const navigate = useNavigate();
 
+  // Estados dos campos
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [cpf, setCpf] = useState("");
@@ -15,6 +24,7 @@ const Cadastro: React.FC = () => {
   const [senha, setSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
 
+  // Estados de erro por campo
   const [erroNome, setErroNome] = useState("");
   const [erroEmail, setErroEmail] = useState("");
   const [erroCpf, setErroCpf] = useState("");
@@ -22,22 +32,27 @@ const Cadastro: React.FC = () => {
   const [erroSenha, setErroSenha] = useState("");
   const [erroConfirmarSenha, setErroConfirmarSenha] = useState("");
 
+  // Estado do modal de sucesso
   const [modalSucesso, setModalSucesso] = useState(false);
-
+  // Estado para mostrar/ocultar senha
   const [mostrarSenha, setMostrarSenha] = useState(false);
 
+  // Função para alternar mostrar/ocultar senha
   const toggleSenha = () => {
     setMostrarSenha(!mostrarSenha);
   };
 
+  // Função de validação dos campos
   const validar = () => {
     let valido = true;
 
+    // Nome
     if (!nome.trim()) {
       setErroNome("Por favor, preencha o nome completo.");
       valido = false;
     } else setErroNome("");
 
+    // Email
     const emailRegex = /\S+@\S+\.\S+/;
     if (!email.trim()) {
       setErroEmail("Por favor, preencha o e-mail.");
@@ -47,6 +62,7 @@ const Cadastro: React.FC = () => {
       valido = false;
     } else setErroEmail("");
 
+    // CPF
     if (!cpf.trim()) {
       setErroCpf("Por favor, preencha o CPF.");
       valido = false;
@@ -55,6 +71,7 @@ const Cadastro: React.FC = () => {
       valido = false;
     } else setErroCpf("");
 
+    // Telefone
     if (!telefone.trim()) {
       setErroTelefone("Por favor, preencha o telefone.");
       valido = false;
@@ -63,6 +80,7 @@ const Cadastro: React.FC = () => {
       valido = false;
     } else setErroTelefone("");
 
+    // Senha
     if (!senha.trim()) {
       setErroSenha("Por favor, preencha a senha.");
       valido = false;
@@ -71,6 +89,7 @@ const Cadastro: React.FC = () => {
       valido = false;
     } else setErroSenha("");
 
+    // Confirmar senha
     if (!confirmarSenha.trim()) {
       setErroConfirmarSenha("Confirme sua senha.");
       valido = false;
@@ -82,6 +101,7 @@ const Cadastro: React.FC = () => {
     return valido;
   };
 
+  // Submissão do formulário
   const handleCadastro = (e: React.FormEvent) => {
     e.preventDefault();
     if (validar()) {
@@ -89,6 +109,7 @@ const Cadastro: React.FC = () => {
     }
   };
 
+  // Fechar modal
   const fecharModal = () => {
     setModalSucesso(false);
     navigate("/");
@@ -136,6 +157,7 @@ const Cadastro: React.FC = () => {
             />
             {erroTelefone && <span className="erro-texto">{erroTelefone}</span>}
 
+            {/* Senha */}
             <div className="relative">
               <input
                 type={mostrarSenha ? "text" : "password"}
@@ -153,6 +175,7 @@ const Cadastro: React.FC = () => {
             </div>
             {erroSenha && <span className="erro-texto">{erroSenha}</span>}
 
+            {/* Confirmar senha */}
             <div className="relative">
               <input
                 type={mostrarSenha ? "text" : "password"}
@@ -172,19 +195,52 @@ const Cadastro: React.FC = () => {
               <span className="erro-texto">{erroConfirmarSenha}</span>
             )}
 
-            <button type="submit">Criar conta</button>
-          </form>
+            {/* Termos */}
+            <div className="termos">
+              <div className="termos-aceite">
+                <input
+                  type="checkbox"
+                  id="aceite_termos"
+                  name="aceite_termos"
+                  required
+                />
+                <label htmlFor="aceite_termos">
+                  Eu li e concordo com os{" "}
+                  <a href="./public/termos/termos.html" target="_blank">
+                    Termos e Condições de Uso
+                  </a>{" "}
+                  e com a{" "}
+                  <a href="./public/termos/politica.html" target="_blank">
+                    Política de Privacidade
+                  </a>.
+                </label>
+              </div>
 
-          <div className="links">
-            <Link to="/">Já tem conta? Fazer login</Link>
-          </div>
+              <p className="LGPD-aviso">
+                Seus dados serão tratados conforme a Lei Geral de Proteção de
+                Dados (LGPD).
+              </p>
+            </div>
+
+            <button type="submit" className="criarConta">Criar conta</button>
+
+            <div className="links">
+              <Link to="/">Já tem conta? Fazer login</Link>
+            </div>
+          </form>
         </div>
       </div>
 
+      {/* Modal de sucesso */}
       {modalSucesso && (
         <div className="modal-overlay" onClick={fecharModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="btn-fechar" onClick={fecharModal}>×</button>
+          <div
+            className="modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button className="btn-fechar" onClick={fecharModal}>
+              ×
+            </button>
 
             <h2 className="modal-titulo">Cadastro realizado!</h2>
             <p className="modal-subtitulo">

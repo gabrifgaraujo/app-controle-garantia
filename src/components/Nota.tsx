@@ -1,9 +1,14 @@
+// Hook de estado
 import { useState } from "react";
+// Navegação entre rotas
 import { useNavigate } from "react-router-dom";
+// Estilos do componente
 import "../style/Nota.css";
+// Ícones
 import { IoShieldCheckmarkOutline } from "react-icons/io5";
 import { CiCalendarDate } from "react-icons/ci";
 
+// Define quais dados a Nota recebe
 interface NotaProps {
   produto: string;
   descricao: string;
@@ -18,6 +23,7 @@ interface NotaProps {
   arquivo?: string | null;
 }
 
+// Componente principal
 const Nota = ({
   produto,
   descricao,
@@ -31,9 +37,13 @@ const Nota = ({
   observacoes,
   arquivo,
 }: NotaProps) => {
+
+  // Controle de abertura do modal de detalhes
   const [modalAberto, setModalAberto] = useState(false);
+  // Permite navegar entre páginas
   const navigate = useNavigate();
 
+  // Redireciona para o cadastro em modo edição
   const editarNota = () => {
     navigate("/cadastro-nota", {
       state: {
@@ -62,46 +72,59 @@ const Nota = ({
           <div className="icone-nota">
             <IoShieldCheckmarkOutline />
           </div>
-          <article style={{ flex: 1 }}>
+
+          <article className="info-principal-nota">
             <h2 className="titulo-nota">{produto}</h2>
             <p className="sub-nota">{descricao}</p>
-            <p style={{ fontSize: "12px", color: "#555", marginTop: "4px" }}>
-              <CiCalendarDate /> {dataCompra} | Garantia: {duracaoGarantia}
+
+            <p className="data-garantia">
+              <CiCalendarDate />
+              {dataCompra} | Garantia: {duracaoGarantia}
             </p>
           </article>
 
-          <div className="status-badge" style={{
-            backgroundColor: statusGarantia === "Expirada" ? "#f44336" : "#7a2ff5",
-            color: "white",
-            padding: "4px 10px",
-            borderRadius: "12px",
-            fontSize: "12px",
-            fontWeight: "600",
-            userSelect: "none",
-            pointerEvents: "none"
-          }}>
+          <div
+            className={`status-badge ${
+              statusGarantia === "Expirada"
+                ? "status-expirada"
+                : "status-ativa"
+            }`}
+          >
             {statusGarantia}
           </div>
         </section>
 
-        <div style={{ display: "flex", justifyContent: "flex-start", marginTop: "10px" }}>
-          <button className="btn-ver-mais-discreto" onClick={() => setModalAberto(true)}>
+        <div className="acoes-nota">
+          <button
+            className="btn-ver-mais-discreto"
+            onClick={() => setModalAberto(true)}
+          >
             Ver Mais
           </button>
         </div>
       </div>
 
       {modalAberto && (
-        <div className="modal-overlay" onClick={() => setModalAberto(false)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="btn-fechar" onClick={() => setModalAberto(false)}>
+        <div
+          className="modal-overlay"
+          onClick={() => setModalAberto(false)}
+        >
+          <div
+            className="modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="btn-fechar"
+              onClick={() => setModalAberto(false)}
+            >
               ×
             </button>
+
             <h2 className="modal-titulo">{produto}</h2>
             <p className="modal-subtitulo">{descricao}</p>
 
             <div className="info-modal">
-              <p><strong>Tipo de Nota Fiscal:</strong> {tipoNota}</p>
+              <p><strong>Tipo de Garantia:</strong> {tipoNota}</p>
               <p><strong>Nome do Produto:</strong> {produto}</p>
               <p><strong>Nome da Loja:</strong> {loja}</p>
               <p><strong>Data de Compra:</strong> {dataCompra}</p>
@@ -111,34 +134,35 @@ const Nota = ({
               <p><strong>Observações:</strong> {observacoes}</p>
 
               {arquivo && (
-                <p>
+                <p className="arquivo-anexo">
                   <strong>Arquivo Anexado:</strong>
+
                   {arquivo.startsWith("data:image") ? (
                     <img
                       src={arquivo}
                       alt="Nota Fiscal"
-                      style={{
-                        width: "100%",
-                        marginTop: "8px",
-                        borderRadius: "8px",
-                        border: "1px solid #ccc"
-                      }}
+                      className="imagem-nota"
                     />
                   ) : (
                     <a
                       href={arquivo}
                       target="_blank"
                       rel="noreferrer"
-                      style={{ color: "blue" }}
+                      className="link-arquivo"
                     >
-                      {arquivo.endsWith(".pdf") ? "📄 Abrir PDF" : "🖼️ Abrir Imagem"}
+                      {arquivo.endsWith(".pdf")
+                        ? "📄 Abrir PDF"
+                        : "🖼️ Abrir Imagem"}
                     </a>
                   )}
                 </p>
               )}
             </div>
 
-            <button className="btn-editar" onClick={editarNota}>
+            <button
+              className="btn-editar"
+              onClick={editarNota}
+            >
               Editar
             </button>
           </div>

@@ -10,20 +10,23 @@ body {
     background: #ffffff;
 }
 
+/* Container principal */
 .cadastro-container {
     display: flex;
     width: 100%;
     min-height: 100vh;
 }
 
+/* Imagem lateral */
 .side-image-cadastro {
     flex: 1;
-    background-image: url("/src/assets/cadastro.jpg"); 
+    background-image: url("/src/assets/cadastro.jpg");
     background-size: 120%;
     background-position: center;
     background-repeat: no-repeat;
 }
 
+/* Lado direito */
 .cadastro-right {
     flex: 1;
     display: flex;
@@ -33,9 +36,10 @@ body {
     background: #ffffff;
 }
 
+/* Card */
 .cadastro-card {
     width: 100%;
-    max-width: 100%;
+    max-width: 640px;
     background: #fff;
     padding: 3rem 2.5rem;
     border-radius: 1rem;
@@ -45,10 +49,17 @@ body {
 }
 
 @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
+/* Títulos */
 .cadastro-card h2 {
     font-size: 2rem;
     font-weight: 700;
@@ -56,11 +67,12 @@ body {
     margin-bottom: 0.5rem;
 }
 
-.cadastro-card p {
+.cadastro-card > p {
     color: #a78bfa;
     margin-bottom: 2rem;
 }
 
+/* Inputs */
 .cadastro-card input {
     width: 100%;
     padding: 0.9rem 1rem;
@@ -78,6 +90,7 @@ body {
     box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.25);
 }
 
+/* Botão */
 .cadastro-card button {
     width: 100%;
     background-color: #6b21a8;
@@ -96,8 +109,9 @@ body {
     box-shadow: 0 8px 20px rgba(124, 58, 237, 0.3);
 }
 
+/* Links */
 .cadastro-card .links {
-    margin-top: 1.3rem;
+    margin: 1.3rem 0;
     text-align: center;
 }
 
@@ -105,14 +119,13 @@ body {
     color: #6b21a8;
     font-size: 0.95rem;
     text-decoration: none;
-    transition: 0.2s;
 }
 
 .cadastro-card .links a:hover {
     text-decoration: underline;
 }
 
-
+/* Campo de senha */
 .relative {
     position: relative;
 }
@@ -136,59 +149,136 @@ body {
     opacity: 1;
 }
 
+/* Mensagens de erro */
+.erro-texto {
+    display: block;
+    width: 100%;
+    text-align: left;
+    color: #dc2626;
+    font-size: 0.85rem;
+    margin-top: -0.6rem;
+    margin-bottom: 0.8rem;
+    font-weight: 500;
+}
+
+/* Termos LGPD */
+.termos {
+    margin-top: 18px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    border: 1px solid #ede9fe;
+    text-align: left;
+}
+
+.termos-aceite {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.termos-aceite input {
+    width: 18px;
+    height: 18px;
+    margin-top: 3px;
+    accent-color: #6b21a8;
+    cursor: pointer;
+}
+
+.termos-aceite label {
+    font-size: 0.9rem;
+    line-height: 1.45;
+    color: #111827;
+}
+
+.termos a {
+    color: #6b21a8;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.termos a:hover {
+    text-decoration: underline;
+}
+
+.LGPD-aviso {
+    font-size: 0.7rem;
+    line-height: 1.35;
+    color: #6b7280;
+}
+
+.criarConta {
+    margin-top: 20px;
+}
+
+/* Modal */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: #ffffff;
+    padding: 2.2rem;
+    border-radius: 12px;
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+    animation: fadeUp 0.3s ease;
+}
+
+.btn-fechar {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.modal-titulo {
+    color: #6b21a8;
+    margin-bottom: 0.5rem;
+}
+
+.modal-subtitulo {
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+}
+
+.btn-editar {
+    background-color: #6b21a8;
+    color: #fff;
+    border: none;
+    padding: 0.7rem 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
 
 @media (max-width: 900px) {
-    .side-image-login,
     .side-image-cadastro {
         display: none;
     }
 
-    .form-container,
     .cadastro-right {
-        flex: 1;
         padding: 2rem;
-        background: linear-gradient(180deg,
-            rgba(124,58,237,0.06) 0%,
-            rgba(107,33,168,0.04) 100%);
+        background: linear-gradient(
+            180deg,
+            rgba(124, 58, 237, 0.06) 0%,
+            rgba(107, 33, 168, 0.04) 100%
+        );
     }
 
-    .form-card,
     .cadastro-card {
-        background: #ffffff;
-        box-shadow: 0 8px 24px rgba(13, 12, 29, 0.06);
         padding: 2.2rem;
         border-radius: 12px;
-        max-width: 640px;
-        width: 100%;
-        margin: 0 auto;
-        text-align: center;
-    }
-
-    .form-card h2,
-    .cadastro-card h2 {
-        color: #6b21a8;
-    }
-
-    .form-card p,
-    .cadastro-card p {
-        color: #7c3aed;
-        opacity: 0.9;
-    }
-
-    .form-card input,
-    .cadastro-card input {
-        background: #fafafa;
-        border-color: #e6e0f8;
-        color: #111827;
-    }
-
-    .form-card input::placeholder,
-    .cadastro-card input::placeholder {
-        color: #9f9acb;
-    }
-
-    .form-card button,
-    .cadastro-card button {
-        box-shadow: 0 6px 16px rgba(124,58,237,0.15);
+        max-width: 100%;
     }
 }
