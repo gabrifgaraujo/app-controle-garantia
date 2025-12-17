@@ -233,6 +233,26 @@ textarea {
   margin-top: 20px;
 }
 
+.swal2-actions {
+  display: flex !important;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px !important;
+}
+
+.swal2-styled.swal2-confirm {
+  background-color: #6b21a8 !important;
+  color: #fff !important;
+  flex: 1;
+}
+
+.swal2-styled.swal2-cancel {
+  background-color: #e6d9d9 !important;
+  color: #6b21a8 !important;
+  flex: 1;
+}
+
+
 @media (min-width: 768px) {
   .formulario {
     grid-template-columns: repeat(4, 1fr);

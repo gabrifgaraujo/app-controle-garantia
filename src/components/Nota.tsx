@@ -21,6 +21,8 @@ interface NotaProps {
   valor: string;
   observacoes: string;
   arquivo?: string | null;
+  garantiaEstendida?: string;
+  tempoGarantiaEstendida?: string;
 }
 
 // Componente principal
@@ -36,6 +38,8 @@ const Nota = ({
   valor,
   observacoes,
   arquivo,
+  garantiaEstendida,
+  tempoGarantiaEstendida,
 }: NotaProps) => {
 
   // Controle de abertura do modal de detalhes
@@ -60,6 +64,8 @@ const Nota = ({
           valor,
           observacoes,
           arquivo,
+          garantiaEstendida,
+          tempoGarantiaEstendida,
         },
       },
     });
@@ -129,9 +135,19 @@ const Nota = ({
               <p><strong>Nome da Loja:</strong> {loja}</p>
               <p><strong>Data de Compra:</strong> {dataCompra}</p>
               <p><strong>Período de Garantia:</strong> {duracaoGarantia}</p>
+
+              {/* Garantia Estendida */}
+              {garantiaEstendida && (
+                <p><strong>Garantia Estendida:</strong> {garantiaEstendida}</p>
+              )}
+
+              {garantiaEstendida === "Sim" && tempoGarantiaEstendida && (
+                <p><strong>Tempo Garantia Estendida:</strong> {tempoGarantiaEstendida} meses</p>
+              )}
+
               <p><strong>Número da Nota Fiscal:</strong> {numeroNota}</p>
               <p><strong>Valor:</strong> {valor}</p>
-              <p><strong>Observações:</strong> {observacoes}</p>
+              <p><strong>Observações:</strong> {observacoes || "-"}</p>
 
               {arquivo && (
                 <p className="arquivo-anexo">

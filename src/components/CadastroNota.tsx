@@ -82,31 +82,51 @@ const CadastroNota: React.FC = () => {
     e.preventDefault();
     const novosErros: { [key: string]: string } = {};
 
-    // Validação dos campos obrigatórios
+    // Validação padrão (exceto tempoGarantiaEstendida)
     Object.entries(formData).forEach(([key, value]) => {
-      if (!value) novosErros[key] = "Campo obrigatório";
+      if (key === "tempoGarantiaEstendida") return;
+
+      if (!value) {
+        novosErros[key] = "Campo obrigatório";
+      }
     });
-    if (!arquivo) novosErros["arquivo"] = "Campo obrigatório";
+
+    // Validação condicional da garantia estendida
+    if (
+      formData.garantiaEstendida === "Sim" &&
+      !formData.tempoGarantiaEstendida
+    ) {
+      novosErros["tempoGarantiaEstendida"] = "Campo obrigatório";
+    }
+
+    // Validação do arquivo
+    if (!arquivo) {
+      novosErros["arquivo"] = "Campo obrigatório";
+    }
 
     setErros(novosErros);
-    // Se houver erros, não prossegue
+
+    // Se houver erros, interrompe
     if (Object.keys(novosErros).length > 0) return;
 
     const resumoHtml = `
-      <div>
-        <p><strong>Tipo de Garantia:</strong> ${formData.tipoNota}</p>
-        <p><strong>Produto:</strong> ${formData.produto}</p>
-        <p><strong>Loja:</strong> ${formData.loja}</p>
-        <p><strong>Data de Compra:</strong> ${formData.dataCompra}</p>
-        <p><strong>Duração da Garantia:</strong> ${formData.duracaoGarantia}</p>
-        <p><strong>Garantia Estendida:</strong> ${formData.garantiaEstendida}</p>
-        <p><strong>Número da Nota:</strong> ${formData.numeroNota}</p>
-        <p><strong>Valor:</strong> ${formData.valor}</p>
-        <p><strong>Observações:</strong> ${observacoes || "-"}</p>
-      </div>
-    `;
+    <div>
+      <p><strong>Tipo de Garantia:</strong> ${formData.tipoNota}</p>
+      <p><strong>Produto:</strong> ${formData.produto}</p>
+      <p><strong>Loja:</strong> ${formData.loja}</p>
+      <p><strong>Data de Compra:</strong> ${formData.dataCompra}</p>
+      <p><strong>Duração da Garantia:</strong> ${formData.duracaoGarantia}</p>
+      <p><strong>Garantia Estendida:</strong> ${formData.garantiaEstendida}</p>
+      ${formData.garantiaEstendida === "Sim"
+        ? `<p><strong>Tempo Garantia Estendida:</strong> ${formData.tempoGarantiaEstendida} meses</p>`
+        : ""
+      }
+      <p><strong>Número da Nota:</strong> ${formData.numeroNota}</p>
+      <p><strong>Valor:</strong> ${formData.valor}</p>
+      <p><strong>Observações:</strong> ${observacoes || "-"}</p>
+    </div>
+  `;
 
-    // Modal de confirmação dos dados
     const result = await Swal.fire({
       title: "Confirme os dados da nota",
       html: resumoHtml,
@@ -123,13 +143,15 @@ const CadastroNota: React.FC = () => {
       width: 500,
     });
 
-    // Se confirmado, mostra mensagem de sucesso e navega de volta para a lista de notas
     if (result.isConfirmed) {
       await Swal.fire({
         icon: "success",
-        title: modoEdicao ? "Nota Fiscal Atualizada!" : "Nota Fiscal cadastrada!",
-        confirmButtonColor: "#7a2ff5"
+        title: modoEdicao
+          ? "Nota Fiscal Atualizada!"
+          : "Nota Fiscal cadastrada!",
+        confirmButtonColor: "#7a2ff5",
       });
+
       navigate("/notas");
     }
   };
