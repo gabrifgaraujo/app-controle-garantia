@@ -2,18 +2,22 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import type { NotaModel } from "../types/NotaModel";
 import NotaFiscal from "../components/Nota";
+import SearchBar from "../components/SearchBar";
 import "../style/Notas.css";
 
 const Notas = () => {
 
-const [notas] = useState<NotaModel[]>(() => {
-    const notasCarregadas = localStorage.getItem("notas_fiscais");
-    return notasCarregadas ? JSON.parse(notasCarregadas) : [];
-  });
 
+ const [notasFiltradas, setNotasFiltradas] = useState<NotaModel[]>(() => {
+    const dados = localStorage.getItem("notas_fiscais");
+    return dados ? JSON.parse(dados) : [];
+  });
 
   return (
     <div className="pagina-lista">
+      
+    
+
       <header className="topo-notas">
         <Link to="/notas" className="logo">
           <h1 className="logo-app">Controle de Garantias</h1>
@@ -24,6 +28,7 @@ const [notas] = useState<NotaModel[]>(() => {
         </div>
       </header>
 
+    
       <section className="cabecalho-lista">
         <h2>Minhas Notas Fiscais</h2>
         <p>Veja todas as notas fiscais cadastradas abaixo.</p>
@@ -31,12 +36,13 @@ const [notas] = useState<NotaModel[]>(() => {
         <div
           style={{
             display: "flex",
-            alignItems: "center",
+            alignItems: "space-between",
+            justifyContent: "left",
             marginTop: "14px",
             gap: "14px",
           }}
         >
-          <button className="btn-nova-nota">
+          <button className="btn-nova-nota" >
             <Link
               to="/cadastro-nota"
               style={{ color: "white", textDecoration: "none" }}
@@ -44,15 +50,20 @@ const [notas] = useState<NotaModel[]>(() => {
               + Nova Nota Fiscal
             </Link>
           </button>
+
+            <div style={{ display: "flex", gap: "14px", alignItems: "center" }}>
+        <SearchBar onResult={setNotasFiltradas} />
+      </div>
+
         </div>
       </section>
 
       <div className="container-notas">
 
-        {notas.length === 0 ? (
+        {notasFiltradas.length === 0 ? (
           <p className="nenhuma-nota">Nenhuma nota fiscal cadastrada.</p>
         ) : (
-          notas.map((nota, index) => (
+          notasFiltradas.map((nota, index) => (
             <NotaFiscal
               key={index}
               produto={nota.produto}
