@@ -25,7 +25,7 @@ body {
 .pagina {
   display: flex;
   justify-content: center;
-  padding: 18px;
+  padding: 12px;
 }
 
 .cartao {
@@ -33,7 +33,7 @@ body {
   max-width: 1200px;
   background: white;
   border-radius: 18px;
-  padding: 22px;
+  padding: 18px;
 }
 
 .voltar {
@@ -53,19 +53,8 @@ body {
   display: flex;
   gap: 12px;
   margin-bottom: 20px;
-  align-items: center;
-}
-
-.input-erro {
-  border: 1px solid #f44336;
-  outline: none;
-}
-
-.erro-texto {
-  color: #f44336;
-  font-size: 13px;
-  margin-top: 4px;
-  display: block;
+  align-items: flex-start;
+  flex-direction: column;
 }
 
 .icone {
@@ -83,20 +72,89 @@ body {
 .titulo {
   margin: 0;
   color: #7a2ff5;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
 }
 
 .subtitulo {
   margin: 4px 0 0;
   color: #999;
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .formulario {
   display: grid;
   gap: 14px;
   grid-template-columns: 1fr;
+  /* Base mobile */
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Campos que ocupam toda largura */
+.campo.tipo-nota,
+.campo.observacoes,
+.campo.anexar-nota {
+  grid-column: span 1;
+}
+
+label {
+  color: #7a2ff5;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+  background: #f8f6ff;
+  border: none;
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 14px;
+}
+
+option {
+  width: 100%;
+}
+
+textarea {
+  min-height: 90px;
+}
+
+.input-erro {
+  border: 1px solid #f44336;
+  outline: none;
+}
+
+.erro-texto {
+  color: #f44336;
+  font-size: 13px;
+  margin-top: 4px;
+  display: block;
+}
+
+.linha-arquivo {
+  display: grid;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+  gap: 10px;
+}
+
+.texto-upload {
+  color: #494444;
+  font-size: 13px;
+}
+
+.input-arquivo {
+  display: none;
 }
 
 .preview-arquivo {
@@ -146,59 +204,8 @@ body {
   color: #f44336;
 }
 
-.campo {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-label {
-  color: #7a2ff5;
-  font-weight: 600;
-  font-size: 13px;
-}
-
-input,
-select,
-textarea,
-option {
-  background: #f8f6ff;
-  border: none;
-  border-radius: 12px;
-  padding: 12px;
-  font-size: 14px;
-}
-
-textarea {
-  min-height: 90px;
-}
-
-.linha-arquivo {
-  display: grid;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 6px;
-  gap: 10px;
-}
-
-.texto-upload {
-  color: #494444;
-  font-size: 13px;
-}
-
-.input-arquivo {
-  display: none;
-}
-
-.button.small {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-}
-
+/* Botões */
 .button {
-  width: 100%;
   padding: 12px;
   border-radius: 12px;
   font-weight: 600;
@@ -212,6 +219,13 @@ textarea {
   filter: brightness(1.12);
 }
 
+.button.small {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
 .button.small.purple {
   background: #ede4ff;
   color: #6b21a8;
@@ -220,22 +234,30 @@ textarea {
 
 .button.purple {
   background: #6b21a8;
-  color: rgb(255, 254, 254);
+  color: #fff;
 }
 
 .button.outline {
   color: #6b21a8;
-  background: rgb(230, 217, 217);
+  background: #e6d9d9;
 }
 
+/* Botões finais do formulário lado a lado */
 .acoes-formulario {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  justify-content: flex-end;
   gap: 14px;
-  grid-column: 1 / -1;
   margin-top: 20px;
+  flex-wrap: wrap;
+  /* Responsivo */
 }
 
+.acoes-formulario .button {
+  flex: 1;
+  max-width: 200px;
+}
+
+/* SweetAlert2 custom */
 .swal2-actions {
   display: flex !important;
   justify-content: flex-end;
@@ -255,19 +277,21 @@ textarea {
   flex: 1;
 }
 
+/* Grid para telas médias e grandes */
 @media (min-width: 768px) {
   .formulario {
-    display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 16px;
   }
 
+  /* Campos que ocupam 4 colunas */
   .campo.tipo-nota,
   .campo.observacoes,
   .campo.anexar-nota {
     grid-column: span 4;
   }
 
+  /* Campos que ocupam 1 coluna */
   .campo.duracaoGarantia,
   .campo.produto,
   .campo.loja,
@@ -280,6 +304,7 @@ textarea {
   }
 }
 
+/* Modal SweetAlert2 responsivo */
 .modal-content-responsive {
   width: 90% !important;
   max-width: 500px !important;
@@ -296,43 +321,4 @@ textarea {
   .modal-content-responsive .info-modal {
     font-size: 13px;
   }
-}
-
-.acoes-formulario {
-  grid-template-columns: 1fr;
-}
-
-.pagina {
-  padding: 12px;
-}
-
-.cartao {
-  padding: 18px;
-  border-radius: 14px;
-}
-
-.cabecalho {
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
-}
-
-.titulo {
-  font-size: 18px;
-}
-
-.subtitulo {
-  font-size: 12px;
-}
-
-.button {
-  width: 100%;
-}
-
-.formulario {
-  grid-template-columns: 1fr;
-}
-
-.campo {
-  grid-column: span 1 !important;
 }
