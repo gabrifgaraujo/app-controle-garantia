@@ -1,14 +1,9 @@
-// Hook de estado
 import { useState } from "react";
-// Navegação entre rotas
 import { useNavigate } from "react-router-dom";
-// Estilos do componente
 import "../style/Nota.css";
-// Ícones
 import { IoShieldCheckmarkOutline } from "react-icons/io5";
 import { CiCalendarDate } from "react-icons/ci";
 
-// Define quais dados a Nota recebe
 interface NotaProps {
   produto: string;
   descricao: string;
@@ -24,7 +19,7 @@ interface NotaProps {
 }
 
 // Componente principal
-const Nota = ({
+const NotaFiscal = ({
   produto,
   descricao,
   dataCompra,
@@ -40,7 +35,6 @@ const Nota = ({
 
   // Controle de abertura do modal de detalhes
   const [modalAberto, setModalAberto] = useState(false);
-  // Permite navegar entre páginas
   const navigate = useNavigate();
 
   // Redireciona para o cadastro em modo edição
@@ -172,4 +166,4 @@ const Nota = ({
   );
 };
 
-export default Nota;
+export default NotaFiscal;

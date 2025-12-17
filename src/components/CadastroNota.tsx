@@ -27,7 +27,8 @@ const CadastroNota: React.FC = () => {
     duracaoGarantia: nota?.duracaoGarantia || "3 meses",
     numeroNota: nota?.numeroNota || "",
     valor: nota?.valor || "",
-    garantiaEstendida: nota?.garantiaEstendida || "Não"
+    garantiaEstendida: nota?.garantiaEstendida || "Não",
+    tempoGarantiaEstendida: nota?.tempoGarantiaEstendida || ""
   });
 
   // Observações adicionais
@@ -42,7 +43,16 @@ const CadastroNota: React.FC = () => {
   ) => {
     const { name, value } = e.target;
 
-    setFormData({ ...formData, [name]: value });
+    if (name === "duracaoGarantia") {
+      setFormData({
+        ...formData,
+        duracaoGarantia: value,
+        tempoGarantiaEstendida: ""
+      });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
+
     // limpa o erro do campo ao digitar
     setErros({ ...erros, [name]: "" });
   };
@@ -219,10 +229,11 @@ const CadastroNota: React.FC = () => {
               onChange={handleChange}
               className={erroClass("duracaoGarantia")}
             >
-              <option>3 meses</option>
-              <option>6 meses</option>
-              <option>1 ano</option>
-              <option>2 anos</option>
+              <option value="">Selecione o tempo</option>
+              <option value="3">3 mês</option>
+              <option value="6">6 meses</option>
+              <option value="12">1 ano</option>
+              <option value="24">2 anos</option>
             </select>
             {erros.duracaoGarantia && <span className="erro-texto">{erros.duracaoGarantia}</span>}
           </div>
@@ -241,6 +252,41 @@ const CadastroNota: React.FC = () => {
             </select>
             {erros.garantiaEstendida && <span className="erro-texto">{erros.garantiaEstendida}</span>}
           </div>
+
+          {/* GABS: renderizano campo de tempo da garantia estendida */}
+          {formData.garantiaEstendida === 'Sim' && (
+            <div className="campo">
+              {renderLabel("Tempo da Garantia Estendida (meses)", "tempoGarantiaEstendida")}
+              <select
+                name="tempoGarantiaEstendida"
+                value={formData.tempoGarantiaEstendida}
+                onChange={handleChange}
+                className={erroClass("tempoGarantiaEstendida")}
+              >
+                <option value="">Selecione o tempo</option>
+
+                {/* sempre permitido */}
+                <option value="3">3 meses</option>
+
+                {Number(formData.duracaoGarantia) >= 6 && (
+                  <option value="6">6 meses</option>
+                )}
+
+                {Number(formData.duracaoGarantia) >= 12 && (
+                  <option value="12">12 meses</option>
+                )}
+
+                {Number(formData.duracaoGarantia) >= 24 && (
+                  <option value="24">24 meses</option>
+                )}
+              </select>
+
+              {erros.tempoGarantiaEstendida && (
+                <span className="erro-texto">{erros.tempoGarantiaEstendida}</span>
+              )}
+            </div>
+          )}
+
 
           {/* Número da Nota Fiscal */}
           <div className="campo">
@@ -327,15 +373,17 @@ const CadastroNota: React.FC = () => {
             )}
           </div>
 
-          <button type="submit" className="button purple">
-            {modoEdicao ? "Atualizar Nota Fiscal" : "Salvar Nota Fiscal"}
-          </button>
-
-          <Link to="/notas">
-            <button type="button" className="button outline">
-              Cancelar
+          <div className="acoes-formulario">
+            <button type="submit" className="button purple" onClick={handleSubmit}>
+              {modoEdicao ? "Atualizar Nota Fiscal" : "Salvar Nota Fiscal"}
             </button>
-          </Link>
+
+            <Link to="/notas">
+              <button type="button" className="button outline">
+                Cancelar
+              </button>
+            </Link>
+          </div>
 
         </form>
       </section>
