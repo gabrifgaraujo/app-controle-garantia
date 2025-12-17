@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../style/Cadastro.css";
 import olhoAberto from "../assets/olho-aberto.png";
@@ -27,15 +27,31 @@ const Cadastro: React.FC = () => {
   // Checkbox termos
   const [aceitouTermos, setAceitouTermos] = useState(false);
 
-  // Modal
-  const [modalSucesso, setModalSucesso] = useState(false);
-
   // Mostrar/ocultar senha
   const [mostrarSenha, setMostrarSenha] = useState(false);
 
-  const toggleSenha = () => {
-    setMostrarSenha(!mostrarSenha);
-  };
+  // Modal
+  const [modalSucesso, setModalSucesso] = useState(false);
+
+  // Mock inicial
+  useEffect(() => {
+    if (!localStorage.getItem("usuarios")) {
+      localStorage.setItem(
+        "usuarios",
+        JSON.stringify([
+          {
+            nome: "Usuário Teste",
+            email: "user@gmail.com",
+            cpf: "12345678901",
+            telefone: "81988887777",
+            senha: "123456789"
+          }
+        ])
+      );
+    }
+  }, []);
+
+  const toggleSenha = () => setMostrarSenha(!mostrarSenha);
 
   // Funções para limpar erro ao focar
   const limparErro = (setErro: React.Dispatch<React.SetStateAction<string>>) => {
@@ -45,12 +61,15 @@ const Cadastro: React.FC = () => {
   // Validação
   const validar = () => {
     let valido = true;
+    const usuarios = JSON.parse(localStorage.getItem("usuarios") || "[]");
 
+    // Nome
     if (!nome.trim()) {
       setErroNome("Por favor, preencha o nome completo.");
       valido = false;
     }
 
+    // Email
     const emailRegex = /\S+@\S+\.\S+/;
     if (!email.trim()) {
       setErroEmail("Por favor, preencha o e-mail.");
@@ -58,24 +77,38 @@ const Cadastro: React.FC = () => {
     } else if (!emailRegex.test(email)) {
       setErroEmail("Digite um e-mail válido.");
       valido = false;
+    } else if (usuarios.some((u: any) => u.email === email.toLowerCase())) {
+      setErroEmail("Este e-mail já está cadastrado.");
+      valido = false;
     }
 
+    // CPF
+    const cpfLimpo = cpf.replace(/\D/g, "");
     if (!cpf.trim()) {
       setErroCpf("Por favor, preencha o CPF.");
       valido = false;
-    } else if (cpf.replace(/\D/g, "").length !== 11) {
+    } else if (cpfLimpo.length !== 11) {
       setErroCpf("CPF deve conter 11 números.");
+      valido = false;
+    } else if (usuarios.some((u: any) => u.cpf === cpfLimpo)) {
+      setErroCpf("Este CPF já está cadastrado.");
       valido = false;
     }
 
+    // Telefone
+    const telefoneLimpo = telefone.replace(/\D/g, "");
     if (!telefone.trim()) {
       setErroTelefone("Por favor, preencha o telefone.");
       valido = false;
-    } else if (telefone.replace(/\D/g, "").length < 10) {
+    } else if (telefoneLimpo.length < 10) {
       setErroTelefone("Digite um telefone válido.");
+      valido = false;
+    } else if (usuarios.some((u: any) => u.telefone === telefoneLimpo)) {
+      setErroTelefone("Este telefone já está cadastrado.");
       valido = false;
     }
 
+    // Senha
     if (!senha.trim()) {
       setErroSenha("Por favor, preencha a senha.");
       valido = false;
@@ -84,6 +117,7 @@ const Cadastro: React.FC = () => {
       valido = false;
     }
 
+    // Confirmar senha
     if (!confirmarSenha.trim()) {
       setErroConfirmarSenha("Confirme sua senha.");
       valido = false;
@@ -92,6 +126,7 @@ const Cadastro: React.FC = () => {
       valido = false;
     }
 
+    // Termos
     if (!aceitouTermos) {
       setErroTermos("Você precisa aceitar os termos para continuar.");
       valido = false;
@@ -100,12 +135,23 @@ const Cadastro: React.FC = () => {
     return valido;
   };
 
-  // Submissão
+  // Submit
   const handleCadastro = (e: React.FormEvent) => {
     e.preventDefault();
-    if (validar()) {
-      setModalSucesso(true);
-    }
+    if (!validar()) return;
+
+    const usuarios = JSON.parse(localStorage.getItem("usuarios") || "[]");
+
+    usuarios.push({
+      nome,
+      email: email.toLowerCase(),
+      cpf: cpf.replace(/\D/g, ""),
+      telefone: telefone.replace(/\D/g, ""),
+      senha
+    });
+
+    localStorage.setItem("usuarios", JSON.stringify(usuarios));
+    setModalSucesso(true);
   };
 
   const fecharModal = () => {
@@ -199,14 +245,13 @@ const Cadastro: React.FC = () => {
               <div className="termos-aceite">
                 <input
                   type="checkbox"
-                  id="aceite_termos"
                   checked={aceitouTermos}
                   onChange={(e) => {
                     setAceitouTermos(e.target.checked);
                     setErroTermos("");
                   }}
                 />
-                <label htmlFor="aceite_termos">
+                <label>
                   Eu li e concordo com os{" "}
                   <a href="./public/termos/termos.html" target="_blank">
                     Termos e Condições de Uso
@@ -217,13 +262,7 @@ const Cadastro: React.FC = () => {
                   </a>.
                 </label>
               </div>
-
               {erroTermos && <span className="erro-texto">{erroTermos}</span>}
-
-              <p className="LGPD-aviso">
-                Seus dados serão tratados conforme a Lei Geral de Proteção de
-                Dados (LGPD).
-              </p>
             </div>
 
             <button type="submit" className="criarConta">
@@ -237,10 +276,13 @@ const Cadastro: React.FC = () => {
         </div>
       </div>
 
-      {/* Modal de sucesso */}
+      {/* MODAL */}
       {modalSucesso && (
         <div className="modal-overlay" onClick={fecharModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
             <button className="btn-fechar" onClick={fecharModal}>
               ×
             </button>
