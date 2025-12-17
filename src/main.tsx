@@ -15,7 +15,7 @@ import './style/esqueceu-senha.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <HashRouter basename="/app-controle-garantia">
+    <HashRouter>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/cadastro" element={<Cadastro />} />
