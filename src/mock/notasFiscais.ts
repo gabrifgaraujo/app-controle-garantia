@@ -1,6 +1,4 @@
-import type { NotaModel } from "../types/NotaModel";
-
-export const notasFiscais: NotaModel[] = [
+const notasFiscais = [
   {
     produto: "Smartphone Samsung",
     descricao: "Galaxy A54 128GB",

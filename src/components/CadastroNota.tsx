@@ -374,7 +374,7 @@ const CadastroNota: React.FC = () => {
           </div>
 
           <div className="acoes-formulario">
-            <button type="submit" className="button purple" onClick={handleSubmit}>
+            <button type="submit" className="button purple">
               {modoEdicao ? "Atualizar Nota Fiscal" : "Salvar Nota Fiscal"}
             </button>
 
