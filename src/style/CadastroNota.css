@@ -12,6 +12,16 @@ body {
   color: #1f1f1f;
 }
 
+.Confirmação {
+  background: #fff;
+  padding: 24px;
+  border-radius: 18px;
+  max-width: 550px;
+  width: 90%;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  position: relative;
+}
+
 .pagina {
   display: flex;
   justify-content: center;
@@ -61,9 +71,9 @@ body {
 .icone {
   width: 40px;
   height: 40px;
-  background: #ede4ff;
+  background: linear-gradient(135deg, #ede4ff, #f6f1ff);
   color: #7a2ff5;
-  border-radius: 10px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
