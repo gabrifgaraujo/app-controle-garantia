@@ -3,55 +3,71 @@ import { Link } from "react-router-dom";
 import type { NotaModel } from "../types/NotaModel";
 import NotaFiscal from "../components/Nota";
 import SearchBar from "../components/SearchBar";
-import { carregarNotas } from "../services/Service";
-
 import "../style/Notas.css";
 
 const Notas = () => {
-  const [notas] = useState<NotaModel[]>(() => carregarNotas());
-  const [notasFiltradas, setNotasFiltradas] = useState<NotaModel[]>(() =>
-    carregarNotas()
-  );
+
+
+ const [notasFiltradas, setNotasFiltradas] = useState<NotaModel[]>(() => {
+    const dados = localStorage.getItem("notas_fiscais");
+    return dados ? JSON.parse(dados) : [];
+  });
 
   return (
     <div className="pagina-lista">
+      
+    
+
       <header className="topo-notas">
-        <Link to="/notas" className="logo"> <h1 className="logo-app">Controle de Garantias</h1>
+        <Link to="/notas" className="logo">
+          <h1 className="logo-app">Controle de Garantias</h1>
         </Link>
 
-        <button
-          className="btn-sair"
-          onClick={() => (window.location.href = "/")}
-        >
-          ← Sair
-        </button>
+        <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+          <button onClick={
+            () => { window.location.href = "/" }
+          } className="btn-sair">← Sair</button>
+        </div>
       </header>
 
+    
       <section className="cabecalho-lista">
         <h2>Minhas Notas Fiscais</h2>
         <p>Veja todas as notas fiscais cadastradas abaixo.</p>
 
-        <div style={{ display: "flex", gap: "14px", marginTop: "14px" }}>
-          <Link to="/cadastro-nota" className="btn-nova-nota">
-            + Nova Nota Fiscal
-          </Link>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "space-between",
+            justifyContent: "left",
+            marginTop: "14px",
+            gap: "14px",
+          }}
+        >
+          <button className="btn-nova-nota" >
+            <Link
+              to="/cadastro-nota"
+              style={{ color: "white", textDecoration: "none" }}
+            >
+              + Nova Nota Fiscal
+            </Link>
+          </button>
 
-          <SearchBar
-            notas={notas}
-            onResult={setNotasFiltradas}
-          />
+            <div style={{ display: "flex", gap: "14px", alignItems: "center" }}>
+        <SearchBar onResult={setNotasFiltradas} />
+      </div>
+
         </div>
       </section>
 
       <div className="container-notas">
+
         {notasFiltradas.length === 0 ? (
-          <p className="nenhuma-nota">
-            Nenhuma nota fiscal encontrada.
-          </p>
+          <p className="nenhuma-nota">Nenhuma nota fiscal cadastrada.</p>
         ) : (
-          notasFiltradas.map((nota) => (
+          notasFiltradas.map((nota, index) => (
             <NotaFiscal
-              key={nota.numeroNota}
+              key={index}
               produto={nota.produto}
               descricao={nota.descricao}
               dataCompra={nota.dataCompra}
