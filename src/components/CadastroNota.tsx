@@ -6,6 +6,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 // Estilos CSS específicos para este componente
 import "../style/CadastroNota.css";
+import "../style/Nota.css";
 
 const CadastroNota: React.FC = () => {
   // Recupera informações da localização atual e função de navegação
@@ -92,7 +93,7 @@ const CadastroNota: React.FC = () => {
     if (Object.keys(novosErros).length > 0) return;
 
     const resumoHtml = `
-      <div style="text-align:left">
+      <div>
         <p><strong>Tipo de Garantia:</strong> ${formData.tipoNota}</p>
         <p><strong>Produto:</strong> ${formData.produto}</p>
         <p><strong>Loja:</strong> ${formData.loja}</p>
@@ -112,8 +113,13 @@ const CadastroNota: React.FC = () => {
       showCancelButton: true,
       confirmButtonText: "Confirmar",
       cancelButtonText: "Cancelar",
-      confirmButtonColor: "#7a2ff5",
-      cancelButtonColor: "#f44336",
+      customClass: {
+        popup: "modal-content",
+        title: "modal-titulo",
+        htmlContainer: "info-modal",
+        confirmButton: "button purple",
+        cancelButton: "button outline",
+      },
       width: 500,
     });
 
