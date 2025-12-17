@@ -1,5 +1,5 @@
 {
-  "homepage": "https://gabrifgaraujo.github.io/app-controle-garantia/#",
+  "homepage": "https://gabrifgaraujo.github.io/app-controle-garantia/",
   "name": "app-controle-garantia",
   "private": true,
   "version": "0.0.0",
@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.17",
+    "hashrouter": "^1.1.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-icons": "^5.5.0",
