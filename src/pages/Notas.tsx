@@ -24,9 +24,7 @@ const Notas = () => {
         </Link>
 
         <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-          <button onClick={
-            () => { window.location.href = "/" }
-          } className="btn-sair">← Sair</button>
+          <button className="btn-sair">← Sair</button>
         </div>
       </header>
 
