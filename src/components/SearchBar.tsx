@@ -4,7 +4,9 @@ import "../style/searchBar.css"
 
 interface SearchBarProps {
   onResult: (resultados: NotaModel[]) => void;
+  notas: NotaModel[];
 }
+
 
 const SearchBar = ({ onResult }: SearchBarProps) => {
   const [termo, setTermo] = useState("");

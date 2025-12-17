@@ -10,10 +10,11 @@ export function carregarNotas(): NotaModel[] {
     return JSON.parse(storage) as NotaModel[];
   }
 
+  // 🔥 primeira execução (deploy / usuário novo)
   localStorage.setItem(STORAGE_KEY, JSON.stringify(notasFiscais));
   return notasFiscais;
 }
-
-export function salvarNotas(novasNotas: NotaModel[]) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(novasNotas));
+export function salvarNotas(notas: NotaModel[]): void {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(notas));
 }
+
