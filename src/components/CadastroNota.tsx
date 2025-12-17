@@ -1,131 +1,106 @@
-// React e hook de estado
 import React, { useState } from 'react';
-// Ferramentas de navegação do React Router
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-// Biblioteca para modais e alertas
 import Swal from 'sweetalert2';
-// Estilos CSS específicos para este componente
 import "../style/CadastroNota.css";
 import "../style/Nota.css";
 
-const CadastroNota: React.FC = () => {
-  // Recupera informações da localização atual e função de navegação
-  const location = useLocation();
-  // Permite navegação programática entre rotas
-  const navigate = useNavigate();
-  // Verifica se está em modo de edição e obtém os dados da nota, se disponíveis
-  const modoEdicao = location.state?.modoEdicao || false;
-  // Dados da nota para edição, se houver
-  const nota = location.state?.nota;
+interface NotaProps {
+  id?: string;
+  tipoNota: string;
+  produto: string;
+  loja: string;
+  dataCompra: string;
+  duracaoGarantia: string;
+  numeroNota: string;
+  valor: string;
+  garantiaEstendida: string;
+  tempoGarantiaEstendida?: string;
+  observacoes: string;
+  arquivo?: string | null;
+}
 
-  // Dados principais da nota fiscal
+const CadastroNota: React.FC = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const modoEdicao = location.state?.modoEdicao || false;
+  const notaEdicao = location.state?.nota;
+
   const [formData, setFormData] = useState({
-    tipoNota: nota?.tipoNota || "Nota Fiscal Digital",
-    produto: nota?.produto || "",
-    loja: nota?.loja || "",
-    dataCompra: nota?.dataCompra || "",
-    duracaoGarantia: nota?.duracaoGarantia || "3 meses",
-    numeroNota: nota?.numeroNota || "",
-    valor: nota?.valor || "",
-    garantiaEstendida: nota?.garantiaEstendida || "Não",
-    tempoGarantiaEstendida: nota?.tempoGarantiaEstendida || ""
+    tipoNota: modoEdicao ? notaEdicao?.tipoNota || "" : "",
+    produto: notaEdicao?.produto || "",
+    loja: notaEdicao?.loja || "",
+    dataCompra: notaEdicao?.dataCompra || "",
+    duracaoGarantia: modoEdicao ? notaEdicao?.duracaoGarantia?.toString() || "" : "",
+    numeroNota: notaEdicao?.numeroNota || "",
+    valor: notaEdicao?.valor || "",
+    garantiaEstendida: notaEdicao?.garantiaEstendida || "Não",
+    tempoGarantiaEstendida: notaEdicao?.tempoGarantiaEstendida || ""
   });
 
-  // Observações adicionais
-  const [observacoes, setObservacoes] = useState(nota?.observacoes || "");
-  // Arquivo anexado (imagem ou documento)
-  const [arquivo, setArquivo] = useState<string | null>(nota?.arquivo || null);
-  // Erros de validação do formulário
+  const [observacoes, setObservacoes] = useState(notaEdicao?.observacoes || "");
+  const [arquivo, setArquivo] = useState<string | null>(notaEdicao?.arquivo || null);
   const [erros, setErros] = useState<{ [key: string]: string }>({});
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-
-    if (name === "duracaoGarantia") {
-      setFormData({
-        ...formData,
-        duracaoGarantia: value,
-        tempoGarantiaEstendida: ""
-      });
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
-
-    // limpa o erro do campo ao digitar
-    setErros({ ...erros, [name]: "" });
+    setFormData(prev => ({ ...prev, [name]: value }));
+    setErros(prev => ({ ...prev, [name]: "" }));
   };
 
-  // Atualiza campo de observações
   const handleObservacoesChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setObservacoes(e.target.value);
   };
 
-  // Lida com o update de arquivo
   const handleArquivoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      // Converte o arquivo para Base64 para facilitar o preview
       reader.onloadend = () => setArquivo(reader.result as string);
       reader.readAsDataURL(file);
     }
-    // limpa o erro do campo ao selecionar um arquivo
-    setErros({ ...erros, arquivo: "" });
+    setErros(prev => ({ ...prev, arquivo: "" }));
   };
 
-  // Remove o arquivo anexado
   const removerArquivo = () => setArquivo(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const novosErros: { [key: string]: string } = {};
 
-    // Validação padrão (exceto tempoGarantiaEstendida)
     Object.entries(formData).forEach(([key, value]) => {
-      if (key === "tempoGarantiaEstendida") return;
-
-      if (!value) {
+      if (!value && key !== "tempoGarantiaEstendida") {
         novosErros[key] = "Campo obrigatório";
       }
     });
 
-    // Validação condicional da garantia estendida
-    if (
-      formData.garantiaEstendida === "Sim" &&
-      !formData.tempoGarantiaEstendida
-    ) {
+    if (formData.garantiaEstendida === "Sim" && !formData.tempoGarantiaEstendida) {
       novosErros["tempoGarantiaEstendida"] = "Campo obrigatório";
     }
 
-    // Validação do arquivo
     if (!arquivo) {
       novosErros["arquivo"] = "Campo obrigatório";
     }
 
     setErros(novosErros);
-
-    // Se houver erros, interrompe
     if (Object.keys(novosErros).length > 0) return;
 
     const resumoHtml = `
-    <div>
-      <p><strong>Tipo de Garantia:</strong> ${formData.tipoNota}</p>
-      <p><strong>Produto:</strong> ${formData.produto}</p>
-      <p><strong>Loja:</strong> ${formData.loja}</p>
-      <p><strong>Data de Compra:</strong> ${formData.dataCompra}</p>
-      <p><strong>Duração da Garantia:</strong> ${formData.duracaoGarantia}</p>
-      <p><strong>Garantia Estendida:</strong> ${formData.garantiaEstendida}</p>
-      ${formData.garantiaEstendida === "Sim"
+      <div>
+        <p><strong>Tipo de Garantia:</strong> ${formData.tipoNota || "-"}</p>
+        <p><strong>Produto:</strong> ${formData.produto}</p>
+        <p><strong>Loja:</strong> ${formData.loja}</p>
+        <p><strong>Data de Compra:</strong> ${formData.dataCompra}</p>
+        <p><strong>Período da Garantia:</strong> ${formData.duracaoGarantia ? formData.duracaoGarantia + ' meses' : '-'}</p>
+        <p><strong>Garantia Estendida:</strong> ${formData.garantiaEstendida}</p>
+        ${formData.garantiaEstendida === "Sim"
         ? `<p><strong>Tempo Garantia Estendida:</strong> ${formData.tempoGarantiaEstendida} meses</p>`
         : ""
       }
-      <p><strong>Número da Nota:</strong> ${formData.numeroNota}</p>
-      <p><strong>Valor:</strong> ${formData.valor}</p>
-      <p><strong>Observações:</strong> ${observacoes || "-"}</p>
-    </div>
-  `;
+        <p><strong>Número da Nota:</strong> ${formData.numeroNota}</p>
+        <p><strong>Valor:</strong> ${formData.valor}</p>
+        <p><strong>Observações:</strong> ${observacoes || "-"}</p>
+      </div>
+    `;
 
     const result = await Swal.fire({
       title: "Confirme os dados da nota",
@@ -134,7 +109,7 @@ const CadastroNota: React.FC = () => {
       confirmButtonText: "Confirmar",
       cancelButtonText: "Cancelar",
       customClass: {
-        popup: "modal-content",
+        popup: "modal-content-responsive",
         title: "modal-titulo",
         htmlContainer: "info-modal",
         confirmButton: "button purple",
@@ -144,11 +119,29 @@ const CadastroNota: React.FC = () => {
     });
 
     if (result.isConfirmed) {
+      const novaNota: NotaProps = {
+        id: modoEdicao ? notaEdicao.id : crypto.randomUUID(), // id único
+        ...formData,
+        observacoes,
+        arquivo
+      };
+
+      const notasExistentes = localStorage.getItem("notas");
+      let notasArray: NotaProps[] = notasExistentes ? JSON.parse(notasExistentes) : [];
+
+      if (modoEdicao) {
+        notasArray = notasArray.map(n =>
+          n.id === notaEdicao.id ? novaNota : n
+        );
+      } else {
+        notasArray = [novaNota, ...notasArray];
+      }
+
+      localStorage.setItem("notas", JSON.stringify(notasArray));
+
       await Swal.fire({
         icon: "success",
-        title: modoEdicao
-          ? "Nota Fiscal Atualizada!"
-          : "Nota Fiscal cadastrada!",
+        title: modoEdicao ? "Nota Atualizada!" : "Nota cadastrada!",
         confirmButtonColor: "#7a2ff5",
       });
 
@@ -156,14 +149,12 @@ const CadastroNota: React.FC = () => {
     }
   };
 
-  // Renderiza o label com asterisco para campos obrigatórios
   const renderLabel = (label: string, campo: string) => (
     <label>
       {label} {campo !== "observacoes" && <span className="obrigatorio">*</span>}
     </label>
   );
 
-  // Retorna a classe de erro se o campo tiver erro
   const erroClass = (campo: string) => erros[campo] ? "input-erro" : "";
 
   return (
@@ -184,9 +175,7 @@ const CadastroNota: React.FC = () => {
         </div>
 
         <form className="formulario" onSubmit={handleSubmit}>
-
-          {/* Tipo de Garantia */}
-          <div className="campo">
+          <div className="campo tipo-nota">
             {renderLabel("Tipo de Garantia", "tipoNota")}
             <select
               name="tipoNota"
@@ -194,14 +183,31 @@ const CadastroNota: React.FC = () => {
               onChange={handleChange}
               className={erroClass("tipoNota")}
             >
+              {!modoEdicao && <option value="">Selecione o tipo de garantia</option>}
               <option>Nota Fiscal Física</option>
               <option>Nota Fiscal Digital</option>
             </select>
             {erros.tipoNota && <span className="erro-texto">{erros.tipoNota}</span>}
           </div>
 
-          {/* Nome do Produto */}
-          <div className="campo">
+          <div className="campo duracaoGarantia">
+            {renderLabel("Período de Garantia", "duracaoGarantia")}
+            <select
+              name="duracaoGarantia"
+              value={formData.duracaoGarantia}
+              onChange={handleChange}
+              className={erroClass("duracaoGarantia")}
+            >
+              {!modoEdicao && <option value="">Selecione o tempo</option>}
+              <option value="3">3 meses</option>
+              <option value="6">6 meses</option>
+              <option value="12">12 meses</option>
+              <option value="24">24 meses</option>
+            </select>
+            {erros.duracaoGarantia && <span className="erro-texto">{erros.duracaoGarantia}</span>}
+          </div>
+
+          <div className="campo produto">
             {renderLabel("Nome do Produto", "produto")}
             <input
               name="produto"
@@ -214,8 +220,7 @@ const CadastroNota: React.FC = () => {
             {erros.produto && <span className="erro-texto">{erros.produto}</span>}
           </div>
 
-          {/* Nome da Loja */}
-          <div className="campo">
+          <div className="campo loja">
             {renderLabel("Nome da Loja", "loja")}
             <input
               name="loja"
@@ -228,8 +233,7 @@ const CadastroNota: React.FC = () => {
             {erros.loja && <span className="erro-texto">{erros.loja}</span>}
           </div>
 
-          {/* Data de Compra */}
-          <div className="campo">
+          <div className="campo dataCompra">
             {renderLabel("Data de Compra", "dataCompra")}
             <input
               name="dataCompra"
@@ -242,26 +246,7 @@ const CadastroNota: React.FC = () => {
             {erros.dataCompra && <span className="erro-texto">{erros.dataCompra}</span>}
           </div>
 
-          {/* Período de Garantia */}
-          <div className="campo">
-            {renderLabel("Período de Garantia", "duracaoGarantia")}
-            <select
-              name="duracaoGarantia"
-              value={formData.duracaoGarantia}
-              onChange={handleChange}
-              className={erroClass("duracaoGarantia")}
-            >
-              <option value="">Selecione o tempo</option>
-              <option value="3">3 mês</option>
-              <option value="6">6 meses</option>
-              <option value="12">1 ano</option>
-              <option value="24">2 anos</option>
-            </select>
-            {erros.duracaoGarantia && <span className="erro-texto">{erros.duracaoGarantia}</span>}
-          </div>
-
-          {/* Garantia Estendida */}
-          <div className="campo">
+          <div className="campo garantiaEstendida">
             {renderLabel("Garantia Estendida", "garantiaEstendida")}
             <select
               name="garantiaEstendida"
@@ -275,10 +260,9 @@ const CadastroNota: React.FC = () => {
             {erros.garantiaEstendida && <span className="erro-texto">{erros.garantiaEstendida}</span>}
           </div>
 
-          {/* GABS: renderizano campo de tempo da garantia estendida */}
           {formData.garantiaEstendida === 'Sim' && (
-            <div className="campo">
-              {renderLabel("Tempo da Garantia Estendida (meses)", "tempoGarantiaEstendida")}
+            <div className="campo tempoGarantiaEstendida">
+              {renderLabel("Tempo Garantia Estendida (meses)", "tempoGarantiaEstendida")}
               <select
                 name="tempoGarantiaEstendida"
                 value={formData.tempoGarantiaEstendida}
@@ -286,32 +270,16 @@ const CadastroNota: React.FC = () => {
                 className={erroClass("tempoGarantiaEstendida")}
               >
                 <option value="">Selecione o tempo</option>
-
-                {/* sempre permitido */}
                 <option value="3">3 meses</option>
-
-                {Number(formData.duracaoGarantia) >= 6 && (
-                  <option value="6">6 meses</option>
-                )}
-
-                {Number(formData.duracaoGarantia) >= 12 && (
-                  <option value="12">12 meses</option>
-                )}
-
-                {Number(formData.duracaoGarantia) >= 24 && (
-                  <option value="24">24 meses</option>
-                )}
+                {Number(formData.duracaoGarantia) >= 6 && <option value="6">6 meses</option>}
+                {Number(formData.duracaoGarantia) >= 12 && <option value="12">12 meses</option>}
+                {Number(formData.duracaoGarantia) >= 24 && <option value="24">24 meses</option>}
               </select>
-
-              {erros.tempoGarantiaEstendida && (
-                <span className="erro-texto">{erros.tempoGarantiaEstendida}</span>
-              )}
+              {erros.tempoGarantiaEstendida && <span className="erro-texto">{erros.tempoGarantiaEstendida}</span>}
             </div>
           )}
 
-
-          {/* Número da Nota Fiscal */}
-          <div className="campo">
+          <div className="campo numeroNota">
             {renderLabel("Número da Nota Fiscal", "numeroNota")}
             <input
               name="numeroNota"
@@ -324,8 +292,7 @@ const CadastroNota: React.FC = () => {
             {erros.numeroNota && <span className="erro-texto">{erros.numeroNota}</span>}
           </div>
 
-          {/* Valor */}
-          <div className="campo">
+          <div className="campo valor">
             {renderLabel("Valor", "valor")}
             <input
               name="valor"
@@ -338,8 +305,7 @@ const CadastroNota: React.FC = () => {
             {erros.valor && <span className="erro-texto">{erros.valor}</span>}
           </div>
 
-          {/* Observações */}
-          <div className="campo">
+          <div className="campo observacoes">
             {renderLabel("Observações", "observacoes")}
             <textarea
               name="observacoes"
@@ -349,34 +315,13 @@ const CadastroNota: React.FC = () => {
             />
           </div>
 
-          {/* Upload da Nota */}
-          <div className="campo">
+          <div className="campo anexar-nota">
             {renderLabel("Anexar Nota", "arquivo")}
-
             {arquivo ? (
               <div className="preview-arquivo">
-                {arquivo.startsWith("data:image") ? (
-                  <img src={arquivo} alt="Preview" className="preview-imagem" />
-                ) : (
-                  <span className="preview-documento">Documento carregado</span>
-                )}
-
-                <a
-                  href={arquivo}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="preview-abrir"
-                >
-                  Abrir
-                </a>
-
-                <span
-                  className="preview-remover"
-                  onClick={removerArquivo}
-                  title="Remover arquivo"
-                >
-                  ×
-                </span>
+                <span className="preview-documento">Documento carregado</span>
+                <a href={arquivo} target="_blank" rel="noreferrer" className="preview-abrir">Abrir</a>
+                <span className="preview-remover" onClick={removerArquivo} title="Remover arquivo">×</span>
               </div>
             ) : (
               <div className="linha-arquivo">
@@ -387,9 +332,7 @@ const CadastroNota: React.FC = () => {
                   className={`input-arquivo ${erros.arquivo ? "input-erro" : ""}`}
                   onChange={handleArquivoChange}
                 />
-                <label htmlFor="arquivo" className="button small purple">
-                  Anexar Nota
-                </label>
+                <label htmlFor="arquivo" className="button small purple">Anexar Nota</label>
                 {erros.arquivo && <span className="erro-texto">{erros.arquivo}</span>}
               </div>
             )}
@@ -399,14 +342,10 @@ const CadastroNota: React.FC = () => {
             <button type="submit" className="button purple">
               {modoEdicao ? "Atualizar Nota Fiscal" : "Salvar Nota Fiscal"}
             </button>
-
             <Link to="/notas">
-              <button type="button" className="button outline">
-                Cancelar
-              </button>
+              <button type="button" className="button outline">Cancelar</button>
             </Link>
           </div>
-
         </form>
       </section>
     </main>

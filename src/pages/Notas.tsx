@@ -1,16 +1,8 @@
-// Hooks do React
 import { useState, useEffect } from "react";
-// Navegação entre rotas
 import { Link, useNavigate } from "react-router-dom";
-// Alertas estilizados
 import Swal from "sweetalert2";
-// Componentes de nota fiscal
-import Nota from "../components/Nota";
-// Mock de notas fiscais
-import notasFiscais from "../mock/notasFiscais";
-// Estilos de página
+import Nota, { type NotaProps } from "../components/Nota";
 import "../style/Notas.css";
-// Ícones
 import { IoNotificationsOutline } from "react-icons/io5";
 import { AiOutlineCheck, AiOutlineCheckCircle } from "react-icons/ai";
 
@@ -25,11 +17,10 @@ type Notificacao = {
 };
 
 const Notas = () => {
-  // Texto digitado na busca
   const [busca, setBusca] = useState("");
-  // Controle do modal de notificações
   const [modalNotificacoes, setModalNotificacoes] = useState(false);
-  // Controle de navegação
+  const [notas, setNotas] = useState<NotaProps[]>([]);
+  const [notificacoes, setNotificacoes] = useState<Notificacao[]>([]);
   const navigate = useNavigate();
 
   // Bloquear scroll com modal aberto
@@ -39,33 +30,45 @@ const Notas = () => {
     }
   }, [modalNotificacoes]);
 
-  // Gera notificações com base nas notas fiscais
-  const gerarNotificacoes = (): Notificacao[] => {
-    // Data atual para comparação
-    const hoje = new Date("2024-09-01");
+  // Carrega notas do localStorage
+  useEffect(() => {
+    const notasSalvas = localStorage.getItem("notas");
+    if (notasSalvas) {
+      const listaNotas: NotaProps[] = JSON.parse(notasSalvas);
+      setNotas(listaNotas);
+    }
+  }, []);
 
-    return notasFiscais
+  // Calcula status da garantia
+  const calcularStatusGarantia = (dataCompra: string, duracaoGarantia: string) => {
+    if (!dataCompra || !duracaoGarantia) return "Ativa";
+
+    const [dia, mes, ano] = dataCompra.split("/");
+    const dataCompraObj = new Date(`${ano}-${mes}-${dia}`);
+    const meses = parseInt(duracaoGarantia, 10);
+    const dataExp = new Date(dataCompraObj);
+    dataExp.setMonth(dataExp.getMonth() + meses);
+
+    return new Date() > dataExp ? "Expirada" : "Ativa";
+  };
+
+  // Gera notificações com base nas notas
+  useEffect(() => {
+    const hoje = new Date();
+    const novasNotificacoes = notas
       .map((nota) => {
-        // Converter dataCompra para objeto Date
         const [dia, mes, ano] = nota.dataCompra.split("/");
-        const dataCompra = new Date(`${ano}-${mes}-${dia}`);
-
-        // Soma duração da garantia em meses
-        const meses = parseInt(nota.duracaoGarantia);
-        const dataExp = new Date(dataCompra);
+        const dataCompraObj = new Date(`${ano}-${mes}-${dia}`);
+        const meses = parseInt(nota.duracaoGarantia, 10);
+        const dataExp = new Date(dataCompraObj);
         dataExp.setMonth(dataExp.getMonth() + meses);
 
-        // Calcula dias restantes
-        const diasRestantes =
-          (dataExp.getTime() - hoje.getTime()) / (1000 * 60 * 60 * 24);
-
-        // Define tipo de notificação
+        const diasRestantes = (dataExp.getTime() - hoje.getTime()) / (1000 * 60 * 60 * 24);
         let tipo: Notificacao["tipo"] | "" = "";
 
         if (diasRestantes < 0) tipo = "Expirada";
         else if (diasRestantes <= 30) tipo = "Próxima de Expirar";
 
-        // Ignora notas sem notificação
         if (!tipo) return null;
 
         return {
@@ -77,32 +80,28 @@ const Notas = () => {
           lida: false,
         };
       })
-      // Remove notificações nulas (tipagem correta)
-      .filter((item): item is Notificacao => item !== null);
-  };
+      .filter((n): n is Notificacao => n !== null);
 
-  // Estado das notificações
-  const [notificacoesState, setNotificacoesState] =
-    useState<Notificacao[]>(gerarNotificacoes());
+    setNotificacoes(novasNotificacoes);
+  }, [notas]);
+
+  // Filtra notas com base na busca
+  const notasFiltradas = notas.filter((nota) =>
+    nota.produto.toLowerCase().includes(busca.toLowerCase())
+  );
 
   // Marca uma notificação como lida/não lida
   const marcarComoLida = (index: number) => {
-    setNotificacoesState((prev) =>
+    setNotificacoes((prev) =>
       prev.map((n, i) => (i === index ? { ...n, lida: !n.lida } : n))
     );
   };
 
   // Marca todas as notificações como lidas
   const marcarTodasComoLidas = () => {
-    setNotificacoesState((prev) => prev.map((n) => ({ ...n, lida: true })));
+    setNotificacoes((prev) => prev.map((n) => ({ ...n, lida: true })));
   };
 
-  // Filtra notas com base na busca
-  const notasFiltradas = notasFiscais.filter((nota) =>
-    nota.produto.toLowerCase().includes(busca.toLowerCase())
-  );
-
-  // Função para sair da conta
   const handleSair = () => {
     Swal.fire({
       title: "Deseja realmente sair da sua conta?",
@@ -110,8 +109,6 @@ const Notas = () => {
       showCancelButton: true,
       confirmButtonText: "Sim, sair",
       cancelButtonText: "Cancelar",
-      confirmButtonColor: "#f44336",
-      cancelButtonColor: "#6b21a8",
     }).then((result) => {
       if (result.isConfirmed) {
         localStorage.removeItem("token");
@@ -124,10 +121,7 @@ const Notas = () => {
     <div className="pagina-lista">
       <header className="topo-notas">
         <h1 className="logo-app">Controle de Garantias</h1>
-
-        <button className="btn-sair" onClick={handleSair}>
-          Sair
-        </button>
+        <button className="btn-sair" onClick={handleSair}>Sair</button>
       </header>
 
       <section className="cabecalho-lista">
@@ -155,7 +149,7 @@ const Notas = () => {
               <IoNotificationsOutline />
             </button>
 
-            {notificacoesState.some((n) => !n.lida) && (
+            {notificacoes.some((n) => !n.lida) && (
               <span className="notificacao-alerta"></span>
             )}
           </div>
@@ -163,75 +157,52 @@ const Notas = () => {
       </section>
 
       <div className="container-notas">
-        {notasFiltradas.map((nota, index) => (
-          <Nota key={index} {...nota} />
-        ))}
+        {notasFiltradas.length > 0 ? (
+          notasFiltradas.map((nota, index) => {
+            const statusGarantia = calcularStatusGarantia(nota.dataCompra, nota.duracaoGarantia);
+            const duracaoExibicao = `${nota.duracaoGarantia}`;
+            return (
+              <Nota
+                key={index}
+                {...nota}
+                statusGarantia={statusGarantia}
+                duracaoGarantia={duracaoExibicao}
+              />
+            );
+          })
+        ) : (
+          <p className="sem-notas">Não há notas fiscais cadastradas</p>
+        )}
       </div>
 
       {modalNotificacoes && (
-        <div
-          className="modal-overlay"
-          onClick={() => setModalNotificacoes(false)}
-        >
-          <div
-            className="modal-content"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              className="btn-fechar"
-              onClick={() => setModalNotificacoes(false)}
-            >
-              ×
-            </button>
-
+        <div className="modal-overlay" onClick={() => setModalNotificacoes(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="btn-fechar" onClick={() => setModalNotificacoes(false)}>×</button>
             <h2 className="modal-titulo">Notificações</h2>
-            <p className="modal-subtitulo">
-              Notas próximas de expirar ou expiradas
-            </p>
+            <p className="modal-subtitulo">Notas próximas de expirar ou expiradas</p>
 
-            <button
-              className="btn-marcar-todas"
-              onClick={marcarTodasComoLidas}
-            >
+            <button className="btn-marcar-todas" onClick={marcarTodasComoLidas}>
               <AiOutlineCheckCircle /> Marcar todas
             </button>
 
             <div className="info-modal">
-              {notificacoesState.length === 0 && (
-                <p>Nenhuma notificação</p>
-              )}
+              {notificacoes.length === 0 && <p>Nenhuma notificação</p>}
 
-              {notificacoesState.map((nota, index) => (
-                <div
-                  key={index}
-                  className={`item-notificacao ${
-                    nota.lida ? "lida" : "nao-lida"
-                  }`}
-                >
+              {notificacoes.map((nota, index) => (
+                <div key={index} className={`item-notificacao ${nota.lida ? "lida" : "nao-lida"}`}>
                   <div>
                     <p>
                       <strong>{nota.produto}</strong> –{" "}
-                      <span
-                        className={`tipo-notificacao ${
-                          nota.tipo === "Expirada"
-                            ? "expirada"
-                            : "proxima"
-                        }`}
-                      >
+                      <span className={`tipo-notificacao ${nota.tipo === "Expirada" ? "expirada" : "proxima"}`}>
                         {nota.tipo}
                       </span>
                     </p>
-
                     <p className="info-nota">
-                      Compra: {nota.dataCompra} | Garantia:{" "}
-                      {nota.duracaoGarantia} meses
+                      Compra: {nota.dataCompra} | Garantia: {nota.duracaoGarantia} meses
                     </p>
                   </div>
-
-                  <button
-                    className="btn-lida"
-                    onClick={() => marcarComoLida(index)}
-                  >
+                  <button className="btn-lida" onClick={() => marcarComoLida(index)}>
                     <AiOutlineCheck />
                   </button>
                 </div>

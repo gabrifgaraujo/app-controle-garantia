@@ -1,15 +1,11 @@
-// Hook de estado
 import { useState } from "react";
-// Navegação entre rotas
 import { useNavigate } from "react-router-dom";
-// Estilos do componente
 import "../style/Nota.css";
-// Ícones
 import { IoShieldCheckmarkOutline } from "react-icons/io5";
 import { CiCalendarDate } from "react-icons/ci";
 
-// Define quais dados a Nota recebe
-interface NotaProps {
+export interface NotaProps {
+  id: string; // ID único
   produto: string;
   descricao: string;
   dataCompra: string;
@@ -25,8 +21,8 @@ interface NotaProps {
   tempoGarantiaEstendida?: string;
 }
 
-// Componente principal
 const Nota = ({
+  id,
   produto,
   descricao,
   dataCompra,
@@ -41,18 +37,15 @@ const Nota = ({
   garantiaEstendida,
   tempoGarantiaEstendida,
 }: NotaProps) => {
-
-  // Controle de abertura do modal de detalhes
   const [modalAberto, setModalAberto] = useState(false);
-  // Permite navegar entre páginas
   const navigate = useNavigate();
 
-  // Redireciona para o cadastro em modo edição
   const editarNota = () => {
     navigate("/cadastro-nota", {
       state: {
         modoEdicao: true,
         nota: {
+          id, // Passa o id para edição
           produto,
           descricao,
           dataCompra,
@@ -71,6 +64,20 @@ const Nota = ({
     });
   };
 
+  const renderArquivo = () => {
+    if (!arquivo) return null;
+    return (
+      <a
+        href={arquivo}
+        target="_blank"
+        rel="noreferrer"
+        className="link-arquivo"
+      >
+        📄 Abrir Arquivo
+      </a>
+    );
+  };
+
   return (
     <>
       <div className="cartao-nota">
@@ -84,16 +91,13 @@ const Nota = ({
             <p className="sub-nota">{descricao}</p>
 
             <p className="data-garantia">
-              <CiCalendarDate />
-              {dataCompra} | Garantia: {duracaoGarantia}
+              <CiCalendarDate /> {dataCompra} | Garantia: {duracaoGarantia} meses
             </p>
           </article>
 
           <div
             className={`status-badge ${
-              statusGarantia === "Expirada"
-                ? "status-expirada"
-                : "status-ativa"
+              statusGarantia === "Expirada" ? "status-expirada" : "status-ativa"
             }`}
           >
             {statusGarantia}
@@ -134,9 +138,8 @@ const Nota = ({
               <p><strong>Nome do Produto:</strong> {produto}</p>
               <p><strong>Nome da Loja:</strong> {loja}</p>
               <p><strong>Data de Compra:</strong> {dataCompra}</p>
-              <p><strong>Período de Garantia:</strong> {duracaoGarantia}</p>
+              <p><strong>Período de Garantia:</strong> {duracaoGarantia} meses</p>
 
-              {/* Garantia Estendida */}
               {garantiaEstendida && (
                 <p><strong>Garantia Estendida:</strong> {garantiaEstendida}</p>
               )}
@@ -151,34 +154,12 @@ const Nota = ({
 
               {arquivo && (
                 <p className="arquivo-anexo">
-                  <strong>Arquivo Anexado:</strong>
-
-                  {arquivo.startsWith("data:image") ? (
-                    <img
-                      src={arquivo}
-                      alt="Nota Fiscal"
-                      className="imagem-nota"
-                    />
-                  ) : (
-                    <a
-                      href={arquivo}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="link-arquivo"
-                    >
-                      {arquivo.endsWith(".pdf")
-                        ? "📄 Abrir PDF"
-                        : "🖼️ Abrir Imagem"}
-                    </a>
-                  )}
+                  <strong>Arquivo Anexado:</strong> {renderArquivo()}
                 </p>
               )}
             </div>
 
-            <button
-              className="btn-editar"
-              onClick={editarNota}
-            >
+            <button className="btn-editar" onClick={editarNota}>
               Editar
             </button>
           </div>

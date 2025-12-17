@@ -9,6 +9,8 @@
   display: flex;
   justify-content: center;
   padding: 4px;
+  min-height: 100vh;
+  background: #faf7ff;
 }
 
 .cartao-nota {
@@ -78,6 +80,13 @@
   pointer-events: none;
 }
 
+select {
+  width: 100%;
+  max-width: 100%;
+  min-width: 100%;
+}
+
+
 .status-ativa {
   background-color: #7a2ff5;
 }
@@ -108,6 +117,7 @@
   color: white;
 }
 
+/* ====== Modal ====== */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -198,6 +208,20 @@
 
 .btn-editar:hover {
   filter: brightness(1.1);
+}
+
+.sem-notas {
+  font-size: 16px;
+  color: #888;
+  text-align: center;
+  margin-top: 40px;
+  padding: 12px 24px;
+  border: 1px dashed #ccc;
+  border-radius: 12px;
+  background: #f9f9f9;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @keyframes fadeIn {
