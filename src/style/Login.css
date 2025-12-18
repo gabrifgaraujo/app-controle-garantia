@@ -15,7 +15,7 @@
 
 .side-image-login {
     flex: 1;
-    background-image: url("/src/assets/aponti.jpg");
+    background-image: url("/src/assets/aponti.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
