@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import "../style/Nota.css";
 import { IoShieldCheckmarkOutline } from "react-icons/io5";
 import { CiCalendarDate } from "react-icons/ci";
 
 export interface NotaProps {
-  id: string; // ID único
+  id: string;
   produto: string;
   descricao: string;
   dataCompra: string;
@@ -45,7 +46,7 @@ const Nota = ({
       state: {
         modoEdicao: true,
         nota: {
-          id, // Passa o id para edição
+          id,
           produto,
           descricao,
           dataCompra,
@@ -61,6 +62,34 @@ const Nota = ({
           tempoGarantiaEstendida,
         },
       },
+    });
+  };
+
+  const deletarNota = () => {
+    Swal.fire({
+      title: "Excluir nota?",
+      text: "Essa ação não pode ser desfeita.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Deletar",
+      cancelButtonText: "Cancelar",
+      customClass: {
+        popup: "modal-content-responsive",
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log("Nota deletada:", id);
+        setModalAberto(false);
+
+        Swal.fire({
+          icon: "success",
+          title: "Nota deletada!",
+          confirmButtonText: "OK",
+          customClass: {
+            popup: "modal-content-responsive",
+          },
+        });
+      }
     });
   };
 
@@ -97,7 +126,9 @@ const Nota = ({
 
           <div
             className={`status-badge ${
-              statusGarantia === "Expirada" ? "status-expirada" : "status-ativa"
+              statusGarantia === "Expirada"
+                ? "status-expirada"
+                : "status-ativa"
             }`}
           >
             {statusGarantia}
@@ -115,10 +146,7 @@ const Nota = ({
       </div>
 
       {modalAberto && (
-        <div
-          className="modal-overlay"
-          onClick={() => setModalAberto(false)}
-        >
+        <div className="modal-overlay" onClick={() => setModalAberto(false)}>
           <div
             className="modal-content"
             onClick={(e) => e.stopPropagation()}
@@ -145,7 +173,10 @@ const Nota = ({
               )}
 
               {garantiaEstendida === "Sim" && tempoGarantiaEstendida && (
-                <p><strong>Tempo Garantia Estendida:</strong> {tempoGarantiaEstendida} meses</p>
+                <p>
+                  <strong>Tempo Garantia Estendida:</strong>{" "}
+                  {tempoGarantiaEstendida} meses
+                </p>
               )}
 
               <p><strong>Número da Nota Fiscal:</strong> {numeroNota}</p>
@@ -159,9 +190,15 @@ const Nota = ({
               )}
             </div>
 
-            <button className="btn-editar" onClick={editarNota}>
-              Editar
-            </button>
+            <div className="acoes-modal">
+              <button className="btn-editar" onClick={editarNota}>
+                Editar
+              </button>
+
+              <button className="btn-deletar" onClick={deletarNota}>
+                Deletar
+              </button>
+            </div>
           </div>
         </div>
       )}
