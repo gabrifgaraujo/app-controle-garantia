@@ -17,7 +17,7 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <HashRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route index element={<Login />} />
         <Route path="/cadastro" element={<Cadastro />} />
         <Route path="/cadastro-nota" element={<CadastroNota />} />
         <Route path="/esqueceu-senha" element={<EsqueceuSenha />} />
