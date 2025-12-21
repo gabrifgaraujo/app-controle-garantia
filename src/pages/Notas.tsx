@@ -19,6 +19,7 @@ type Notificacao = {
 const Notas = () => {
   const [busca, setBusca] = useState("");
   const [modalNotificacoes, setModalNotificacoes] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [notas, setNotas] = useState<NotaProps[]>([]);
   const [notificacoes, setNotificacoes] = useState<Notificacao[]>([]);
   const navigate = useNavigate();
@@ -32,12 +33,20 @@ const Notas = () => {
 
   // Carrega notas do localStorage
   useEffect(() => {
+    setLoading(true);
+
     const notasSalvas = localStorage.getItem("notas");
     if (notasSalvas) {
       const listaNotas: NotaProps[] = JSON.parse(notasSalvas);
       setNotas(listaNotas);
     }
+
+    // pequeno delay pra UX (opcional, mas recomendado)
+    setTimeout(() => {
+      setLoading(false);
+    }, 400);
   }, []);
+
 
   // Calcula status da garantia
   const calcularStatusGarantia = (dataCompra: string, duracaoGarantia: string) => {
@@ -54,6 +63,8 @@ const Notas = () => {
 
   // Gera notificações com base nas notas
   useEffect(() => {
+    setLoading(true);
+
     const hoje = new Date();
     const novasNotificacoes = notas
       .map((nota) => {
@@ -63,7 +74,9 @@ const Notas = () => {
         const dataExp = new Date(dataCompraObj);
         dataExp.setMonth(dataExp.getMonth() + meses);
 
-        const diasRestantes = (dataExp.getTime() - hoje.getTime()) / (1000 * 60 * 60 * 24);
+        const diasRestantes =
+          (dataExp.getTime() - hoje.getTime()) / (1000 * 60 * 60 * 24);
+
         let tipo: Notificacao["tipo"] | "" = "";
 
         if (diasRestantes < 0) tipo = "Expirada";
@@ -83,7 +96,12 @@ const Notas = () => {
       .filter((n): n is Notificacao => n !== null);
 
     setNotificacoes(novasNotificacoes);
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 300);
   }, [notas]);
+
 
   // Filtra notas com base na busca
   const notasFiltradas = notas.filter((nota) =>
@@ -157,10 +175,20 @@ const Notas = () => {
       </section>
 
       <div className="container-notas">
-        {notasFiltradas.length > 0 ? (
+        {loading ? (
+          <div className="spinner-container">
+            <div className="spinner"></div>
+            <p>Carregando notas...</p>
+          </div>
+        ) : notasFiltradas.length > 0 ? (
           notasFiltradas.map((nota, index) => {
-            const statusGarantia = calcularStatusGarantia(nota.dataCompra, nota.duracaoGarantia);
+            const statusGarantia = calcularStatusGarantia(
+              nota.dataCompra,
+              nota.duracaoGarantia
+            );
+
             const duracaoExibicao = `${nota.duracaoGarantia}`;
+
             return (
               <Nota
                 key={index}
@@ -174,6 +202,7 @@ const Notas = () => {
           <p className="sem-notas">Não há notas fiscais cadastradas</p>
         )}
       </div>
+
 
       {modalNotificacoes && (
         <div className="modal-overlay" onClick={() => setModalNotificacoes(false)}>
