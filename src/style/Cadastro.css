@@ -20,8 +20,8 @@ body {
 /* Imagem lateral */
 .side-image-cadastro {
     flex: 1;
-    background-image: url("/src/assets/cadastro.jpg");
-    background-size: 120%;
+    background-image: url("/src/assets/cadastro.png");
+    background-size: 50rem;
     background-position: center;
     background-repeat: no-repeat;
 }
@@ -87,6 +87,7 @@ body {
 
 .cadastro-card input:focus {
     border-color: #7c3aed;
+    border: 1px solid transparent;
     box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.25);
 }
 

@@ -21,7 +21,7 @@ body {
 
 .side-image-senha {
     flex: 1;
-    background-image: url("/src/assets/esqueceu-senha.jpg");
+    background-image: url("/src/assets/esqueceu-senha.png");
     background-size: cover;
     background-position: center;
 }
