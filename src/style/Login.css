@@ -11,6 +11,7 @@
     display: flex;
     height: 100vh;
     width: 100%;
+    background: var(--bg-page);
 }
 
 .side-image-login {
@@ -27,13 +28,13 @@
     justify-content: center;
     align-items: center;
     padding: 2rem;
-    background: #f8f6ff;
+    background: var(--bg-page);
 }
 
 .form-card {
     width: 100%;
     max-width: 420px;
-    background: #fff;
+    background: var(--bg-card);
     padding: 3rem 2.5rem;
     border-radius: 1rem;
     box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.08);
@@ -44,13 +45,13 @@
 .form-card h2 {
     font-size: 1.9rem;
     font-weight: 700;
-    color: #6b21a8;
+    color: var(--primary);
     margin-bottom: 0.8rem;
 }
 
 .form-card p {
     font-size: 1rem;
-    color: #a78bfa;
+    color: var(--primary-light);
     margin-bottom: 2rem;
 }
 
@@ -64,15 +65,21 @@
 .form-card input {
     width: 100%;
     padding: 0.85rem 1rem;
-    border: 1px solid #e5e7eb;
+    border: 1px solid var(--border-default);
     border-radius: 0.5rem;
     font-size: 1rem;
     transition: 0.2s;
+    background: var(--bg-input);
+    color: var(--text-primary);
+}
+
+.form-card input::placeholder {
+    color: var(--text-muted);
 }
 
 .form-card input:focus {
-    border-color: #7c3aed;
-    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.25);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.25)
 }
 
 /* Campo senha */
@@ -99,7 +106,7 @@
     display: block;
     width: 100%;
     text-align: left;
-    color: #dc2626;
+    color: var(--danger);
     font-size: 0.88rem;
     font-weight: 500;
     animation: fadeError 0.3s ease;
@@ -108,7 +115,7 @@
 /* Botão */
 .botao-login {
     width: 100%;
-    background: #6b21a8;
+    background: var(--primary);
     color: #fff;
     border: none;
     padding: 0.9rem;
@@ -120,7 +127,7 @@
 }
 
 .botao-login:hover {
-    background: #7c3aed;
+    background: var(--primary-light);
     box-shadow: 0px 5px 15px rgba(124, 58, 237, 0.25);
 }
 
@@ -132,7 +139,7 @@
 .links a {
     display: block;
     font-size: 0.92rem;
-    color: #6b21a8;
+    color: var(--primary);
     margin-top: 0.3rem;
     text-decoration: none;
 }
@@ -172,9 +179,11 @@
 
     .form-container {
         padding: 2rem;
-        background: linear-gradient(180deg,
+        background: linear-gradient(
+            180deg,
             rgba(124,58,237,0.06) 0%,
-            rgba(107,33,168,0.04) 100%);
+            rgba(107,33,168,0.04) 100%
+        );
     }
 
     .form-card {
@@ -184,3 +193,33 @@
         width: 100%;
     }
 }
+
+/* BOTÃO DARK MODE */
+.toggle-theme {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  width: 44px;
+  height: 44px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 9999;
+  transition: 0.2s;
+}
+
+.toggle-theme:hover {
+  transform: scale(1.05);
+}
+
+.toggle-theme img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+

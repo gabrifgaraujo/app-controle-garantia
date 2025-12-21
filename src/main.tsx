@@ -2,20 +2,41 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { HashRouter, Routes, Route } from 'react-router-dom'
 
-import Login from './pages/Login.tsx'
-import Cadastro from './pages/Cadastro.tsx'
-import CadastroNota from './components/CadastroNota.tsx'
-import EsqueceuSenha from './components/EsqueceuSenha.tsx'
-import Notas from "./pages/Notas.tsx"
+// pages
+import Login from './pages/Login'
+import Cadastro from './pages/Cadastro'
+import CadastroNota from './components/CadastroNota'
+import EsqueceuSenha from './components/EsqueceuSenha'
+import Notas from './pages/Notas'
 
-// Importação dos arquivos CSS
+// floating dark mode button
+import ThemeToggle from './components/ThemeToggle'
+
+// theme variables (must be imported first)
+import './style/Theme.css'
+
+// page styles
+import './style/Cadastro.css'
 import './style/CadastroNota.css'
 import './style/Login.css'
 import './style/esqueceu-senha.css'
+import './style/Nota.css'
+import './style/Notas.css'
+
+// restore saved theme
+const savedTheme = localStorage.getItem('theme')
+if (savedTheme === 'dark') {
+  document.body.classList.add('dark')
+}
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <HashRouter>
+      
+      {/* floating button visible on all pages */}
+      <ThemeToggle />
+
+      {/* app routes */}
       <Routes>
         <Route index element={<Login />} />
         <Route path="/cadastro" element={<Cadastro />} />
@@ -23,6 +44,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/esqueceu-senha" element={<EsqueceuSenha />} />
         <Route path="/notas" element={<Notas />} />
       </Routes>
+
     </HashRouter>
   </StrictMode>
 )

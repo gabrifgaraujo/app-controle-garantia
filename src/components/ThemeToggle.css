@@ -1,0 +1,31 @@
+.theme-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+
+  width: 52px;
+  height: 52px;
+
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  z-index: 9999;
+
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+  transition: 0.2s;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.05);
+}
+
+.theme-toggle img {
+  width: 24px;
+  height: 24px;
+}

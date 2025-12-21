@@ -7,13 +7,13 @@
 
 body {
   margin: 0;
-  background: #faf7ff;
+  background: var(--bg-page);
   font-size: 14px;
-  color: #1f1f1f;
+  color: var(--text-primary);
 }
 
 .Confirmação {
-  background: #fff;
+  background: var(--bg-card);
   padding: 24px;
   border-radius: 18px;
   max-width: 550px;
@@ -31,13 +31,13 @@ body {
 .cartao {
   width: 100%;
   max-width: 1200px;
-  background: white;
+  background: var(--bg-card);
   border-radius: 18px;
   padding: 18px;
 }
 
 .voltar {
-  color: #7a2ff5;
+  color: var(--primary-light);
   text-decoration: none;
   font-weight: 500;
   display: inline-block;
@@ -60,8 +60,12 @@ body {
 .icone {
   width: 40px;
   height: 40px;
-  background: linear-gradient(135deg, #ede4ff, #f6f1ff);
-  color: #7a2ff5;
+  background: linear-gradient(
+    135deg,
+    rgba(167, 139, 250, 0.2),
+    rgba(196, 181, 253, 0.15)
+  );
+  color: var(--primary-light);
   border-radius: 14px;
   display: flex;
   align-items: center;
@@ -71,14 +75,14 @@ body {
 
 .titulo {
   margin: 0;
-  color: #7a2ff5;
+  color: var(--primary-light);
   font-size: 18px;
   font-weight: 700;
 }
 
 .subtitulo {
   margin: 4px 0 0;
-  color: #999;
+  color: var(--text-muted);
   font-size: 12px;
 }
 
@@ -86,9 +90,9 @@ body {
   display: grid;
   gap: 14px;
   grid-template-columns: 1fr;
-  /* Base mobile */
 }
 
+/* Campos */
 .campo {
   display: flex;
   flex-direction: column;
@@ -103,7 +107,7 @@ body {
 }
 
 label {
-  color: #7a2ff5;
+  color: var(--primary-light);
   font-weight: 600;
   font-size: 13px;
 }
@@ -113,15 +117,22 @@ select,
 textarea {
   width: 100%;
   box-sizing: border-box;
-  background: #f8f6ff;
-  border: none;
+  background: var(--bg-input);
+  border: 1px solid var(--border-default);
   border-radius: 12px;
   padding: 12px;
   font-size: 14px;
+  color: var(--text-primary);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-muted);
 }
 
 option {
-  width: 100%;
+  background: var(--bg-card);
+  color: var(--text-primary);
 }
 
 textarea {
@@ -129,12 +140,12 @@ textarea {
 }
 
 .input-erro {
-  border: 1px solid #f44336;
+  border: 1px solid var(--danger);
   outline: none;
 }
 
 .erro-texto {
-  color: #f44336;
+  color: var(--danger);
   font-size: 13px;
   margin-top: 4px;
   display: block;
@@ -149,7 +160,7 @@ textarea {
 }
 
 .texto-upload {
-  color: #494444;
+  color: var(--text-secondary);
   font-size: 13px;
 }
 
@@ -168,20 +179,21 @@ textarea {
   width: 100px;
   height: auto;
   border-radius: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-default);
 }
 
 .preview-documento {
   padding: 6px 12px;
-  background: #eee;
+  background: var(--bg-muted);
   border-radius: 6px;
   font-weight: bold;
   font-size: 13px;
+  color: var(--text-primary);
 }
 
 .preview-abrir {
   padding: 6px 12px;
-  background: #6b21a8;
+  background: var(--primary);
   color: #fff;
   border-radius: 6px;
   text-decoration: none;
@@ -195,13 +207,13 @@ textarea {
 
 .preview-remover {
   cursor: pointer;
-  color: #f44336;
+  color: var(--danger);
   font-weight: bold;
   font-size: 18px;
 }
 
 .obrigatorio {
-  color: #f44336;
+  color: var(--danger);
 }
 
 /* Botões */
@@ -227,29 +239,28 @@ textarea {
 }
 
 .button.small.purple {
-  background: #ede4ff;
-  color: #6b21a8;
-  border: 1px dashed #6b21a8;
+  background: transparent;
+  color: var(--primary);
+  border: 1px dashed var(--primary);
 }
 
 .button.purple {
-  background: #6b21a8;
+  background: var(--primary);
   color: #fff;
 }
 
 .button.outline {
-  color: #6b21a8;
-  background: #e6d9d9;
+  color: var(--primary);
+  background: var(--bg-muted);
 }
 
-/* Botões finais do formulário lado a lado */
+/* Botões finais */
 .acoes-formulario {
   display: flex;
   justify-content: flex-end;
   gap: 14px;
   margin-top: 20px;
   flex-wrap: wrap;
-  /* Responsivo */
 }
 
 .acoes-formulario .button {
@@ -257,7 +268,7 @@ textarea {
   max-width: 200px;
 }
 
-/* SweetAlert2 custom */
+/* SweetAlert2 */
 .swal2-actions {
   display: flex !important;
   justify-content: flex-end;
@@ -266,32 +277,30 @@ textarea {
 }
 
 .swal2-styled.swal2-confirm {
-  background-color: #6b21a8 !important;
+  background-color: var(--primary) !important;
   color: #fff !important;
   flex: 1;
 }
 
 .swal2-styled.swal2-cancel {
-  background-color: #e6d9d9 !important;
-  color: #6b21a8 !important;
+  background-color: var(--bg-muted) !important;
+  color: var(--primary) !important;
   flex: 1;
 }
 
-/* Grid para telas médias e grandes */
+/* Grid telas médias e grandes */
 @media (min-width: 768px) {
   .formulario {
     grid-template-columns: repeat(4, 1fr);
     gap: 16px;
   }
 
-  /* Campos que ocupam 4 colunas */
   .campo.tipo-nota,
   .campo.observacoes,
   .campo.anexar-nota {
     grid-column: span 4;
   }
 
-  /* Campos que ocupam 1 coluna */
   .campo.duracaoGarantia,
   .campo.produto,
   .campo.loja,
