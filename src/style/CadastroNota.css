@@ -92,7 +92,6 @@ body {
   grid-template-columns: 1fr;
 }
 
-/* Campos */
 .campo {
   display: flex;
   flex-direction: column;
@@ -216,7 +215,6 @@ textarea {
   color: var(--danger);
 }
 
-/* Botões */
 .button {
   padding: 12px;
   border-radius: 12px;

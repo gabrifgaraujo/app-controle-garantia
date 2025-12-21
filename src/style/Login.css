@@ -55,7 +55,6 @@
     margin-bottom: 2rem;
 }
 
-/* FORM */
 .login-form {
     display: flex;
     flex-direction: column;
@@ -82,7 +81,6 @@
     box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.25)
 }
 
-/* Campo senha */
 .campo-senha {
     position: relative;
 }
@@ -101,7 +99,6 @@
     cursor: pointer;
 }
 
-/* Erro */
 .erro-texto {
     display: block;
     width: 100%;
@@ -112,7 +109,6 @@
     animation: fadeError 0.3s ease;
 }
 
-/* Botão */
 .botao-login {
     width: 100%;
     background: var(--primary);
@@ -131,7 +127,6 @@
     box-shadow: 0px 5px 15px rgba(124, 58, 237, 0.25);
 }
 
-/* Links */
 .links {
     margin-top: 1.3rem;
 }

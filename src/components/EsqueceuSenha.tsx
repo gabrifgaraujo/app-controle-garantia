@@ -1,18 +1,12 @@
-//React e hook de estado
 import React, { useState } from "react";
-//Navegação entre rotas
 import { Link, useNavigate } from "react-router-dom";
-//Estilos específicos do componente
 import "../style/esqueceu-senha.css";
 
 const EsqueceuSenha: React.FC = () => {
   //Permite redirecionar o usuário via código
   const navigate = useNavigate();
 
-  /*
-  Usuário ficticio para simular a verificação do email.
-  Em uma aplicação real, essa verificação seria feita via API.
-  */
+  //Usuário ficticio para simular a verificação do email.
   const usuarioMockado = {
     email: "user@gmail.com",
   };

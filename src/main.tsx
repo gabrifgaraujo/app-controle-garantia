@@ -11,8 +11,6 @@ import Notas from './pages/Notas'
 
 // floating dark mode button
 import ThemeToggle from './components/ThemeToggle'
-
-// theme variables (must be imported first)
 import './style/Theme.css'
 
 // page styles
@@ -23,7 +21,6 @@ import './style/esqueceu-senha.css'
 import './style/Nota.css'
 import './style/Notas.css'
 
-// restore saved theme
 const savedTheme = localStorage.getItem('theme')
 if (savedTheme === 'dark') {
   document.body.classList.add('dark')

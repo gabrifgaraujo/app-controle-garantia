@@ -1,12 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-/* reset básico */
 * {
   box-sizing: border-box;
   font-family: "Inter", sans-serif;
 }
 
-/* página */
 .pagina-notas {
   display: flex;
   justify-content: center;
@@ -15,7 +13,6 @@
   background: var(--bg-page);
 }
 
-/* cartão */
 .cartao-nota {
   width: 100%;
   max-width: 440px;
@@ -27,7 +24,6 @@
   animation: fadeIn 0.3s ease;
 }
 
-/* cabeçalho */
 .cabecalho-nota {
   display: flex;
   gap: 14px;
@@ -74,7 +70,6 @@
   gap: 4px;
 }
 
-/* status */
 .status-badge {
   color: white;
   padding: 4px 10px;
@@ -93,7 +88,6 @@
   background-color: var(--danger);
 }
 
-/* ações do card */
 .acoes-nota {
   display: flex;
   justify-content: flex-start;
@@ -116,7 +110,6 @@
   color: white;
 }
 
-/* modal */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -187,7 +180,6 @@
   text-decoration: underline;
 }
 
-/* ações do modal (editar / deletar) */
 .acoes-modal {
   display: flex;
   gap: 12px;

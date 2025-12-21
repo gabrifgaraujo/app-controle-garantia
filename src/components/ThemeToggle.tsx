@@ -1,4 +1,4 @@
-import './ThemeToggle.css'
+import '../style/ThemeToggle.css'
 import darkModeIcon from '../assets/dark-mode.png'
 
 const ThemeToggle = () => {

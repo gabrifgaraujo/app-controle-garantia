@@ -163,9 +163,7 @@ const CadastroNota: React.FC = () => {
         <Link to="/notas" className="voltar">← Voltar</Link>
 
         <div className="cabecalho">
-          <div className="icone">
-            <img src="../assets/paper.png" alt="" />
-          </div>
+          <div className="icone">📄</div>
           <div>
             <h1 className="titulo">
               {modoEdicao ? "Editar Nota Fiscal" : "Cadastro de Nota Fiscal"}

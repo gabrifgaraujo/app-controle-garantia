@@ -41,7 +41,7 @@ const Notas = () => {
       setNotas(listaNotas);
     }
 
-    // pequeno delay pra UX (opcional, mas recomendado)
+    // pequeno delay pra UX
     setTimeout(() => {
       setLoading(false);
     }, 400);

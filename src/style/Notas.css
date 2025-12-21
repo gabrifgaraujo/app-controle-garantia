@@ -8,7 +8,6 @@
   min-height: 100vh;
 }
 
-/* TOPO */
 .topo-notas {
   width: 100%;
   max-width: 900px;
@@ -40,7 +39,6 @@
   transform: translateY(-2px);
 }
 
-/* CABEÇALHO */
 .cabecalho-lista {
   width: 100%;
   max-width: 900px;
@@ -93,7 +91,6 @@
   color: var(--text-muted);
 }
 
-/* NOTIFICAÇÃO */
 .icone-notificacao {
   position: relative;
 }
@@ -126,7 +123,6 @@
   grid-template-columns: 1fr;
 }
 
-/* MODAL */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -184,7 +180,6 @@
   margin-bottom: 12px;
 }
 
-/* ITENS */
 .item-notificacao {
   display: flex;
   justify-content: space-between;
@@ -225,7 +220,6 @@
   color: var(--primary);
 }
 
-/* SPINNER */
 .spinner-container {
   display: flex;
   flex-direction: column;
