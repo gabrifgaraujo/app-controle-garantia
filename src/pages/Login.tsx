@@ -4,16 +4,11 @@ import "../style/Login.css";
 import olhoAberto from "../assets/olho-aberto.png";
 import olhoFechado from "../assets/olho-fechado.png";
 
-// user structure
 interface Usuario {
+  nome: string;
   email: string;
   senha: string;
 }
-
-// fake users
-const usuariosCadastrados: Usuario[] = [
-  { email: "user@gmail.com", senha: "123456789" },
-];
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -23,17 +18,15 @@ const Login: React.FC = () => {
   const [erro, setErro] = useState("");
   const [mostrarSenha, setMostrarSenha] = useState(false);
 
-  const validarEmail = (email: string) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  };
-
-  const toggleSenha = () => {
-    setMostrarSenha(!mostrarSenha);
-  };
+  const toggleSenha = () => setMostrarSenha(!mostrarSenha);
 
   const limparErro = () => {
     if (erro) setErro("");
+  };
+
+  const validarEmail = (email: string) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
   };
 
   const handleLogin = (e: React.FormEvent) => {
@@ -49,14 +42,18 @@ const Login: React.FC = () => {
       return;
     }
 
-    const usuarioEncontrado = usuariosCadastrados.find(
-      (u) => u.email === email && u.senha === senha
+    const usuarios: Usuario[] = JSON.parse(localStorage.getItem("usuarios") || "[]");
+
+    const usuarioEncontrado = usuarios.find(
+      (u) => u.email === email.toLowerCase() && u.senha === senha
     );
 
     if (!usuarioEncontrado) {
       setErro("Usuário não cadastrado ou senha incorreta.");
       return;
     }
+
+    localStorage.setItem("usuarioLogado", JSON.stringify(usuarioEncontrado));
 
     setErro("");
     navigate("/notas");

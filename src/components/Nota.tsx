@@ -73,21 +73,14 @@ const Nota = ({
       showCancelButton: true,
       confirmButtonText: "Deletar",
       cancelButtonText: "Cancelar",
-      customClass: {
-        popup: "modal-content-responsive",
-      },
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log("Nota deletada:", id);
         setModalAberto(false);
 
         Swal.fire({
           icon: "success",
           title: "Nota deletada!",
           confirmButtonText: "OK",
-          customClass: {
-            popup: "modal-content-responsive",
-          },
         });
       }
     });
@@ -107,12 +100,24 @@ const Nota = ({
     );
   };
 
+  const getStatusClass = () => {
+    if (statusGarantia === "Expirada") return "status-expirada";
+    if (statusGarantia === "A Expirar") return "status-proxima";
+    return "status-ativa";
+  };
+
   return (
     <>
       <div className="cartao-nota">
         <section className="cabecalho-nota">
-          <div className="icone-nota">
-            <IoShieldCheckmarkOutline />
+          <div className="cabecalho-topo">
+            <div className="icone-nota">
+              <IoShieldCheckmarkOutline />
+            </div>
+
+            <div className={`status-badge ${getStatusClass()}`}>
+              {statusGarantia}
+            </div>
           </div>
 
           <article className="info-principal-nota">
@@ -120,19 +125,10 @@ const Nota = ({
             <p className="sub-nota">{descricao}</p>
 
             <p className="data-garantia">
-              <CiCalendarDate /> {dataCompra} | Garantia: {duracaoGarantia} meses
+              <CiCalendarDate />
+              {dataCompra} | Garantia: {duracaoGarantia} meses
             </p>
           </article>
-
-          <div
-            className={`status-badge ${
-              statusGarantia === "Expirada"
-                ? "status-expirada"
-                : "status-ativa"
-            }`}
-          >
-            {statusGarantia}
-          </div>
         </section>
 
         <div className="acoes-nota">
@@ -194,7 +190,6 @@ const Nota = ({
               <button className="btn-editar" onClick={editarNota}>
                 Editar
               </button>
-
               <button className="btn-deletar" onClick={deletarNota}>
                 Deletar
               </button>

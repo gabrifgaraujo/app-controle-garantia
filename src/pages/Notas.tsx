@@ -1,246 +1,137 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
+import MenuLateral from "../components/MenuLateral";
 import Nota, { type NotaProps } from "../components/Nota";
 import "../style/Notas.css";
-import { IoNotificationsOutline } from "react-icons/io5";
-import { AiOutlineCheck, AiOutlineCheckCircle } from "react-icons/ai";
+import { AiOutlineFileText, AiOutlineCheckCircle, AiOutlineClockCircle, AiOutlineCloseCircle, AiOutlineFilter } from "react-icons/ai";
 
-// Tipagem das notificações
-type Notificacao = {
-  id: string;
-  produto: string;
-  dataCompra: string;
-  duracaoGarantia: string;
-  tipo: "Expirada" | "Próxima de Expirar";
-  lida: boolean;
-};
+type StatusGarantia = "Ativa" | "A Expirar" | "Expirada";
 
 const Notas = () => {
   const [busca, setBusca] = useState("");
-  const [modalNotificacoes, setModalNotificacoes] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [notas, setNotas] = useState<NotaProps[]>([]);
-  const [notificacoes, setNotificacoes] = useState<Notificacao[]>([]);
-  const navigate = useNavigate();
+  const [filtrosSelecionados, setFiltrosSelecionados] = useState<StatusGarantia[]>([]);
+  const [abrirDropdown, setAbrirDropdown] = useState(false);
 
-  // Bloquear scroll com modal aberto
   useEffect(() => {
-    if (typeof document !== "undefined") {
-      document.body.style.overflow = modalNotificacoes ? "hidden" : "auto";
-    }
-  }, [modalNotificacoes]);
-
-  // Carrega notas do localStorage
-  useEffect(() => {
-    setLoading(true);
-
     const notasSalvas = localStorage.getItem("notas");
-    if (notasSalvas) {
-      const listaNotas: NotaProps[] = JSON.parse(notasSalvas);
-      setNotas(listaNotas);
-    }
-
-    // pequeno delay pra UX
-    setTimeout(() => {
-      setLoading(false);
-    }, 400);
+    if (notasSalvas) setNotas(JSON.parse(notasSalvas));
   }, []);
 
-
-  // Calcula status da garantia
-  const calcularStatusGarantia = (dataCompra: string, duracaoGarantia: string) => {
-    if (!dataCompra || !duracaoGarantia) return "Ativa";
-
+  const calcularStatusGarantia = (dataCompra: string, duracaoGarantia: string): StatusGarantia => {
     const [dia, mes, ano] = dataCompra.split("/");
     const dataCompraObj = new Date(`${ano}-${mes}-${dia}`);
     const meses = parseInt(duracaoGarantia, 10);
     const dataExp = new Date(dataCompraObj);
     dataExp.setMonth(dataExp.getMonth() + meses);
+    const hoje = new Date();
+    const diasRestantes = (dataExp.getTime() - hoje.getTime()) / (1000 * 60 * 60 * 24);
 
-    return new Date() > dataExp ? "Expirada" : "Ativa";
+    if (diasRestantes < 0) return "Expirada";
+    if (diasRestantes <= 30) return "A Expirar";
+    return "Ativa";
   };
 
-  // Gera notificações com base nas notas
-  useEffect(() => {
-    setLoading(true);
+  const estatisticas = {
+    total: notas.length,
+    ativas: notas.filter(nota => {
+      const status = calcularStatusGarantia(nota.dataCompra, nota.duracaoGarantia);
+      return status === "Ativa" || status === "A Expirar";
+    }).length,
+    proximasExpirar: notas.filter(nota => calcularStatusGarantia(nota.dataCompra, nota.duracaoGarantia) === "A Expirar").length,
+    expiradas: notas.filter(nota => calcularStatusGarantia(nota.dataCompra, nota.duracaoGarantia) === "Expirada").length
+  };
 
-    const hoje = new Date();
-    const novasNotificacoes = notas
-      .map((nota) => {
-        const [dia, mes, ano] = nota.dataCompra.split("/");
-        const dataCompraObj = new Date(`${ano}-${mes}-${dia}`);
-        const meses = parseInt(nota.duracaoGarantia, 10);
-        const dataExp = new Date(dataCompraObj);
-        dataExp.setMonth(dataExp.getMonth() + meses);
-
-        const diasRestantes =
-          (dataExp.getTime() - hoje.getTime()) / (1000 * 60 * 60 * 24);
-
-        let tipo: Notificacao["tipo"] | "" = "";
-
-        if (diasRestantes < 0) tipo = "Expirada";
-        else if (diasRestantes <= 30) tipo = "Próxima de Expirar";
-
-        if (!tipo) return null;
-
-        return {
-          id: nota.numeroNota,
-          produto: nota.produto,
-          dataCompra: nota.dataCompra,
-          duracaoGarantia: nota.duracaoGarantia,
-          tipo,
-          lida: false,
-        };
-      })
-      .filter((n): n is Notificacao => n !== null);
-
-    setNotificacoes(novasNotificacoes);
-
-    setTimeout(() => {
-      setLoading(false);
-    }, 300);
-  }, [notas]);
-
-
-  // Filtra notas com base na busca
-  const notasFiltradas = notas.filter((nota) =>
-    nota.produto.toLowerCase().includes(busca.toLowerCase())
-  );
-
-  // Marca uma notificação como lida/não lida
-  const marcarComoLida = (index: number) => {
-    setNotificacoes((prev) =>
-      prev.map((n, i) => (i === index ? { ...n, lida: !n.lida } : n))
+  const toggleFiltro = (status: StatusGarantia) => {
+    setFiltrosSelecionados(prev =>
+      prev.includes(status) ? prev.filter(s => s !== status) : [...prev, status]
     );
   };
 
-  // Marca todas as notificações como lidas
-  const marcarTodasComoLidas = () => {
-    setNotificacoes((prev) => prev.map((n) => ({ ...n, lida: true })));
+  const toggleTodos = () => {
+    if (filtrosSelecionados.length === 3) setFiltrosSelecionados([]);
+    else setFiltrosSelecionados(["Ativa", "A Expirar", "Expirada"]);
   };
 
-  const handleSair = () => {
-    Swal.fire({
-      title: "Deseja realmente sair da sua conta?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Sim, sair",
-      cancelButtonText: "Cancelar",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        localStorage.removeItem("token");
-        navigate("/");
-      }
-    });
-  };
+  const aplicarFiltro = () => setAbrirDropdown(false);
+
+  const notasFiltradas = notas.filter(nota => {
+    const matchBusca = nota.produto.toLowerCase().includes(busca.toLowerCase());
+    const status = calcularStatusGarantia(nota.dataCompra, nota.duracaoGarantia);
+
+    if (filtrosSelecionados.length === 0) return matchBusca;
+
+    if (filtrosSelecionados.includes("Ativa") && status === "Ativa") return matchBusca;
+    if (filtrosSelecionados.includes("A Expirar") && status === "A Expirar") return matchBusca;
+    if (filtrosSelecionados.includes("Expirada") && status === "Expirada") return matchBusca;
+    if (filtrosSelecionados.includes("Ativa") && status === "A Expirar") return matchBusca;
+
+    return false;
+  });
 
   return (
-    <div className="pagina-lista">
-      <header className="topo-notas">
-        <h1 className="logo-app">Controle de Garantias</h1>
-        <button className="btn-sair" onClick={handleSair}>Sair</button>
-      </header>
+    <MenuLateral currentPage="Visualizar Notas">
+      <div className="pagina-lista">
 
-      <section className="cabecalho-lista">
-        <h2>Minhas Notas Fiscais</h2>
-        <p>Veja todas as notas fiscais cadastradas abaixo.</p>
+        <header className="cabecalho-pagina">
+          <div className="cabecalho-texto">
+            <h1>Notas Fiscais</h1>
+            <p>Gerencie e acompanhe todas as suas notas fiscais cadastradas</p>
+          </div>
+          <Link to="/cadastro-nota" className="btn-nova-nota">+ Nova Nota Fiscal</Link>
+        </header>
 
-        <div className="cabecalho-controles">
-          <Link to="/cadastro-nota" className="btn-nova-nota">
-            + Nova Nota Fiscal
-          </Link>
+        <div className="estatisticas-grid">
+          <div className="card-estatistica card-total"><div className="card-icone"><AiOutlineFileText /></div><div className="card-info"><span className="card-label">Total</span><span className="card-valor">{estatisticas.total}</span></div></div>
+          <div className="card-estatistica card-ativas"><div className="card-icone"><AiOutlineCheckCircle /></div><div className="card-info"><span className="card-label">Ativas</span><span className="card-valor">{estatisticas.ativas}</span></div></div>
+          <div className="card-estatistica card-proximas"><div className="card-icone"><AiOutlineClockCircle /></div><div className="card-info"><span className="card-label">A Expirar</span><span className="card-valor">{estatisticas.proximasExpirar}</span></div></div>
+          <div className="card-estatistica card-expiradas"><div className="card-icone"><AiOutlineCloseCircle /></div><div className="card-info"><span className="card-label">Expiradas</span><span className="card-valor">{estatisticas.expiradas}</span></div></div>
+        </div>
 
-          <input
-            type="text"
-            placeholder="Buscar nota..."
-            value={busca}
-            onChange={(e) => setBusca(e.target.value)}
-            className="input-busca"
-          />
-
-          <div className="icone-notificacao">
-            <button
-              className="btn-notificacao"
-              onClick={() => setModalNotificacoes(true)}
-            >
-              <IoNotificationsOutline />
+        <div className="secao-filtros">
+          <div className="filtro-dropdown">
+            <button className="btn-icone-filtro" onClick={() => setAbrirDropdown(!abrirDropdown)}>
+              <AiOutlineFilter /> Filtrar por status
             </button>
 
-            {notificacoes.some((n) => !n.lida) && (
-              <span className="notificacao-alerta"></span>
+            {abrirDropdown && (
+              <div className="opcoes-filtro-card">
+                <label className="filtro-item">
+                  <input type="checkbox" checked={filtrosSelecionados.length === 3} onChange={toggleTodos} /> Todas
+                </label>
+                {["Ativa", "A Expirar", "Expirada"].map(status => (
+                  <label key={status} className="filtro-item">
+                    <input type="checkbox" checked={filtrosSelecionados.includes(status as StatusGarantia)} onChange={() => toggleFiltro(status as StatusGarantia)} />
+                    {status}
+                  </label>
+                ))}
+                <button className="btn-aplicar-filtro" onClick={aplicarFiltro}>Aplicar</button>
+              </div>
             )}
           </div>
+
+          <input type="text" className="input-busca" placeholder="Buscar por produto..." value={busca} onChange={e => setBusca(e.target.value)} />
         </div>
-      </section>
 
-      <div className="container-notas">
-        {loading ? (
-          <div className="spinner-container">
-            <div className="spinner"></div>
-            <p>Carregando notas...</p>
-          </div>
-        ) : notasFiltradas.length > 0 ? (
-          notasFiltradas.map((nota, index) => {
-            const statusGarantia = calcularStatusGarantia(
-              nota.dataCompra,
-              nota.duracaoGarantia
-            );
-
-            const duracaoExibicao = `${nota.duracaoGarantia}`;
-
-            return (
-              <Nota
-                key={index}
-                {...nota}
-                statusGarantia={statusGarantia}
-                duracaoGarantia={duracaoExibicao}
-              />
-            );
-          })
-        ) : (
-          <p className="sem-notas">Não há notas fiscais cadastradas</p>
-        )}
-      </div>
-
-
-      {modalNotificacoes && (
-        <div className="modal-overlay" onClick={() => setModalNotificacoes(false)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="btn-fechar" onClick={() => setModalNotificacoes(false)}>×</button>
-            <h2 className="modal-titulo">Notificações</h2>
-            <p className="modal-subtitulo">Notas próximas de expirar ou expiradas</p>
-
-            <button className="btn-marcar-todas" onClick={marcarTodasComoLidas}>
-              <AiOutlineCheckCircle /> Marcar todas
-            </button>
-
-            <div className="info-modal">
-              {notificacoes.length === 0 && <p>Nenhuma notificação</p>}
-
-              {notificacoes.map((nota, index) => (
-                <div key={index} className={`item-notificacao ${nota.lida ? "lida" : "nao-lida"}`}>
-                  <div>
-                    <p>
-                      <strong>{nota.produto}</strong> –{" "}
-                      <span className={`tipo-notificacao ${nota.tipo === "Expirada" ? "expirada" : "proxima"}`}>
-                        {nota.tipo}
-                      </span>
-                    </p>
-                    <p className="info-nota">
-                      Compra: {nota.dataCompra} | Garantia: {nota.duracaoGarantia} meses
-                    </p>
-                  </div>
-                  <button className="btn-lida" onClick={() => marcarComoLida(index)}>
-                    <AiOutlineCheck />
-                  </button>
-                </div>
-              ))}
+        <div className="container-notas">
+          {notasFiltradas.length === 0 && (
+            <div className="sem-notas">
+              <div className="icone-vazio"><AiOutlineFileText /></div>
+              <p>Nenhuma nota encontrada</p>
+              <span>Adicione novas notas ou ajuste os filtros</span>
             </div>
-          </div>
+          )}
+
+          {notasFiltradas.map((nota, index) => (
+            <Nota
+              key={index}
+              {...nota}
+              statusGarantia={calcularStatusGarantia(nota.dataCompra, nota.duracaoGarantia)}
+            />
+          ))}
         </div>
-      )}
-    </div>
+      </div>
+    </MenuLateral>
   );
 };
 
