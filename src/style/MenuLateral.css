@@ -302,6 +302,7 @@
 
 .logout-modal h3 {
     font-size: 1.15rem;
+    text-align: center;
     font-weight: 600;
     color: #0f172a;
     margin-bottom: 0.4rem;
@@ -309,6 +310,7 @@
 
 .logout-modal p {
     font-size: 0.95rem;
+    text-align: center;
     line-height: 1.5;
     color: #475569;
     margin-bottom: 1.6rem;
@@ -316,7 +318,7 @@
 
 .logout-actions {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     gap: 0.75rem;
 }
 
