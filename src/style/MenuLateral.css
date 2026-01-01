@@ -133,7 +133,6 @@
 
 .sidebar-logo img {
     width: 100px;
-    object-fit: contain;
 }
 
 .avatar-image {
@@ -417,11 +416,11 @@ body.dark .notification-header h3 {
 }
 
 body.dark .notification-item strong {
-    color: #f8fafc;
+    color: black;
 }
 
 body.dark .notification-item small {
-    color: #94a3b8;
+    color: black;
 }
 
 body.dark .logout-modal {

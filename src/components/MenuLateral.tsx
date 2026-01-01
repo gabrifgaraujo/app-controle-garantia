@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import logo from '../assets/aponti_marca_horizontal.png';
 import {
     FileText,
     User,
@@ -172,7 +173,7 @@ export default function MenuLateral({
                     </button>
 
                     <div className="sidebar-logo">
-                        <img src="/logo.png" alt="Logo" />
+                        <img src={logo} alt="Logo" />
                     </div>
                 </div>
             </aside>

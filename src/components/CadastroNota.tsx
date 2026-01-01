@@ -41,9 +41,32 @@ const CadastroNota: React.FC = () => {
   const [arquivo, setArquivo] = useState<string | null>(notaEdicao?.arquivo || null);
   const [erros, setErros] = useState<{ [key: string]: string }>({});
 
+  const formatarData = (valor: string) => {
+    valor = valor.replace(/\D/g, "");
+    if (valor.length > 2) valor = valor.slice(0,2) + "/" + valor.slice(2);
+    if (valor.length > 5) valor = valor.slice(0,5) + "/" + valor.slice(5,7);
+    return valor;
+  };
+
+  const formatarValor = (valor: string) => {
+    let numeros = valor.replace(/\D/g, "");
+    if(!numeros) return "";
+    let numero = parseInt(numeros, 10);
+    let valorFormatado = (numero / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+    return valorFormatado;
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    let valorFinal = value;
+
+    if (name === "dataCompra") {
+      valorFinal = formatarData(value);
+    } else if (name === "valor") {
+      valorFinal = formatarValor(value);
+    }
+
+    setFormData(prev => ({ ...prev, [name]: valorFinal }));
     setErros(prev => ({ ...prev, [name]: "" }));
   };
 
@@ -120,7 +143,7 @@ const CadastroNota: React.FC = () => {
 
     if (result.isConfirmed) {
       const novaNota: NotaProps = {
-        id: modoEdicao ? notaEdicao.id : crypto.randomUUID(), // id único
+        id: modoEdicao ? notaEdicao.id : crypto.randomUUID(),
         ...formData,
         observacoes,
         arquivo
