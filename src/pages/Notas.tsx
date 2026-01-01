@@ -12,6 +12,12 @@ const Notas = () => {
   const [notas, setNotas] = useState<NotaProps[]>([]);
   const [filtrosSelecionados, setFiltrosSelecionados] = useState<StatusGarantia[]>([]);
   const [abrirDropdown, setAbrirDropdown] = useState(false);
+  const [usuarioLogado, setUsuarioLogado] = useState({ nome: "", email: "", avatar: null as string | null });
+
+  useEffect(() => {
+    const usuario = localStorage.getItem("usuarioLogado");
+    if (usuario) setUsuarioLogado(JSON.parse(usuario));
+  }, []);
 
   useEffect(() => {
     const notasSalvas = localStorage.getItem("notas");
@@ -70,7 +76,12 @@ const Notas = () => {
   });
 
   return (
-    <MenuLateral currentPage="Visualizar Notas">
+    <MenuLateral
+      currentPage="Visualizar Notas"
+      nome={usuarioLogado.nome}
+      email={usuarioLogado.email}
+      avatar={usuarioLogado.avatar}
+    >
       <div className="pagina-lista">
 
         <header className="cabecalho-pagina">
