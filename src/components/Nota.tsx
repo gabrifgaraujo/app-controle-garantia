@@ -75,12 +75,23 @@ const Nota = ({
       cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
+        const notasSalvas = localStorage.getItem("notas");
+        const notas = notasSalvas ? JSON.parse(notasSalvas) : [];
+
+        const novasNotas = notas.filter(
+          (nota: NotaProps) => nota.id !== id
+        );
+
+        localStorage.setItem("notas", JSON.stringify(novasNotas));
+
         setModalAberto(false);
 
         Swal.fire({
           icon: "success",
           title: "Nota deletada!",
           confirmButtonText: "OK",
+        }).then(() => {
+          window.location.reload();
         });
       }
     });
