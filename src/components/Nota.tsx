@@ -66,6 +66,7 @@ const Nota = ({
   };
 
   const deletarNota = () => {
+    setModalAberto(false);
     Swal.fire({
       title: "Excluir nota?",
       text: "Essa ação não pode ser desfeita.",
