@@ -15,6 +15,9 @@ import '../style/MenuLateral.css';
 interface LayoutProps {
     children: React.ReactNode;
     currentPage?: string;
+    nome: string;
+    email: string;
+    avatar?: string | null;
 }
 
 type Notificacao = {
@@ -25,31 +28,18 @@ type Notificacao = {
     lida: boolean;
 };
 
-type UsuarioLogado = {
-    nome: string;
-    email: string;
-    avatar?: string | null;
-};
-
-export default function MenuLateral({ children, currentPage = 'Início' }: LayoutProps) {
+export default function MenuLateral({
+    children,
+    currentPage = 'Início',
+    nome,
+    email,
+    avatar
+}: LayoutProps) {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
-    const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false); // ✅ ADICIONADO
+    const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
     const [notificacoes, setNotificacoes] = useState<Notificacao[]>([]);
-    const [userData, setUserData] = useState<UsuarioLogado>({
-        nome: '',
-        email: '',
-        avatar: null
-    });
-
     const navigate = useNavigate();
-
-    useEffect(() => {
-        const usuarioLogado = localStorage.getItem("usuarioLogado");
-        if (usuarioLogado) {
-            setUserData(JSON.parse(usuarioLogado));
-        }
-    }, []);
 
     useEffect(() => {
         const notasSalvas = localStorage.getItem("notas");
@@ -130,15 +120,15 @@ export default function MenuLateral({ children, currentPage = 'Início' }: Layou
 
                 <div className="user-section" onClick={() => navigateTo('Perfil')}>
                     <div className="user-avatar">
-                        {userData.avatar ? (
-                            <img src={userData.avatar} alt="Avatar" className="avatar-image" />
+                        {avatar ? (
+                            <img src={avatar} alt="Avatar" className="avatar-image" />
                         ) : (
-                            userData.nome.split(' ').map(n => n[0]).join('').slice(0, 2)
+                            nome.split(' ').map(n => n[0]).join('').slice(0, 2)
                         )}
                     </div>
                     <div className="user-info">
-                        <h3>{userData.nome}</h3>
-                        <p>{userData.email}</p>
+                        <h3>{nome}</h3>
+                        <p>{email}</p>
                     </div>
                 </div>
 

@@ -112,6 +112,12 @@
     padding: 2rem;
 }
 
+.error-text {
+    color: #dc2626;
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+}
+
 .section-title {
     font-size: 1.5rem;
     font-weight: 600;
@@ -388,6 +394,10 @@ body.dark .modal {
 body.dark .modal-title,
 body.dark .modal-text {
     color: #e5e7eb;
+}
+
+body.dark .edit-name-input {
+    color: white;
 }
 
 body.dark .modal-cancel {

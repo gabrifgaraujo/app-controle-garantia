@@ -22,6 +22,14 @@ type ProfileData = {
     avatar?: string | null;
 };
 
+type Errors = {
+    nome?: string;
+    email?: string;
+    telefone?: string;
+    cpf?: string;
+    cnpj?: string;
+};
+
 export default function Perfil() {
     const navigate = useNavigate();
 
@@ -40,6 +48,7 @@ export default function Perfil() {
     });
 
     const [editData, setEditData] = useState<ProfileData>({ ...profileData });
+    const [errors, setErrors] = useState<Errors>({});
 
     useEffect(() => {
         const usuarioLogado = localStorage.getItem('usuarioLogado');
@@ -69,15 +78,47 @@ export default function Perfil() {
         reader.readAsDataURL(file);
     };
 
+    const validateFields = (): boolean => {
+        const newErrors: Errors = {};
+
+        if (!editData.nome.trim()) {
+            newErrors.nome = 'Nome é obrigatório.';
+        }
+
+        if (!editData.email.trim()) {
+            newErrors.email = 'Email é obrigatório.';
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(editData.email)) {
+            newErrors.email = 'Email inválido.';
+        }
+
+        if (!editData.telefone.trim()) {
+            newErrors.telefone = 'Telefone é obrigatório.';
+        } else if (!/^\d{10,11}$/.test(editData.telefone.replace(/\D/g, ''))) {
+            newErrors.telefone = 'Telefone deve ter 10 ou 11 dígitos.';
+        }
+
+        if (!editData.cpf.trim()) {
+            newErrors.cpf = 'CPF é obrigatório.';
+        } else if (!/^\d{11}$/.test(editData.cpf.replace(/\D/g, ''))) {
+            newErrors.cpf = 'CPF deve ter 11 dígitos.';
+        }
+
+        if (editData.cnpj && editData.cnpj.trim() && !/^\d{14}$/.test(editData.cnpj.replace(/\D/g, ''))) {
+            newErrors.cnpj = 'CNPJ deve ter 14 dígitos.';
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
     const handleSave = () => {
+        if (!validateFields()) return;
+
         setProfileData(editData);
         localStorage.setItem('usuarioLogado', JSON.stringify(editData));
 
         const usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
-        const index = usuarios.findIndex(
-            (u: any) => u.email === profileData.email
-        );
-
+        const index = usuarios.findIndex((u: any) => u.email === profileData.email);
         if (index !== -1) {
             usuarios[index] = { ...usuarios[index], ...editData };
             localStorage.setItem('usuarios', JSON.stringify(usuarios));
@@ -88,6 +129,7 @@ export default function Perfil() {
 
     const handleCancel = () => {
         setEditData({ ...profileData });
+        setErrors({});
         setIsEditing(false);
     };
 
@@ -104,7 +146,12 @@ export default function Perfil() {
     };
 
     return (
-        <MenuLateral currentPage="Perfil">
+        <MenuLateral
+            currentPage="Perfil"
+            nome={profileData.nome}
+            email={profileData.email}
+            avatar={profileData.avatar}
+        >
             <div className="profile-container">
                 <div className="profile-card">
                     <div className="profile-header">
@@ -140,17 +187,18 @@ export default function Perfil() {
 
                         <div className="profile-main-info">
                             {isEditing ? (
-                                <input
-                                    type="text"
-                                    name="nome"
-                                    value={editData.nome}
-                                    onChange={handleInputChange}
-                                    className="edit-name-input"
-                                />
+                                <>
+                                    <input
+                                        type="text"
+                                        name="nome"
+                                        value={editData.nome}
+                                        onChange={handleInputChange}
+                                        className="edit-name-input"
+                                    />
+                                    {errors.nome && <p className="error-text">{errors.nome}</p>}
+                                </>
                             ) : (
-                                <h1 className="profile-name">
-                                    {profileData.nome}
-                                </h1>
+                                <h1 className="profile-name">{profileData.nome}</h1>
                             )}
                         </div>
                     </div>
@@ -164,48 +212,61 @@ export default function Perfil() {
                         <div className="info-grid">
                             <div className="info-field">
                                 <label className="field-label">
-                                    Email
+                                    Email <span className='error-text'>*</span>
                                 </label>
                                 {isEditing ? (
-                                    <input
-                                        type="email"
-                                        name="email"
-                                        value={editData.email}
-                                        onChange={handleInputChange}
-                                        className="field-input"
-                                    />
+                                    <>
+                                        <input
+                                            type="email"
+                                            name="email"
+                                            value={editData.email}
+                                            onChange={handleInputChange}
+                                            className="field-input"
+                                        />
+                                        {errors.email && <p className="error-text">{errors.email}</p>}
+                                    </>
                                 ) : (
-                                    <p className="field-value">
-                                        {profileData.email}
-                                    </p>
+                                    <p className="field-value">{profileData.email}</p>
                                 )}
                             </div>
 
                             <div className="info-field">
                                 <label className="field-label">
-                                    CPF
+                                    CPF <span className='error-text'>*</span>
                                 </label>
-                                <p className="field-value">
-                                    {profileData.cpf}
-                                </p>
+                                {isEditing ? (
+                                    <>
+                                        <input
+                                            type="text"
+                                            name="cpf"
+                                            value={editData.cpf}
+                                            onChange={handleInputChange}
+                                            className="field-input"
+                                        />
+                                        {errors.cpf && <p className="error-text">{errors.cpf}</p>}
+                                    </>
+                                ) : (
+                                    <p className="field-value">{profileData.cpf}</p>
+                                )}
                             </div>
 
                             <div className="info-field">
                                 <label className="field-label">
-                                    Telefone
+                                    Telefone <span className='error-text'>*</span>
                                 </label>
                                 {isEditing ? (
-                                    <input
-                                        type="tel"
-                                        name="telefone"
-                                        value={editData.telefone}
-                                        onChange={handleInputChange}
-                                        className="field-input"
-                                    />
+                                    <>
+                                        <input
+                                            type="tel"
+                                            name="telefone"
+                                            value={editData.telefone}
+                                            onChange={handleInputChange}
+                                            className="field-input"
+                                        />
+                                        {errors.telefone && <p className="error-text">{errors.telefone}</p>}
+                                    </>
                                 ) : (
-                                    <p className="field-value">
-                                        {profileData.telefone}
-                                    </p>
+                                    <p className="field-value">{profileData.telefone}</p>
                                 )}
                             </div>
                         </div>
@@ -229,9 +290,7 @@ export default function Perfil() {
                                         className="field-input"
                                     />
                                 ) : (
-                                    <p className="field-value">
-                                        {profileData.empresa || '-'}
-                                    </p>
+                                    <p className="field-value">{profileData.empresa || '-'}</p>
                                 )}
                             </div>
 
@@ -240,17 +299,18 @@ export default function Perfil() {
                                     CNPJ
                                 </label>
                                 {isEditing ? (
-                                    <input
-                                        type="text"
-                                        name="cnpj"
-                                        value={editData.cnpj}
-                                        onChange={handleInputChange}
-                                        className="field-input"
-                                    />
+                                    <>
+                                        <input
+                                            type="text"
+                                            name="cnpj"
+                                            value={editData.cnpj}
+                                            onChange={handleInputChange}
+                                            className="field-input"
+                                        />
+                                        {errors.cnpj && <p className="error-text">{errors.cnpj}</p>}
+                                    </>
                                 ) : (
-                                    <p className="field-value">
-                                        {profileData.cnpj || '-'}
-                                    </p>
+                                    <p className="field-value">{profileData.cnpj || '-'}</p>
                                 )}
                             </div>
 
@@ -267,26 +327,18 @@ export default function Perfil() {
                                         className="field-input"
                                     />
                                 ) : (
-                                    <p className="field-value">
-                                        {profileData.endereco || '-'}
-                                    </p>
+                                    <p className="field-value">{profileData.endereco || '-'}</p>
                                 )}
                             </div>
                         </div>
 
                         {isEditing && (
                             <div className="action-buttons">
-                                <button
-                                    onClick={handleCancel}
-                                    className="cancel-button"
-                                >
+                                <button onClick={handleCancel} className="cancel-button">
                                     <X className="button-icon" />
                                     Cancelar
                                 </button>
-                                <button
-                                    onClick={handleSave}
-                                    className="save-button"
-                                >
+                                <button onClick={handleSave} className="save-button">
                                     <Save className="button-icon" />
                                     Salvar Alterações
                                 </button>
@@ -295,10 +347,7 @@ export default function Perfil() {
 
                         {!isEditing && (
                             <div className="profile-header-buttons">
-                                <button
-                                    onClick={() => setIsEditing(true)}
-                                    className="edit-button"
-                                >
+                                <button onClick={() => setIsEditing(true)} className="edit-button">
                                     Editar Perfil
                                 </button>
 
@@ -318,9 +367,7 @@ export default function Perfil() {
             {showDeleteModal && (
                 <div className="modal-overlay">
                     <div className="modal danger">
-                        <h3 className="modal-title">
-                            Deletar conta
-                        </h3>
+                        <h3 className="modal-title">Deletar conta</h3>
                         <p className="modal-text">
                             Tem certeza que deseja deletar sua conta?
                             <br />
