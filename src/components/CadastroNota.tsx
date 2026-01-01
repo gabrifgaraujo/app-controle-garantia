@@ -41,30 +41,31 @@ const CadastroNota: React.FC = () => {
   const [arquivo, setArquivo] = useState<string | null>(notaEdicao?.arquivo || null);
   const [erros, setErros] = useState<{ [key: string]: string }>({});
 
+  // Formata data dd/mm/yyyy sem preencher ano automaticamente
   const formatarData = (valor: string) => {
-    valor = valor.replace(/\D/g, "");
-    if (valor.length > 2) valor = valor.slice(0,2) + "/" + valor.slice(2);
-    if (valor.length > 5) valor = valor.slice(0,5) + "/" + valor.slice(5,7);
+    valor = valor.replace(/\D/g, ""); // remove tudo que não for número
+    if (valor.length > 8) valor = valor.slice(0, 8); // limita ddmmaaaa
+
+    if (valor.length > 2) valor = valor.slice(0, 2) + "/" + valor.slice(2);
+    if (valor.length > 5) valor = valor.slice(0, 5) + "/" + valor.slice(5);
+
     return valor;
   };
 
+  // Formata valor em moeda BRL
   const formatarValor = (valor: string) => {
     let numeros = valor.replace(/\D/g, "");
-    if(!numeros) return "";
+    if (!numeros) return "";
     let numero = parseInt(numeros, 10);
-    let valorFormatado = (numero / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-    return valorFormatado;
+    return (numero / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     let valorFinal = value;
 
-    if (name === "dataCompra") {
-      valorFinal = formatarData(value);
-    } else if (name === "valor") {
-      valorFinal = formatarValor(value);
-    }
+    if (name === "dataCompra") valorFinal = formatarData(value);
+    else if (name === "valor") valorFinal = formatarValor(value);
 
     setFormData(prev => ({ ...prev, [name]: valorFinal }));
     setErros(prev => ({ ...prev, [name]: "" }));
@@ -90,18 +91,27 @@ const CadastroNota: React.FC = () => {
     e.preventDefault();
     const novosErros: { [key: string]: string } = {};
 
+    // Campos obrigatórios
     Object.entries(formData).forEach(([key, value]) => {
       if (!value && key !== "tempoGarantiaEstendida") {
         novosErros[key] = "Campo obrigatório";
       }
     });
 
+    // Garantia estendida
     if (formData.garantiaEstendida === "Sim" && !formData.tempoGarantiaEstendida) {
       novosErros["tempoGarantiaEstendida"] = "Campo obrigatório";
     }
 
-    if (!arquivo) {
-      novosErros["arquivo"] = "Campo obrigatório";
+    // Arquivo
+    if (!arquivo) novosErros["arquivo"] = "Campo obrigatório";
+
+    // Validação da data: dd/mm/yyyy com 4 dígitos no ano
+    if (formData.dataCompra) {
+      const partes = formData.dataCompra.split("/");
+      if (partes.length !== 3 || partes[2].length !== 4) {
+        novosErros["dataCompra"] = "Ano deve ter 4 dígitos";
+      }
     }
 
     setErros(novosErros);
@@ -117,8 +127,7 @@ const CadastroNota: React.FC = () => {
         <p><strong>Garantia Estendida:</strong> ${formData.garantiaEstendida}</p>
         ${formData.garantiaEstendida === "Sim"
         ? `<p><strong>Tempo Garantia Estendida:</strong> ${formData.tempoGarantiaEstendida} meses</p>`
-        : ""
-      }
+        : ""}
         <p><strong>Número da Nota:</strong> ${formData.numeroNota}</p>
         <p><strong>Valor:</strong> ${formData.valor}</p>
         <p><strong>Observações:</strong> ${observacoes || "-"}</p>
@@ -263,7 +272,7 @@ const CadastroNota: React.FC = () => {
               type="text"
               value={formData.dataCompra}
               onChange={handleChange}
-              placeholder="Ex: 15/12/25"
+              placeholder="Ex: 15/12/2024"
               className={erroClass("dataCompra")}
             />
             {erros.dataCompra && <span className="erro-texto">{erros.dataCompra}</span>}

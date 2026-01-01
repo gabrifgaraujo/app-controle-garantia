@@ -243,17 +243,6 @@ body {
     animation: fadeUp 0.3s ease;
 }
 
-.btn-fechar {
-    position: absolute;
-    top: 10px;
-    right: 14px;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: var(--text-secondary);
-}
-
 .modal-titulo {
     color: var(--primary);
     margin-bottom: 0.5rem;
@@ -264,8 +253,9 @@ body {
     margin-bottom: 1.5rem;
 }
 
-.btn-editar {
+.btn-ok {
     background-color: var(--primary);
+    width: 30%;
     color: #fff;
     border: none;
     padding: 0.7rem 1.2rem;

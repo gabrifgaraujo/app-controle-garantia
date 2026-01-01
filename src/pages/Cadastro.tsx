@@ -283,16 +283,12 @@ const Cadastro: React.FC = () => {
             className="modal-content"
             onClick={(e) => e.stopPropagation()}
           >
-            <button className="btn-fechar" onClick={fecharModal}>
-              ×
-            </button>
-
             <h2 className="modal-titulo">Cadastro realizado!</h2>
             <p className="modal-subtitulo">
               Sua conta foi criada com sucesso.
             </p>
 
-            <button className="btn-editar" onClick={fecharModal}>
+            <button className="btn-ok" onClick={fecharModal}>
               OK
             </button>
           </div>

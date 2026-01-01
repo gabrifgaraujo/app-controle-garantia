@@ -4,8 +4,7 @@ import {
     Building2,
     Camera,
     Save,
-    X,
-    Trash2
+    X
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import '../style/Perfil.css';
@@ -355,7 +354,6 @@ export default function Perfil() {
                                     onClick={() => setShowDeleteModal(true)}
                                     className="delete-account-button"
                                 >
-                                    <Trash2 size={16} />
                                     Deletar Conta
                                 </button>
                             </div>
