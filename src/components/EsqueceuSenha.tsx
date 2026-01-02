@@ -12,6 +12,7 @@ const EsqueceuSenha: React.FC = () => {
   const [modalErro, setModalErro] = useState(false);
   const [modalSucesso, setModalSucesso] = useState(false);
 
+  // @ts-ignore
   const validar = () => {
     let valido = true;
 
