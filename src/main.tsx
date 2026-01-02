@@ -8,6 +8,7 @@ import CadastroNota from './components/CadastroNota'
 import EsqueceuSenha from './components/EsqueceuSenha'
 import Notas from './pages/Notas'
 import Perfil from './pages/Perfil'
+import AlterarSenha from './pages/AlterarSenha'
 
 // floating dark mode button
 import ThemeToggle from './components/ThemeToggle'
@@ -19,6 +20,8 @@ import './style/Login.css'
 import './style/esqueceu-senha.css'
 import './style/Nota.css'
 import './style/Notas.css'
+import './style/Perfil.css'
+import './style/AlterarSenha.css'
 
 const savedTheme = localStorage.getItem('theme')
 if (savedTheme === 'dark') {
@@ -39,6 +42,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/esqueceu-senha" element={<EsqueceuSenha />} />
         <Route path="/notas" element={<Notas />} />
         <Route path="/perfil" element={<Perfil />} />
+        <Route path="/alterar-senha" element={<AlterarSenha />} />
       </Routes>
 
     </HashRouter>

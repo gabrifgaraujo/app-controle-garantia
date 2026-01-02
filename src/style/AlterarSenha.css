@@ -1,0 +1,127 @@
+.alterar-senha-container {
+  min-height: 80vh;
+  background: linear-gradient(135deg, #f3e7ff 0%, #e9d5ff 100%);
+  padding: 3rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.alterar-senha-card {
+  width: 100%;
+  max-width: 480px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(139, 92, 246, 0.1);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.alterar-senha-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1f2937;
+  text-align: center;
+}
+
+.alterar-senha-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.field-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #4b5563;
+}
+
+.field-input {
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  border: 2px solid #e5e7eb;
+  font-size: 1rem;
+  outline: none;
+  background: #faf5ff;
+  color: #1f2937;
+  width: 100%;
+}
+
+.field-input:focus {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.25);
+}
+
+.error-text {
+  color: #dc2626;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.save-button {
+  flex: 1;
+  background: #8b5cf6;
+  color: white;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+  transition: all 0.3s ease;
+}
+
+.save-button:hover {
+  background: #7c3aed;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
+}
+
+/* DARK MODE */
+body.dark .alterar-senha-container {
+  background: linear-gradient(135deg, #0f0f14 0%, #181825 100%);
+}
+
+body.dark .alterar-senha-card {
+  background: #141414;
+}
+
+body.dark .alterar-senha-title {
+  color: #f3f4f6;
+}
+
+body.dark .field-label {
+  color: #9ca3af;
+}
+
+body.dark .field-input {
+  background: #1f1f1f;
+  color: #f3f4f6;
+  border-color: #2a2a2a;
+}
+
+body.dark .field-input:focus {
+  border-color: #9966ff;
+  box-shadow: 0 0 0 2px rgba(153, 102, 255, 0.25);
+}
+
+body.dark .save-button {
+  background: #8b5cf6;
+  color: white;
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+  .alterar-senha-container {
+    padding: 1rem;
+    align-items: center;
+  }
+}
