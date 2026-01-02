@@ -133,16 +133,22 @@ export default function Perfil() {
     };
 
     const confirmDeleteAccount = () => {
+        const email = profileData.email;
+
         const usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
         const usuariosAtualizados = usuarios.filter(
-            (u: any) => u.email !== profileData.email
+            (u: any) => u.email !== email
         );
-
         localStorage.setItem('usuarios', JSON.stringify(usuariosAtualizados));
+
+        const chaveNotas = `notas_${email}`;
+        localStorage.removeItem(chaveNotas);
+
         localStorage.removeItem('usuarioLogado');
 
         navigate('/');
     };
+
 
     return (
         <MenuLateral

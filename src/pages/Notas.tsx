@@ -20,9 +20,16 @@ const Notas = () => {
   }, []);
 
   useEffect(() => {
-    const notasSalvas = localStorage.getItem("notas");
+    const usuario = localStorage.getItem("usuarioLogado");
+    if (!usuario) return;
+
+    const usuarioLogado = JSON.parse(usuario);
+    const storageKey = `notas_${usuarioLogado.email}`;
+
+    const notasSalvas = localStorage.getItem(storageKey);
     if (notasSalvas) setNotas(JSON.parse(notasSalvas));
   }, []);
+
 
   const calcularStatusGarantia = (dataCompra: string, duracaoGarantia: string): StatusGarantia => {
     const [dia, mes, ano] = dataCompra.split("/");

@@ -76,14 +76,22 @@ const Nota = ({
       cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
-        const notasSalvas = localStorage.getItem("notas");
+        const usuarioLogado = JSON.parse(
+          localStorage.getItem("usuarioLogado") || "null"
+        );
+
+        if (!usuarioLogado?.email) return;
+
+        const chaveNotas = `notas_${usuarioLogado.email}`;
+
+        const notasSalvas = localStorage.getItem(chaveNotas);
         const notas = notasSalvas ? JSON.parse(notasSalvas) : [];
 
         const novasNotas = notas.filter(
           (nota: NotaProps) => nota.id !== id
         );
 
-        localStorage.setItem("notas", JSON.stringify(novasNotas));
+        localStorage.setItem(chaveNotas, JSON.stringify(novasNotas));
 
         setModalAberto(false);
 

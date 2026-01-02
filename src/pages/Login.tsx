@@ -104,7 +104,21 @@ const Login: React.FC = () => {
           <div className="links">
             <Link to="/esqueceu-senha">Esqueceu a senha?</Link>
             <Link to="/cadastro">Não tem uma conta? Cadastre-se</Link>
-            <Link to="/notas">Entrar como visitante</Link>
+            <Link
+              to="/notas"
+              onClick={() => {
+                const visitante = {
+                  nome: "Visitante",
+                  email: "visitante@local",
+                  senha: ""
+                };
+
+                localStorage.setItem("usuarioLogado", JSON.stringify(visitante));
+              }}
+            >
+              Entrar como visitante
+            </Link>
+
           </div>
         </div>
       </div>

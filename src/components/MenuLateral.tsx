@@ -43,17 +43,33 @@ export default function MenuLateral({
     const navigate = useNavigate();
 
     useEffect(() => {
-        const notasSalvas = localStorage.getItem("notas");
-        if (!notasSalvas) return;
+        const usuario = localStorage.getItem("usuarioLogado");
+        if (!usuario) return;
+
+        const usuarioLogado = JSON.parse(usuario);
+        const storageKey = `notas_${usuarioLogado.email}`;
+
+        const notasSalvas = localStorage.getItem(storageKey);
+        if (!notasSalvas) {
+            setNotificacoes([]);
+            return;
+        }
 
         const listaNotas = JSON.parse(notasSalvas);
         const hoje = new Date();
 
         const novasNotificacoes = listaNotas
             .map((nota: any) => {
+                if (!nota.dataCompra || !nota.duracaoGarantia) return null;
+
                 const [dia, mes, ano] = nota.dataCompra.split("/");
+                if (!dia || !mes || !ano) return null;
+
                 const dataCompraObj = new Date(`${ano}-${mes}-${dia}`);
                 const meses = parseInt(nota.duracaoGarantia, 10);
+
+                if (isNaN(meses)) return null;
+
                 const dataExp = new Date(dataCompraObj);
                 dataExp.setMonth(dataExp.getMonth() + meses);
 

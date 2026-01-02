@@ -41,10 +41,9 @@ const CadastroNota: React.FC = () => {
   const [arquivo, setArquivo] = useState<string | null>(notaEdicao?.arquivo || null);
   const [erros, setErros] = useState<{ [key: string]: string }>({});
 
-  // Formata data dd/mm/yyyy sem preencher ano automaticamente
   const formatarData = (valor: string) => {
-    valor = valor.replace(/\D/g, ""); // remove tudo que não for número
-    if (valor.length > 8) valor = valor.slice(0, 8); // limita ddmmaaaa
+    valor = valor.replace(/\D/g, ""); 
+    if (valor.length > 8) valor = valor.slice(0, 8);
 
     if (valor.length > 2) valor = valor.slice(0, 2) + "/" + valor.slice(2);
     if (valor.length > 5) valor = valor.slice(0, 5) + "/" + valor.slice(5);
@@ -52,7 +51,6 @@ const CadastroNota: React.FC = () => {
     return valor;
   };
 
-  // Formata valor em moeda BRL
   const formatarValor = (valor: string) => {
     let numeros = valor.replace(/\D/g, "");
     if (!numeros) return "";
@@ -91,22 +89,18 @@ const CadastroNota: React.FC = () => {
     e.preventDefault();
     const novosErros: { [key: string]: string } = {};
 
-    // Campos obrigatórios
     Object.entries(formData).forEach(([key, value]) => {
       if (!value && key !== "tempoGarantiaEstendida") {
         novosErros[key] = "Campo obrigatório";
       }
     });
 
-    // Garantia estendida
     if (formData.garantiaEstendida === "Sim" && !formData.tempoGarantiaEstendida) {
       novosErros["tempoGarantiaEstendida"] = "Campo obrigatório";
     }
 
-    // Arquivo
     if (!arquivo) novosErros["arquivo"] = "Campo obrigatório";
 
-    // Validação da data: dd/mm/yyyy com 4 dígitos no ano
     if (formData.dataCompra) {
       const partes = formData.dataCompra.split("/");
       if (partes.length !== 3 || partes[2].length !== 4) {
@@ -158,7 +152,14 @@ const CadastroNota: React.FC = () => {
         arquivo
       };
 
-      const notasExistentes = localStorage.getItem("notas");
+      const usuario = localStorage.getItem("usuarioLogado");
+      const usuarioLogado = usuario ? JSON.parse(usuario) : null;
+
+      const storageKey = usuarioLogado?.email
+        ? `notas_${usuarioLogado.email}`
+        : "notas";
+
+      const notasExistentes = localStorage.getItem(storageKey);
       let notasArray: NotaProps[] = notasExistentes ? JSON.parse(notasExistentes) : [];
 
       if (modoEdicao) {
@@ -169,7 +170,7 @@ const CadastroNota: React.FC = () => {
         notasArray = [novaNota, ...notasArray];
       }
 
-      localStorage.setItem("notas", JSON.stringify(notasArray));
+      localStorage.setItem(storageKey, JSON.stringify(notasArray));
 
       await Swal.fire({
         icon: "success",
