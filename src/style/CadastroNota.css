@@ -98,7 +98,6 @@ body {
   gap: 6px;
 }
 
-/* Campos que ocupam toda largura */
 .campo.tipo-nota,
 .campo.observacoes,
 .campo.anexar-nota {
@@ -252,7 +251,6 @@ textarea {
   background: var(--bg-muted);
 }
 
-/* Botões finais */
 .acoes-formulario {
   display: flex;
   justify-content: flex-end;
@@ -284,6 +282,31 @@ textarea {
   background-color: var(--bg-muted) !important;
   color: var(--primary) !important;
   flex: 1;
+}
+
+/* Dark mode SweetAlert2 */
+body.dark .swal2-popup {
+  background: #121212 !important;
+  color: #fff !important;
+  border: 1px solid #333;
+}
+
+body.dark .swal2-title {
+  color: #fff !important;
+}
+
+body.dark .swal2-html-container {
+  color: #ddd !important;
+}
+
+body.dark .swal2-styled.swal2-confirm {
+  background-color: #7a2ff5 !important;
+  color: #fff !important;
+}
+
+body.dark .swal2-styled.swal2-cancel {
+  background-color: #333 !important;
+  color: #fff !important;
 }
 
 /* Grid telas médias e grandes */

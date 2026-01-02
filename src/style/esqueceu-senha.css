@@ -191,7 +191,7 @@ body {
 }
 
 .btn-cancelar-modal {
-    background: var(--bg-muted);
+    background: #D3D3D3;
     padding: 0.7rem 1.3rem;
     color: var(--text-primary);
     border: none;

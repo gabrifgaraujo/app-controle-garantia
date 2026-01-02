@@ -3,40 +3,29 @@ import { Link, useNavigate } from "react-router-dom";
 import "../style/esqueceu-senha.css";
 
 const EsqueceuSenha: React.FC = () => {
-  //Permite redirecionar o usuário via código
   const navigate = useNavigate();
 
-  //Usuário ficticio para simular a verificação do email.
-  const usuarioMockado = {
-    email: "user@gmail.com",
-  };
-
-  //Email digitado pelo usuário
   const [email, setEmail] = useState("");
-  //Mensagem de erro do campo email
+
   const [erroEmail, setErroEmail] = useState("");
 
-  //Controle de modais
   const [modalErro, setModalErro] = useState(false);
   const [modalSucesso, setModalSucesso] = useState(false);
 
   const validar = () => {
     let valido = true;
 
-    //Validação do email
     if (!email.trim()) {
       setErroEmail("Por favor, preencha o e-mail.");
       valido = false;
     } else {
 
-      //Regex simples para validar formato de email
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email)) {
         setErroEmail("Digite um e-mail válido.");
         valido = false;
       } else {
 
-        //Limpa erro se estiver válido
         setErroEmail("");
       }
     }
@@ -47,23 +36,24 @@ const EsqueceuSenha: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    //Interrompe se a validação falhar
-    if (!validar()) return;
+    const usuarios = JSON.parse(localStorage.getItem("usuarios") || "[]");
 
-    //Verifica se o email existe (simulado)
-    if (email !== usuarioMockado.email) {
+    const usuarioExiste = usuarios.some(
+      (u: any) => u.email.toLowerCase() === email.toLowerCase()
+    );
+
+    if (!usuarioExiste) {
       setModalErro(true);
     } else {
       setModalSucesso(true);
     }
+
   };
 
-  //Fecha modal de erro
   const fecharModalErro = () => {
     setModalErro(false);
   };
 
-  //Fecha modal de sucesso e redireciona para o login
   const fecharModalSucesso = () => {
     setModalSucesso(false);
     navigate("/");
