@@ -16,6 +16,7 @@ body {
     display: flex;
     width: 100%;
     min-height: 100vh;
+    overflow: hidden;
 }
 
 /* Imagem lateral */
@@ -25,6 +26,15 @@ body {
     background-size: 50rem;
     background-position: center;
     background-repeat: no-repeat;
+    position: relative;
+}
+
+.side-image-cadastro::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.1) 0%, rgba(107, 33, 168, 0.05) 100%);
+    pointer-events: none;
 }
 
 /* Lado direito */
@@ -40,19 +50,20 @@ body {
 /* Card */
 .cadastro-card {
     width: 100%;
-    max-width: 640px;
+    max-width: 680px;
     background: var(--bg-card);
     padding: 3rem 2.5rem;
-    border-radius: 1rem;
-    box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.08);
+    border-radius: 1.25rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
     text-align: center;
-    animation: fadeUp 0.6s ease;
+    animation: fadeUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid var(--border-default);
 }
 
 @keyframes fadeUp {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(30px);
     }
     to {
         opacity: 1;
@@ -62,27 +73,32 @@ body {
 
 /* Títulos */
 .cadastro-card h2 {
-    font-size: 2rem;
+    font-size: 1.85rem;
     font-weight: 700;
     color: var(--primary);
     margin-bottom: 0.5rem;
+    line-height: 1.3;
 }
 
 .cadastro-card > p {
     color: var(--primary-light);
     margin-bottom: 2rem;
+    font-size: 0.95rem;
+    font-weight: 500;
 }
 
 /* Inputs */
-.cadastro-card input {
+.cadastro-card input[type="text"],
+.cadastro-card input[type="email"],
+.cadastro-card input[type="password"] {
     width: 100%;
-    padding: 0.9rem 1rem;
-    margin-bottom: 1rem;
-    border-radius: 0.5rem;
-    border: 1px solid var(--border-default);
+    padding: 0.9rem 1.1rem;
+    margin-bottom: 1.25rem;
+    border-radius: 0.625rem;
+    border: 1.5px solid var(--border-default);
     outline: none;
-    font-size: 1rem;
-    transition: 0.2s;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
     background: var(--bg-input);
     color: var(--text-primary);
 }
@@ -93,8 +109,11 @@ body {
 
 .cadastro-card input:focus {
     border-color: var(--primary);
-    border: 1px solid transparent;
-    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.25);
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+}
+
+.cadastro-card input:hover:not(:focus) {
+    border-color: rgba(124, 58, 237, 0.3);
 }
 
 /* Botão */
@@ -102,34 +121,46 @@ body {
     width: 100%;
     background-color: var(--primary);
     color: white;
-    padding: 0.9rem;
+    padding: 0.95rem;
     font-size: 1rem;
     border: none;
-    border-radius: 0.5rem;
+    border-radius: 0.625rem;
     cursor: pointer;
     font-weight: 600;
-    transition: 0.2s;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
 }
 
 .cadastro-card button:hover {
     background-color: var(--primary-light);
-    box-shadow: 0 8px 20px rgba(124, 58, 237, 0.3);
+    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.3);
+    transform: translateY(-2px);
+}
+
+.cadastro-card button:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
 }
 
 /* Links */
 .cadastro-card .links {
-    margin: 1.3rem 0;
+    margin: 1.75rem 0;
     text-align: center;
 }
 
 .cadastro-card .links a {
     color: var(--primary);
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+    font-weight: 500;
     text-decoration: none;
+    transition: all 0.2s ease;
+    display: inline-block;
+    padding: 0.25rem;
 }
 
 .cadastro-card .links a:hover {
     text-decoration: underline;
+    color: var(--primary-light);
 }
 
 /* Campo de senha */
@@ -138,21 +169,22 @@ body {
 }
 
 .cadastro-card input.pr-10 {
-    padding-right: 2.6rem;
+    padding-right: 2.8rem;
 }
 
 .olho-senha {
-    width: 26px;
-    height: 26px;
+    width: 22px;
+    height: 22px;
     filter: brightness(0) saturate(100%)
             invert(20%) sepia(90%)
             saturate(600%) hue-rotate(260deg);
-    opacity: 0.8;
+    opacity: 0.7;
     position: absolute;
     right: 14px;
     top: 40%;
     transform: translateY(-50%);
     cursor: pointer;
+    transition: opacity 0.2s ease;
 }
 
 .olho-senha:hover {
@@ -166,30 +198,54 @@ body {
     text-align: left;
     color: var(--danger);
     font-size: 0.85rem;
-    margin-top: -0.6rem;
-    margin-bottom: 0.8rem;
+    margin-top: -1rem;
+    margin-bottom: 1rem;
     font-weight: 500;
+    padding: 0.5rem 0.75rem;
+    background: rgba(239, 68, 68, 0.08);
+    border-radius: 0.5rem;
+    border-left: 3px solid var(--danger);
+    animation: fadeError 0.3s ease;
+}
+
+@keyframes fadeError {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 /* Termos LGPD */
 .termos {
-    margin-top: 18px;
-    padding: 14px 16px;
-    border-radius: 10px;
-    border: 1px solid var(--border-default);
+    margin-top: 1.5rem;
+    padding: 1rem 1.25rem;
+    border-radius: 0.75rem;
+    border: 1.5px solid var(--border-default);
     text-align: left;
+    background: var(--bg-input);
+    transition: border-color 0.2s ease;
+}
+
+.termos:hover {
+    border-color: rgba(124, 58, 237, 0.3);
 }
 
 .termos-aceite {
     display: flex;
     align-items: flex-start;
-    gap: 10px;
-    margin-bottom: 8px;
+    gap: 12px;
+    margin-bottom: 10px;
 }
 
-.termos-aceite input {
+.termos-aceite input[type="checkbox"] {
     width: 18px;
     height: 18px;
+    min-width: 18px;
+    margin: 0;
     margin-top: 3px;
     accent-color: var(--primary);
     cursor: pointer;
@@ -197,72 +253,118 @@ body {
 
 .termos-aceite label {
     font-size: 0.9rem;
-    line-height: 1.45;
+    line-height: 1.5;
     color: var(--text-secondary);
+    cursor: pointer;
 }
 
 .termos a {
     color: var(--primary);
     font-weight: 600;
     text-decoration: none;
+    transition: color 0.2s ease;
 }
 
 .termos a:hover {
     text-decoration: underline;
+    color: var(--primary-light);
 }
 
 .LGPD-aviso {
-    font-size: 0.7rem;
-    line-height: 1.35;
+    font-size: 0.8rem;
+    line-height: 1.45;
     color: var(--text-muted);
 }
 
 .criarConta {
-    margin-top: 20px;
+    margin-top: 1.5rem;
 }
 
 /* Modal */
 .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.45);
+    background: rgba(0, 0, 0, 0.5);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 1000;
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 .modal-content {
     background: var(--bg-card);
-    padding: 2.2rem;
-    border-radius: 12px;
-    max-width: 420px;
+    padding: 2.5rem;
+    border-radius: 1rem;
+    max-width: 440px;
     width: 90%;
     text-align: center;
     position: relative;
-    animation: fadeUp 0.3s ease;
+    animation: modalSlideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-default);
+}
+
+@keyframes modalSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 .modal-titulo {
     color: var(--primary);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.5rem;
+    font-weight: 700;
 }
 
 .modal-subtitulo {
     color: var(--text-secondary);
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
 }
 
 .btn-ok {
     background-color: var(--primary);
-    width: 30%;
+    min-width: 120px;
     color: #fff;
     border: none;
-    padding: 0.7rem 1.2rem;
-    border-radius: 6px;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
     cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
 }
 
+.btn-ok:hover {
+    background-color: var(--primary-light);
+    box-shadow: 0 6px 16px rgba(124, 58, 237, 0.35);
+    transform: translateY(-2px);
+}
+
+.btn-ok:active {
+    transform: translateY(0);
+}
+
+/* Responsivo */
 @media (max-width: 900px) {
     .side-image-cadastro {
         display: none;
@@ -278,8 +380,39 @@ body {
     }
 
     .cadastro-card {
-        padding: 2.2rem;
-        border-radius: 12px;
+        padding: 2.5rem 2rem;
+        border-radius: 1rem;
         max-width: 100%;
+    }
+
+    .cadastro-card h2 {
+        font-size: 1.65rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .cadastro-right {
+        padding: 1.5rem;
+    }
+
+    .cadastro-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .cadastro-card h2 {
+        font-size: 1.5rem;
+    }
+
+    .termos {
+        padding: 0.9rem 1rem;
+    }
+
+    .modal-content {
+        padding: 2rem 1.5rem;
+    }
+
+    .btn-ok {
+        width: 100%;
+        min-width: auto;
     }
 }
