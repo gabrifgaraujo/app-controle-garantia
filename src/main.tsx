@@ -10,7 +10,6 @@ import Notas from './pages/Notas'
 import Perfil from './pages/Perfil'
 import AlterarSenha from './pages/AlterarSenha'
 
-// floating dark mode button
 import ThemeToggle from './components/ThemeToggle'
 import './style/Theme.css'
 
@@ -32,7 +31,6 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <HashRouter>
       
-      {/* floating button visible on all pages */}
       <ThemeToggle />
 
       <Routes>

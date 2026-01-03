@@ -4,6 +4,11 @@
     box-sizing: border-box;
 }
 
+html,
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; /* Adicionado font stack padrão para consistência */
+}
+
 .layout-container {
     display: flex;
     min-height: 100vh;
@@ -22,6 +27,17 @@
     padding: 0.75rem;
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Adicionado transições suaves */
+}
+
+.mobile-menu-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
+}
+
+.mobile-menu-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.5); /* Adicionado focus state para acessibilidade */
 }
 
 .menu-icon {
@@ -40,6 +56,7 @@
     box-shadow: 2px 0 10px rgba(139, 92, 246, 0.1);
     z-index: 1000;
     overflow-y: auto;
+    transition: transform 0.3s ease; /* Adicionado transição para abertura/fechamento */
 }
 
 .close-sidebar-button {
@@ -50,6 +67,17 @@
     background: none;
     border: none;
     cursor: pointer;
+    color: #6b7280;
+    transition: color 0.2s ease;
+}
+
+.close-sidebar-button:hover {
+    color: #8b5cf6;
+}
+
+.close-sidebar-button:focus {
+    outline: none;
+    color: #8b5cf6;
 }
 
 .user-section {
@@ -57,6 +85,7 @@
     display: flex;
     gap: 1rem;
     cursor: pointer;
+    transition: background 0.2s ease;
 }
 
 .user-section:hover {
@@ -106,10 +135,17 @@
     width: 100%;
     cursor: pointer;
     color: #4b5563;
+    transition: background 0.2s ease, color 0.2s ease;
 }
 
 .nav-item:hover {
     background: #faf5ff;
+}
+
+.nav-item:focus {
+    outline: none;
+    background: #faf5ff;
+    color: #8b5cf6;
 }
 
 .nav-item-active {
@@ -154,6 +190,7 @@
     flex: 1;
     margin-left: 280px;
     padding: 2rem;
+    transition: margin-left 0.3s ease; /* Adicionado transição para ajuste de layout */
 }
 
 .notification-overlay {
@@ -161,6 +198,7 @@
     inset: 0;
     background: rgba(0, 0, 0, 0.45);
     z-index: 1500;
+    animation: overlayFade 0.2s ease-out;
 }
 
 .notification-popup {
@@ -177,6 +215,7 @@
     flex-direction: column;
     z-index: 1501;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    animation: modalScaleIn 0.25s ease-out;
 }
 
 .notification-header {
@@ -204,12 +243,17 @@
     padding: 0.35rem;
     cursor: pointer;
     color: #6b7280;
-    transition: 0.2s;
+    transition: color 0.2s ease, background 0.2s ease;
 }
 
 .notification-actions button:hover {
     color: #8b5cf6;
     background: #ede9fe;
+}
+
+.notification-actions button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3);
 }
 
 .notification-list {
@@ -226,6 +270,11 @@
     margin-bottom: 0.75rem;
     border-radius: 14px;
     border-left: 4px solid;
+    transition: transform 0.2s ease, opacity 0.2s ease; /* Adicionado transições suaves */
+}
+
+.notification-item:hover {
+    transform: translateY(-2px);
 }
 
 .notification-item strong {
@@ -272,12 +321,17 @@
     cursor: pointer;
     color: #8b5cf6;
     opacity: 0.7;
-    transition: 0.2s;
+    transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .mark-read-icon:hover {
     opacity: 1;
     transform: scale(1.1);
+}
+
+.mark-read-icon:focus {
+    outline: none;
+    opacity: 1;
 }
 
 .logout-overlay {
@@ -339,6 +393,11 @@
     transition: background 0.2s ease, transform 0.15s ease;
 }
 
+.logout-actions button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.5); /* Adicionado focus genérico, ajustável por botão */
+}
+
 .logout-cancel {
     background: #f1f5f9;
     color: #334155;
@@ -395,6 +454,11 @@ body.dark .nav-item:hover {
     background: rgba(139, 92, 246, 0.15);
 }
 
+body.dark .nav-item:focus {
+    background: rgba(139, 92, 246, 0.15);
+    color: #c4b5fd;
+}
+
 body.dark .nav-item-active {
     background: linear-gradient(
         90deg,
@@ -405,6 +469,7 @@ body.dark .nav-item-active {
 
 body.dark .notification-popup {
     background: #161610;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5); /* Ajustado shadow para dark mode */
 }
 
 body.dark .notification-header {
@@ -415,16 +480,55 @@ body.dark .notification-header h3 {
     color: #f8fafc;
 }
 
+body.dark .notification-actions button {
+    background: #1e293b;
+    color: #94a3b8;
+}
+
+body.dark .notification-actions button:hover {
+    background: #334155;
+    color: #c4b5fd;
+}
+
 body.dark .notification-item strong {
-    color: black;
+    color: #f8fafc; /* Ajustado para melhor contraste */
 }
 
 body.dark .notification-item small {
-    color: black;
+    color: #94a3b8; /* Ajustado para melhor contraste */
+}
+
+body.dark .notification-item {
+    background: #1e293b !important; /* Override para itens específicos em dark */
+}
+
+body.dark .notification-expirada {
+    background: #450a0a;
+    border-left-color: #ef4444;
+}
+
+body.dark .notification-expirada p {
+    color: #fecaca;
+}
+
+body.dark .notification-proxima {
+    background: #451a03;
+    border-left-color: #f59e0b;
+}
+
+body.dark .notification-proxima p {
+    color: #fde68a;
+}
+
+body.dark .mark-read-icon {
+    color: #a78bfa;
 }
 
 body.dark .logout-modal {
     background: #020617;
+    box-shadow:
+        0 20px 30px rgba(0, 0, 0, 0.6),
+        0 8px 12px rgba(0, 0, 0, 0.4);
 }
 
 body.dark .logout-modal h3 {
@@ -442,6 +546,18 @@ body.dark .logout-cancel {
 
 body.dark .logout-cancel:hover {
     background: #334155;
+}
+
+body.dark .logout-confirm {
+    background: #dc2626;
+}
+
+body.dark .logout-confirm:hover {
+    background: #ef4444; /* Ajustado hover para mais contraste */
+}
+
+body.dark .logout-actions button:focus {
+    box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.5);
 }
 
 
@@ -479,10 +595,33 @@ body.dark .logout-cancel:hover {
         margin-left: 0;
         padding: 5rem 1rem 1rem;
     }
+
+    .notification-popup {
+        width: 95%; /* Mais largo em mobile para melhor usabilidade */
+        max-width: none;
+    }
+
+    .logout-modal {
+        width: 95%;
+    }
 }
 
 @media (min-width: 769px) {
     .mobile-menu-button {
         display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .user-section {
+        padding: 1.5rem 1rem; /* Ajustado padding em telas muito pequenas */
+    }
+
+    .nav-item {
+        padding: 0.75rem 1rem;
+    }
+
+    .sidebar {
+        width: 240px; /* Reduz largura em mobile para caber melhor */
     }
 }

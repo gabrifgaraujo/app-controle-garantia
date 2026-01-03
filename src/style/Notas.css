@@ -7,6 +7,7 @@ body {
   width: 100%;
   max-width: 100%;
   overflow-x: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; /* Adicionado font stack padrão para consistência */
 }
 
 .pagina-lista {
@@ -14,11 +15,9 @@ body {
   max-width: 100%;
   margin: 0 auto;
   padding: 2rem;
-
   display: flex;
   flex-direction: column;
   gap: 2rem;
-
   overflow-x: hidden;
 }
 
@@ -51,12 +50,10 @@ body {
   font-weight: 600;
   font-size: 1rem;
   text-decoration: none;
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-
   transition: all 0.3s ease;
   box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
 }
@@ -66,9 +63,14 @@ body {
   box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
 }
 
+.btn-nova-nota:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.5); /* Adicionado focus state para acessibilidade */
+}
+
 .estatisticas-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); 
+  grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
   width: 100%;
   max-width: 100%;
@@ -78,11 +80,9 @@ body {
   background: white;
   border-radius: 16px;
   padding: 1.5rem;
-
   display: flex;
   align-items: center;
   gap: 1rem;
-
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   transition: all 0.3s ease;
   border: 1px solid #f3f4f6;
@@ -93,15 +93,17 @@ body {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
+.card-estatistica:focus-within {
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1); /* Adicionado focus para acessibilidade */
+}
+
 .card-icone {
   width: 56px;
   height: 56px;
   border-radius: 12px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   font-size: 1.75rem;
   flex-shrink: 0;
 }
@@ -147,11 +149,18 @@ body {
 
 .secao-filtros {
   display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
   align-items: center;
-
+  background: #f3e8ff; /* Lilás claro */
+  border-radius: 999px; /* Pill shape */
+  padding: 0.125rem 0.125rem 0.125rem 1rem; /* Padding assimétrico */
+  gap: 0.5rem;
   width: 100%;
+  max-width: 100%;
+  transition: box-shadow 0.2s ease; /* Adicionado transição sutil */
+}
+
+.secao-filtros:focus-within {
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3); /* Focus ring para a seção inteira */
 }
 
 .filtro-dropdown {
@@ -162,76 +171,106 @@ body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-
-  padding: 0.625rem 1rem;
-  border-radius: 8px;
-
-  background: white;
-  border: 1px solid #e5e7eb;
+  padding: 0.5rem 0.75rem 0.5rem 0; /* Ajustado padding direito para melhor espaçamento */
+  background: transparent;
+  border: none;
   cursor: pointer;
   font-weight: 600;
+  font-size: 1rem;
+  color: #1f2937;
+  white-space: nowrap;
+  transition: opacity 0.2s ease;
 }
 
 .btn-icone-filtro:hover {
-  background: #f3f4f6;
+  opacity: 0.8;
+}
+
+.btn-icone-filtro:focus {
+  outline: none;
+  opacity: 0.8; /* Focus similar ao hover */
 }
 
 .opcoes-filtro-card {
   position: absolute;
   top: 120%;
   left: 0;
-
   background: white;
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-
   padding: 1rem;
   width: 240px;
-
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-
   z-index: 20;
+  animation: fadeIn 0.2s ease-out; /* Adicionado animação suave de aparição */
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .filtro-item {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  color: #1f2937; /* Adicionado cor explícita para labels em light mode */
+  font-size: 1rem;
+  cursor: pointer; /* Melhora usabilidade */
 }
 
 .filtro-item input {
   width: 18px;
   height: 18px;
   accent-color: #7c3aed;
+  cursor: pointer;
+}
+
+.filtro-item:hover {
+  color: #7c3aed; /* Hover sutil nas labels */
 }
 
 .btn-aplicar-filtro {
   margin-top: 0.5rem;
   padding: 0.5rem;
-
   border: none;
   border-radius: 8px;
-
   background: #8b5cf6;
   color: white;
   font-weight: 600;
   cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-aplicar-filtro:hover {
+  background: #7c3aed;
+}
+
+.btn-aplicar-filtro:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.5);
 }
 
 .input-busca {
   flex: 1;
-  min-width: 250px;
-
-  padding: 0.875rem 1.25rem;
-  border-radius: 12px;
-
-  border: 1px solid #e5e7eb;
+  min-width: 0;
+  padding: 0.75rem 1.25rem;
+  border-radius: 999px;
+  border: none;
   font-size: 1rem;
-
   background: white;
   outline: none;
+  transition: box-shadow 0.2s ease;
+}
+
+.input-busca:focus {
+  box-shadow: inset 0 0 0 2px #8b5cf6; /* Adicionado focus ring interno */
+}
+
+.input-busca::placeholder {
+  color: #9ca3af; /* Ajustado para melhor visibilidade */
 }
 
 .container-notas {
@@ -242,16 +281,16 @@ body {
 
 .sem-notas {
   grid-column: 1 / -1;
-
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
   padding: 4rem 2rem;
   background: white;
   border-radius: 16px;
   border: 2px dashed #e5e7eb;
+  color: #6b7280; /* Adicionado cor para texto */
+  font-size: 1.125rem; /* Aumentado ligeiramente para melhor legibilidade */
 }
 
 /* DARK MODE */
@@ -271,6 +310,10 @@ body.dark .btn-nova-nota {
   box-shadow: 0 4px 14px rgba(124, 58, 237, 0.5);
 }
 
+body.dark .btn-nova-nota:focus {
+  box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.5); /* Ajustado para dark mode */
+}
+
 body.dark .card-estatistica {
   background: #141414;
   border-color: #262626;
@@ -279,6 +322,10 @@ body.dark .card-estatistica {
 
 body.dark .card-estatistica:hover {
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.8);
+}
+
+body.dark .card-estatistica:focus-within {
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
 }
 
 body.dark .card-label {
@@ -309,14 +356,16 @@ body.dark .card-expiradas .card-icone {
   color: #fecaca;
 }
 
-body.dark .btn-icone-filtro {
-  background: #141414;
-  border-color: #262626;
-  color: #e5e7eb;
+body.dark .secao-filtros {
+  background: #6b21a8;
 }
 
-body.dark .btn-icone-filtro:hover {
-  background: #1f1f1f;
+body.dark .secao-filtros:focus-within {
+  box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.3);
+}
+
+body.dark .btn-icone-filtro {
+  color: #e5e7eb;
 }
 
 body.dark .opcoes-filtro-card {
@@ -328,18 +377,33 @@ body.dark .filtro-item {
   color: #e5e7eb;
 }
 
+body.dark .filtro-item:hover {
+  color: #c4b5fd; /* Hover ajustado para dark */
+}
+
 body.dark .btn-aplicar-filtro {
   background: #7c3aed;
 }
 
+body.dark .btn-aplicar-filtro:hover {
+  background: #8b5cf6;
+}
+
+body.dark .btn-aplicar-filtro:focus {
+  box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.5);
+}
+
 body.dark .input-busca {
-  background: #141414;
-  border-color: #262626;
-  color: #f3f4f6;
+  background: #27272a;
+  color: #e5e7eb;
+}
+
+body.dark .input-busca:focus {
+  box-shadow: inset 0 0 0 2px #a78bfa;
 }
 
 body.dark .input-busca::placeholder {
-  color: #9ca3af;
+  color: #9ca3af; /* Ajustado para melhor contraste */
 }
 
 body.dark .sem-notas {
@@ -347,7 +411,6 @@ body.dark .sem-notas {
   border-color: #262626;
   color: #9ca3af;
 }
-
 
 /* RESPONSIVO */
 @media (max-width: 1024px) {
@@ -370,10 +433,26 @@ body.dark .sem-notas {
   }
 
   .secao-filtros {
-    flex-direction: column;
+    flex-direction: row;
+    padding: 0.125rem 0.125rem 0.125rem 0.75rem;
   }
 
   .input-busca {
-    width: 100%;
+    min-width: 0;
+  }
+
+  .btn-icone-filtro {
+    font-size: 0.875rem; /* Reduz ligeiramente em mobile para caber melhor */
+    gap: 0.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .secao-filtros {
+    padding: 0.125rem 0.125rem 0.125rem 0.5rem; /* Mais compacto em telas muito pequenas */
+  }
+
+  .opcoes-filtro-card {
+    width: 200px; /* Reduz largura do dropdown em mobile */
   }
 }
