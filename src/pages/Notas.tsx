@@ -9,7 +9,7 @@ import {
   AiOutlineDown,
   AiOutlineClockCircle,
   AiOutlineCloseCircle,
-  AiOutlineFilter
+  //AiOutlineFilter
 } from "react-icons/ai";
 
 type StatusGarantia = "Ativa" | "A Expirar" | "Expirada";
