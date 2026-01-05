@@ -1,0 +1,14 @@
+.spinner {
+  border: 4px solid rgba(128, 0, 128, 0.1); /* Light purple border */
+  border-left-color: #800080; /* Solid purple for the spinning part */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

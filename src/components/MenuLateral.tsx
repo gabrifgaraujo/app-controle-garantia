@@ -50,8 +50,12 @@ export default function MenuLateral({
 
     const usuarioLogado = JSON.parse(usuario);
     const storageKey = `notas_${usuarioLogado.email}`;
+    const readStorageKey = `readNotifications_${usuarioLogado.email}`;
 
     const notasSalvas = localStorage.getItem(storageKey);
+    const readKeysJson = localStorage.getItem(readStorageKey);
+    const readKeys = new Set<string>(readKeysJson ? JSON.parse(readKeysJson) : []);
+
     if (!notasSalvas) {
       setNotificacoes([]);
       return;
@@ -85,12 +89,14 @@ export default function MenuLateral({
 
         if (!tipo) return null;
 
+        const key = `${nota.produto}-${nota.dataCompra}-${nota.duracaoGarantia}`;
+
         return {
           produto: nota.produto,
           dataCompra: nota.dataCompra,
           duracaoGarantia: nota.duracaoGarantia,
           tipo,
-          lida: false,
+          lida: readKeys.has(key),
         };
       })
       .filter(Boolean);
@@ -98,14 +104,34 @@ export default function MenuLateral({
     setNotificacoes(novasNotificacoes);
   }, []);
 
+  const saveReadKeys = (readKeys: Set<string>) => {
+    const usuario = localStorage.getItem("usuarioLogado");
+    if (!usuario) return;
+    const usuarioLogado = JSON.parse(usuario);
+    const readStorageKey = `readNotifications_${usuarioLogado.email}`;
+    localStorage.setItem(readStorageKey, JSON.stringify(Array.from(readKeys)));
+  };
+
   const marcarComoLida = (index: number) => {
-    setNotificacoes((prev) =>
-      prev.map((n, i) => (i === index ? { ...n, lida: true } : n))
-    );
+    setNotificacoes((prev) => {
+      const newNotifs = prev.map((n, i) => (i === index ? { ...n, lida: true } : n));
+      const readKeys = new Set(
+        newNotifs.filter((n) => n.lida).map((n) => `${n.produto}-${n.dataCompra}-${n.duracaoGarantia}`)
+      );
+      saveReadKeys(readKeys);
+      return newNotifs;
+    });
   };
 
   const marcarTodasComoLidas = () => {
-    setNotificacoes((prev) => prev.map((n) => ({ ...n, lida: true })));
+    setNotificacoes((prev) => {
+      const newNotifs = prev.map((n) => ({ ...n, lida: true }));
+      const readKeys = new Set(
+        newNotifs.map((n) => `${n.produto}-${n.dataCompra}-${n.duracaoGarantia}`)
+      );
+      saveReadKeys(readKeys);
+      return newNotifs;
+    });
   };
 
   const handleLogout = () => {

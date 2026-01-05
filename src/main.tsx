@@ -13,7 +13,6 @@ const Notas = lazy(() => import('./pages/Notas'))
 const Perfil = lazy(() => import('./pages/Perfil'))
 const AlterarSenha = lazy(() => import('./pages/AlterarSenha'))
 
-// import ThemeToggle from './components/ThemeToggle'
 import './style/Theme.css'
 
 import './style/Cadastro.css'
@@ -26,6 +25,7 @@ import './style/Perfil.css'
 import './style/AlterarSenha.css'
 
 import './style/Splash.css'
+import './style/Spinner.css'
 
 const savedTheme = localStorage.getItem('theme')
 if (savedTheme === 'dark') {
@@ -40,7 +40,11 @@ const App: React.FC = () => {
   }
 
   return (
-    <Suspense fallback={<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', backgroundColor: 'white' }}>Carregando...</div>}>
+    <Suspense fallback={
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', backgroundColor: 'white' }}>
+        <div className="spinner"></div>
+      </div>
+    }>
       <HashRouter>
         <Routes>
           <Route index element={<Login />} />
