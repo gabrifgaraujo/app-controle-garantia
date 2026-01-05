@@ -10,7 +10,7 @@ import Notas from './pages/Notas'
 import Perfil from './pages/Perfil'
 import AlterarSenha from './pages/AlterarSenha'
 
-import ThemeToggle from './components/ThemeToggle'
+// import ThemeToggle from './components/ThemeToggle'
 import './style/Theme.css'
 
 import './style/Cadastro.css'
@@ -31,7 +31,7 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <HashRouter>
       
-      <ThemeToggle />
+      
 
       <Routes>
         <Route index element={<Login />} />
