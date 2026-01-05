@@ -1,48 +1,43 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
-* {
-  box-sizing: border-box;
-  font-family: 'Inter', Arial, sans-serif;
-}
-
-body {
-  margin: 0;
-  background: var(--bg-page);
-  font-size: 14px;
-  color: var(--text-primary);
-}
-
-.Confirmação {
-  background: var(--bg-card);
-  padding: 24px;
-  border-radius: 18px;
-  max-width: 550px;
-  width: 90%;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-  position: relative;
-}
+/* CadastroNota.css - Estrutura padronizada com paleta de cores original */
 
 .pagina {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
   display: flex;
-  justify-content: center;
-  padding: 12px;
+  flex-direction: column;
+  gap: 2rem;
+  overflow-x: hidden;
 }
 
 .cartao {
   width: 100%;
-  max-width: 1200px;
+  max-width: 100%;
   background: var(--bg-card);
-  border-radius: 18px;
-  padding: 18px;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--border-default);
+  transition: all 0.3s ease;
+}
+
+body.dark .cartao {
+  background: var(--bg-card);
+  border-color: var(--border-default);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
 }
 
 .voltar {
   color: var(--primary-light);
   text-decoration: none;
-  font-weight: 500;
-  display: inline-block;
-  margin-bottom: 10px;
-  transition: 0.2s;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  transition: opacity 0.2s;
+  font-size: 1rem;
 }
 
 .voltar:hover {
@@ -51,76 +46,78 @@ body {
 
 .cabecalho {
   display: flex;
-  gap: 12px;
-  margin-bottom: 20px;
-  align-items: flex-start;
-  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+  align-items: center;
 }
 
 .icone {
-  width: 40px;
-  height: 40px;
+  width: 56px;
+  height: 56px;
   background: linear-gradient(
     135deg,
     rgba(167, 139, 250, 0.2),
     rgba(196, 181, 253, 0.15)
   );
   color: var(--primary-light);
-  border-radius: 14px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
+  font-size: 1.75rem;
+  flex-shrink: 0;
 }
 
 .titulo {
   margin: 0;
   color: var(--primary-light);
-  font-size: 18px;
+  font-size: 2rem;
   font-weight: 700;
 }
 
 .subtitulo {
-  margin: 4px 0 0;
+  margin: 0.25rem 0 0;
   color: var(--text-muted);
-  font-size: 12px;
+  font-size: 1rem;
 }
 
 .formulario {
   display: grid;
-  gap: 14px;
+  gap: 1.5rem;
   grid-template-columns: 1fr;
 }
 
 .campo {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-}
-
-.campo.tipo-nota,
-.campo.observacoes,
-.campo.anexar-nota {
-  grid-column: span 1;
+  gap: 0.5rem;
 }
 
 label {
   color: var(--primary-light);
   font-weight: 600;
-  font-size: 13px;
+  font-size: 0.875rem;
 }
 
 input,
 select,
 textarea {
   width: 100%;
-  box-sizing: border-box;
   background: var(--bg-input);
   border: 1px solid var(--border-default);
-  border-radius: 12px;
-  padding: 12px;
-  font-size: 14px;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
   color: var(--text-primary);
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
 }
 
 input::placeholder,
@@ -128,38 +125,31 @@ textarea::placeholder {
   color: var(--text-muted);
 }
 
-option {
-  background: var(--bg-card);
-  color: var(--text-primary);
-}
-
 textarea {
-  min-height: 90px;
+  min-height: 120px;
+  resize: vertical;
 }
 
 .input-erro {
-  border: 1px solid var(--danger);
-  outline: none;
+  border-color: var(--danger) !important;
 }
 
 .erro-texto {
   color: var(--danger);
-  font-size: 13px;
-  margin-top: 4px;
-  display: block;
+  font-size: 0.8125rem;
+  margin-top: 0.25rem;
 }
 
 .linha-arquivo {
-  display: grid;
+  display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-top: 6px;
-  gap: 10px;
+  gap: 1rem;
+  margin-top: 0.5rem;
 }
 
 .texto-upload {
   color: var(--text-secondary);
-  font-size: 13px;
+  font-size: 0.875rem;
 }
 
 .input-arquivo {
@@ -169,34 +159,29 @@ textarea {
 .preview-arquivo {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 10px;
-}
-
-.preview-imagem {
-  width: 100px;
-  height: auto;
-  border-radius: 8px;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  background: var(--bg-muted);
+  border-radius: 10px;
   border: 1px solid var(--border-default);
 }
 
 .preview-documento {
-  padding: 6px 12px;
-  background: var(--bg-muted);
-  border-radius: 6px;
-  font-weight: bold;
-  font-size: 13px;
+  font-weight: 600;
+  font-size: 0.875rem;
   color: var(--text-primary);
 }
 
 .preview-abrir {
-  padding: 6px 12px;
+  padding: 0.4rem 0.8rem;
   background: var(--primary);
-  color: #fff;
+  color: white;
   border-radius: 6px;
   text-decoration: none;
   font-weight: 600;
-  font-size: 13px;
+  font-size: 0.8125rem;
+  transition: background 0.2s;
 }
 
 .preview-abrir:hover {
@@ -207,113 +192,96 @@ textarea {
   cursor: pointer;
   color: var(--danger);
   font-weight: bold;
-  font-size: 18px;
+  font-size: 1.25rem;
+  margin-left: auto;
+  transition: opacity 0.2s;
+}
+
+.preview-remover:hover {
+  opacity: 0.7;
 }
 
 .obrigatorio {
   color: var(--danger);
+  margin-left: 2px;
 }
 
 .button {
-  padding: 12px;
-  border-radius: 12px;
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
   font-weight: 600;
   border: none;
   cursor: pointer;
-  font-size: 15px;
-  transition: 0.2s;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 .button:hover {
-  filter: brightness(1.12);
+  transform: translateY(-1px);
 }
 
 .button.small {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+.button.purple {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
+}
+
+.button.purple:hover {
+  background: var(--primary-light);
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.3);
+}
+
+.button.outline {
+  background: var(--bg-muted);
+  color: var(--primary);
+  border: 1px solid var(--border-default);
+}
+
+.button.outline:hover {
+  filter: brightness(0.95);
 }
 
 .button.small.purple {
   background: transparent;
   color: var(--primary);
   border: 1px dashed var(--primary);
-}
-
-.button.purple {
-  background: var(--primary);
-  color: #fff;
-}
-
-.button.outline {
-  color: var(--primary);
-  background: var(--bg-muted);
+  box-shadow: none;
 }
 
 .acoes-formulario {
   display: flex;
   justify-content: flex-end;
-  gap: 14px;
-  margin-top: 20px;
-  flex-wrap: wrap;
+  gap: 1rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-default);
 }
 
-.acoes-formulario .button {
-  flex: 1;
-  max-width: 200px;
-}
-
-/* SweetAlert2 */
-.swal2-actions {
-  display: flex !important;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 20px !important;
-}
-
-.swal2-styled.swal2-confirm {
-  background-color: var(--primary) !important;
-  color: #fff !important;
-  flex: 1;
-}
-
-.swal2-styled.swal2-cancel {
-  background-color: var(--bg-muted) !important;
-  color: var(--primary) !important;
-  flex: 1;
-}
-
-/* Dark mode SweetAlert2 */
-body.dark .swal2-popup {
-  background: #121212 !important;
-  color: #fff !important;
-  border: 1px solid #333;
-}
-
-body.dark .swal2-title {
-  color: #fff !important;
-}
-
-body.dark .swal2-html-container {
-  color: #ddd !important;
-}
-
-body.dark .swal2-styled.swal2-confirm {
-  background-color: #7a2ff5 !important;
-  color: #fff !important;
-}
-
-body.dark .swal2-styled.swal2-cancel {
-  background-color: #333 !important;
-  color: #fff !important;
-}
-
-/* Grid telas médias e grandes */
+/* Grid responsivo */
 @media (min-width: 768px) {
   .formulario {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .campo.tipo-nota,
+  .campo.observacoes,
+  .campo.anexar-nota {
+    grid-column: span 2;
+  }
+}
+
+@media (min-width: 1024px) {
+  .formulario {
     grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
   }
 
   .campo.tipo-nota,
@@ -321,34 +289,32 @@ body.dark .swal2-styled.swal2-cancel {
   .campo.anexar-nota {
     grid-column: span 4;
   }
-
-  .campo.duracaoGarantia,
-  .campo.produto,
-  .campo.loja,
-  .campo.dataCompra,
-  .campo.garantiaEstendida,
-  .campo.tempoGarantiaEstendida,
-  .campo.numeroNota,
-  .campo.valor {
-    grid-column: span 1;
-  }
 }
 
-/* Modal SweetAlert2 responsivo */
-.modal-content-responsive {
-  width: 90% !important;
-  max-width: 500px !important;
-  padding: 24px !important;
-  box-sizing: border-box;
-}
-
-@media (max-width: 600px) {
-  .modal-content-responsive {
-    width: 95% !important;
-    padding: 18px !important;
+@media (max-width: 640px) {
+  .pagina {
+    padding: 1rem;
   }
 
-  .modal-content-responsive .info-modal {
-    font-size: 13px;
+  .cartao {
+    padding: 1.5rem;
+  }
+
+  .cabecalho {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .titulo {
+    font-size: 1.5rem;
+  }
+
+  .acoes-formulario {
+    flex-direction: column;
+  }
+
+  .acoes-formulario .button {
+    width: 100%;
   }
 }

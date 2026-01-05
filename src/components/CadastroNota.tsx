@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { AiOutlineArrowLeft } from "react-icons/ai";
 import "../style/CadastroNota.css";
 import "../style/Nota.css";
 
@@ -193,10 +194,9 @@ const CadastroNota: React.FC = () => {
   return (
     <main className="pagina">
       <section className="cartao">
-        <Link to="/notas" className="voltar">← Voltar</Link>
+        <Link to="/notas" className="voltar"><AiOutlineArrowLeft /> Voltar</Link>
 
         <div className="cabecalho">
-          <div className="icone">📄</div>
           <div>
             <h1 className="titulo">
               {modoEdicao ? "Editar Nota Fiscal" : "Cadastro de Nota Fiscal"}

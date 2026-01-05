@@ -212,6 +212,7 @@ export default function MenuLateral({
             <span>Alterar Senha</span>
           </button>
         </nav>
+        
         <div
           style={{
             padding: "12px",
