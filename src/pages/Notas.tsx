@@ -6,27 +6,27 @@ import "../style/Notas.css";
 import {
   AiOutlineFileText,
   AiOutlineCheckCircle,
-  AiOutlineDown,
   AiOutlineClockCircle,
   AiOutlineCloseCircle,
-  AiOutlineFilter
 } from "react-icons/ai";
 
 type StatusGarantia = "Ativa" | "A Expirar" | "Expirada";
 
 const Notas = () => {
-  const [busca, setBusca] = useState("");
+  const [busca] = useState("");
   const [notas, setNotas] = useState<NotaProps[]>([]);
-  const [filtrosSelecionados, setFiltrosSelecionados] = useState<StatusGarantia[]>([]);
-  const [abrirDropdown, setAbrirDropdown] = useState(false);
+  const [filtrosSelecionados] = useState<
+    StatusGarantia[]
+  >([]);
   const [usuarioLogado, setUsuarioLogado] = useState({
     nome: "",
     email: "",
-    avatar: null as string | null
+    avatar: null as string | null,
   });
 
   useEffect(() => {
     const usuario = localStorage.getItem("usuarioLogado");
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (usuario) setUsuarioLogado(JSON.parse(usuario));
   }, []);
 
@@ -38,6 +38,7 @@ const Notas = () => {
     const storageKey = `notas_${email}`;
 
     const notasSalvas = localStorage.getItem(storageKey);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (notasSalvas) setNotas(JSON.parse(notasSalvas));
   }, []);
 
@@ -65,45 +66,25 @@ const Notas = () => {
     return {
       total: notas.length,
       ativas: notas.filter(
-        nota =>
-          calcularStatusGarantia(
-            nota.dataCompra,
-            nota.duracaoGarantia
-          ) === "Ativa"
+        (nota) =>
+          calcularStatusGarantia(nota.dataCompra, nota.duracaoGarantia) ===
+          "Ativa"
       ).length,
       proximasExpirar: notas.filter(
-        nota =>
-          calcularStatusGarantia(
-            nota.dataCompra,
-            nota.duracaoGarantia
-          ) === "A Expirar"
+        (nota) =>
+          calcularStatusGarantia(nota.dataCompra, nota.duracaoGarantia) ===
+          "A Expirar"
       ).length,
       expiradas: notas.filter(
-        nota =>
-          calcularStatusGarantia(
-            nota.dataCompra,
-            nota.duracaoGarantia
-          ) === "Expirada"
-      ).length
+        (nota) =>
+          calcularStatusGarantia(nota.dataCompra, nota.duracaoGarantia) ===
+          "Expirada"
+      ).length,
     };
   }, [notas]);
 
-  const toggleFiltro = (status: StatusGarantia) => {
-    setFiltrosSelecionados(prev =>
-      prev.includes(status)
-        ? prev.filter(s => s !== status)
-        : [...prev, status]
-    );
-  };
-
-  const toggleTodos = () => {
-    setFiltrosSelecionados(prev =>
-      prev.length === 3 ? [] : ["Ativa", "A Expirar", "Expirada"]
-    );
-  };
-
   const notasFiltradas = useMemo(() => {
-    return notas.filter(nota => {
+    return notas.filter((nota) => {
       const matchBusca = nota.produto
         .toLowerCase()
         .includes(busca.toLowerCase());
@@ -167,9 +148,7 @@ const Notas = () => {
             </div>
             <div className="card-info">
               <span className="card-label">A Expirar</span>
-              <span className="card-valor">
-                {estatisticas.proximasExpirar}
-              </span>
+              <span className="card-valor">{estatisticas.proximasExpirar}</span>
             </div>
           </div>
 
@@ -183,53 +162,6 @@ const Notas = () => {
             </div>
           </div>
         </div>
-
- 
-
-<div className="secao-filtros">
-  <div className="filtro-dropdown">
-    <button
-      className="btn-icone-filtro"
-      onClick={() => setAbrirDropdown(prev => !prev)}
-    >
-      <AiOutlineDown /> Filtrar por status
-    </button>
-
-    {abrirDropdown && (
-      <div className="opcoes-filtro-card">
-        <label className="filtro-item">
-          <input
-            type="checkbox"
-            checked={filtrosSelecionados.length === 3}
-            onChange={toggleTodos}
-          />
-          Todas
-        </label>
-
-        {(["Ativa", "A Expirar", "Expirada"] as StatusGarantia[]).map(
-          status => (
-            <label key={status} className="filtro-item">
-              <input
-                type="checkbox"
-                checked={filtrosSelecionados.includes(status)}
-                onChange={() => toggleFiltro(status)}
-              />
-              {status}
-            </label>
-          )
-        )}
-      </div>
-    )}
-  </div>
-
-  <input
-    type="text"
-    className="input-busca"
-    placeholder="Buscar por produto..."
-    value={busca}
-    onChange={e => setBusca(e.target.value)}
-  />
-</div>
 
         <div className="container-notas">
           {notasFiltradas.length === 0 ? (
