@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "../assets/aponti_marca_horizontal.png";
+import logo from "../assets/apontilogo.png";
 import {
   FileText,
   User,
@@ -267,14 +267,14 @@ export default function MenuLateral({
                 <div
                   key={index}
                   className={`
-                                        notification-item
-                                        ${
-                                          n.tipo === "Expirada"
-                                            ? "notification-expirada"
-                                            : "notification-proxima"
-                                        }
-                                        ${n.lida ? "notification-lida" : ""}
-                                    `}
+                    notification-item
+                    ${
+                      n.tipo === "Expirada"
+                        ? "notification-expirada"
+                        : "notification-proxima"
+                    }
+                    ${n.lida ? "notification-lida" : ""}
+                `}
                 >
                   <div>
                     <strong>{n.produto}</strong>
