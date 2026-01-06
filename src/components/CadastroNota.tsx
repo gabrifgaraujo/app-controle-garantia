@@ -113,7 +113,7 @@ const CadastroNota: React.FC = () => {
     if (Object.keys(novosErros).length > 0) return;
 
     const resumoHtml = `
-      <div>
+      <div className="resumo-nota">
         <p><strong>Tipo de Garantia:</strong> ${formData.tipoNota || "-"}</p>
         <p><strong>Produto:</strong> ${formData.produto}</p>
         <p><strong>Loja:</strong> ${formData.loja}</p>

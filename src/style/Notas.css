@@ -14,7 +14,6 @@ body {
   width: 100%;
   max-width: 100%;
   margin: 0 auto;
-  padding: 2rem;
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -302,7 +301,7 @@ body {
 
 /* DARK MODE */
 body.dark .pagina-lista {
-  background: #0f0f10;
+  background-color: none;
 }
 
 body.dark .cabecalho-texto h1 {
