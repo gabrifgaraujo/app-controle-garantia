@@ -63,13 +63,15 @@ const Notas = () => {
   const estatisticas = useMemo(() => {
     return {
       total: notas.length,
-      ativas: notas.filter(
-        nota =>
-          calcularStatusGarantia(
-            nota.dataCompra,
-            nota.duracaoGarantia
-          ) === "Ativa"
-      ).length,
+
+      ativas: notas.filter(nota => {
+        const status = calcularStatusGarantia(
+          nota.dataCompra,
+          nota.duracaoGarantia
+        );
+        return status === "Ativa" || status === "A Expirar";
+      }).length,
+
       proximasExpirar: notas.filter(
         nota =>
           calcularStatusGarantia(
@@ -77,6 +79,7 @@ const Notas = () => {
             nota.duracaoGarantia
           ) === "A Expirar"
       ).length,
+
       expiradas: notas.filter(
         nota =>
           calcularStatusGarantia(
@@ -183,7 +186,7 @@ const Notas = () => {
           </div>
         </div>
 
- 
+
 
         <div className="secao-filtros">
           <div className="filtro-dropdown">

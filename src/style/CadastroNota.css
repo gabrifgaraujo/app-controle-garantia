@@ -291,6 +291,10 @@ body.dark select:-webkit-autofill {
   -webkit-text-fill-color: var(--text-primary) !important;
 }
 
+body.dark .modal-subtitulo p {
+  color: #e5e7eb;
+}
+
 /* Grid responsivo */
 @media (min-width: 768px) {
   .formulario {
