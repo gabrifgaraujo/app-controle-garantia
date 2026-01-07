@@ -67,6 +67,8 @@ const Nota = ({
 
   const deletarNota = () => {
     setModalAberto(false);
+    const isDark = document.body.classList.contains("dark");
+
     Swal.fire({
       title: "Excluir nota?",
       text: "Essa ação não pode ser desfeita.",
@@ -74,6 +76,10 @@ const Nota = ({
       showCancelButton: true,
       confirmButtonText: "Deletar",
       cancelButtonText: "Cancelar",
+      background: isDark ? "#141414" : "#ffffff",
+      color: isDark ? "#e5e7eb" : "#1f2937",
+      confirmButtonColor: "#7c3aed",
+      cancelButtonColor: isDark ? "#374151" : "#9ca3af",
     }).then((result) => {
       if (result.isConfirmed) {
         const usuarioLogado = JSON.parse(
@@ -95,10 +101,15 @@ const Nota = ({
 
         setModalAberto(false);
 
+        const isDark = document.body.classList.contains("dark");
+
         Swal.fire({
           icon: "success",
           title: "Nota deletada!",
           confirmButtonText: "OK",
+          background: isDark ? "#141414" : "#ffffff",
+          color: isDark ? "#e5e7eb" : "#1f2937",
+          confirmButtonColor: "#7c3aed",
         }).then(() => {
           window.location.reload();
         });
