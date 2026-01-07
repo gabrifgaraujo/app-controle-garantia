@@ -1,3 +1,4 @@
+// src/main.tsx (com supressão para o erro de react-refresh)
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import React, { Suspense, useState, lazy } from 'react';
@@ -13,6 +14,7 @@ const Notas = lazy(() => import('./pages/Notas'))
 const Perfil = lazy(() => import('./pages/Perfil'))
 const AlterarSenha = lazy(() => import('./pages/AlterarSenha'))
 
+// import ThemeToggle from './components/ThemeToggle'
 import './style/Theme.css'
 
 import './style/Cadastro.css'
@@ -32,6 +34,7 @@ if (savedTheme === 'dark') {
   document.body.classList.add('dark')
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 const App: React.FC = () => {
   const [showSplash, setShowSplash] = useState(true);
 

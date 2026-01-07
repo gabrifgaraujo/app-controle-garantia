@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import "../style/CadastroNota.css";
-import "../style/Nota.css";
+import "../style/Notas.css";
+import "../style/esqueceu-senha.css";
 
 interface NotaProps {
   id?: string;
@@ -42,20 +42,24 @@ const CadastroNota: React.FC = () => {
   const [arquivo, setArquivo] = useState<string | null>(notaEdicao?.arquivo || null);
   const [erros, setErros] = useState<{ [key: string]: string }>({});
 
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+
   const formatarData = (valor: string) => {
-    valor = valor.replace(/\D/g, ""); 
-    if (valor.length > 8) valor = valor.slice(0, 8);
+    const numeros = valor.replace(/\D/g, "");
+    if (numeros.length > 8) return numeros.slice(0, 8);
 
-    if (valor.length > 2) valor = valor.slice(0, 2) + "/" + valor.slice(2);
-    if (valor.length > 5) valor = valor.slice(0, 5) + "/" + valor.slice(5);
+    let formatted = numeros;
+    if (formatted.length > 2) formatted = formatted.slice(0, 2) + "/" + formatted.slice(2);
+    if (formatted.length > 5) formatted = formatted.slice(0, 5) + "/" + formatted.slice(5);
 
-    return valor;
+    return formatted;
   };
 
   const formatarValor = (valor: string) => {
-    let numeros = valor.replace(/\D/g, "");
+    const numeros = valor.replace(/\D/g, "");
     if (!numeros) return "";
-    let numero = parseInt(numeros, 10);
+    const numero = parseInt(numeros, 10);
     return (numero / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
   };
 
@@ -86,7 +90,7 @@ const CadastroNota: React.FC = () => {
 
   const removerArquivo = () => setArquivo(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const novosErros: { [key: string]: string } = {};
 
@@ -112,75 +116,49 @@ const CadastroNota: React.FC = () => {
     setErros(novosErros);
     if (Object.keys(novosErros).length > 0) return;
 
-    const resumoHtml = `
-      <div className="resumo-nota">
-        <p><strong>Tipo de Garantia:</strong> ${formData.tipoNota || "-"}</p>
-        <p><strong>Produto:</strong> ${formData.produto}</p>
-        <p><strong>Loja:</strong> ${formData.loja}</p>
-        <p><strong>Data de Compra:</strong> ${formData.dataCompra}</p>
-        <p><strong>Período da Garantia:</strong> ${formData.duracaoGarantia ? formData.duracaoGarantia + ' meses' : '-'}</p>
-        <p><strong>Garantia Estendida:</strong> ${formData.garantiaEstendida}</p>
-        ${formData.garantiaEstendida === "Sim"
-        ? `<p><strong>Tempo Garantia Estendida:</strong> ${formData.tempoGarantiaEstendida} meses</p>`
-        : ""}
-        <p><strong>Número da Nota:</strong> ${formData.numeroNota}</p>
-        <p><strong>Valor:</strong> ${formData.valor}</p>
-        <p><strong>Observações:</strong> ${observacoes || "-"}</p>
-      </div>
-    `;
+    setShowConfirmModal(true);
+  };
 
-    const result = await Swal.fire({
-      title: "Confirme os dados da nota",
-      html: resumoHtml,
-      showCancelButton: true,
-      confirmButtonText: "Confirmar",
-      cancelButtonText: "Cancelar",
-      customClass: {
-        popup: "modal-content-responsive",
-        title: "modal-titulo",
-        htmlContainer: "info-modal",
-        confirmButton: "button purple",
-        cancelButton: "button outline",
-      },
-      width: 500,
-    });
+  const confirmarSalvar = () => {
+    setShowConfirmModal(false);
 
-    if (result.isConfirmed) {
-      const novaNota: NotaProps = {
-        id: modoEdicao ? notaEdicao.id : crypto.randomUUID(),
-        ...formData,
-        observacoes,
-        arquivo
-      };
+    const novaNota: NotaProps = {
+      id: modoEdicao ? notaEdicao.id : crypto.randomUUID(),
+      ...formData,
+      observacoes,
+      arquivo
+    };
 
-      const usuario = localStorage.getItem("usuarioLogado");
-      const usuarioLogado = usuario ? JSON.parse(usuario) : null;
+    const usuario = localStorage.getItem("usuarioLogado");
+    const usuarioLogado = usuario ? JSON.parse(usuario) : null;
 
-      const storageKey = usuarioLogado?.email
-        ? `notas_${usuarioLogado.email}`
-        : "notas";
+    const storageKey = usuarioLogado?.email
+      ? `notas_${usuarioLogado.email}`
+      : "notas";
 
-      const notasExistentes = localStorage.getItem(storageKey);
-      let notasArray: NotaProps[] = notasExistentes ? JSON.parse(notasExistentes) : [];
+    const notasExistentes = localStorage.getItem(storageKey);
+    let notasArray: NotaProps[] = notasExistentes ? JSON.parse(notasExistentes) : [];
 
-      if (modoEdicao) {
-        notasArray = notasArray.map(n =>
-          n.id === notaEdicao.id ? novaNota : n
-        );
-      } else {
-        notasArray = [novaNota, ...notasArray];
-      }
-
-      localStorage.setItem(storageKey, JSON.stringify(notasArray));
-
-      await Swal.fire({
-        icon: "success",
-        title: modoEdicao ? "Nota Atualizada!" : "Nota cadastrada!",
-        confirmButtonColor: "#7a2ff5",
-      });
-
-      navigate("/notas");
+    if (modoEdicao) {
+      notasArray = notasArray.map(n =>
+        n.id === notaEdicao.id ? novaNota : n
+      );
+    } else {
+      notasArray = [novaNota, ...notasArray];
     }
+
+    localStorage.setItem(storageKey, JSON.stringify(notasArray));
+
+    setShowSuccessModal(true);
+  };
+
+  const fecharConfirmModal = () => {
+    setShowConfirmModal(false);
+  };
+
+  const fecharSuccessModal = () => {
+    setShowSuccessModal(false);
+    navigate("/notas");
   };
 
   const renderLabel = (label: string, campo: string) => (
@@ -381,6 +359,71 @@ const CadastroNota: React.FC = () => {
           </div>
         </form>
       </section>
+
+      {showConfirmModal && (
+        <div className="modal-overlay" onClick={fecharConfirmModal}>
+          <div
+            className="modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button className="btn-fechar" onClick={fecharConfirmModal}>
+              ×
+            </button>
+
+            <h2 className="modal-titulo">Confirme os dados da nota</h2>
+
+            <div className="modal-subtitulo resumo-nota">
+              <p><strong>Tipo de Garantia:</strong> {formData.tipoNota || "-"}</p>
+              <p><strong>Produto:</strong> {formData.produto}</p>
+              <p><strong>Loja:</strong> {formData.loja}</p>
+              <p><strong>Data de Compra:</strong> {formData.dataCompra}</p>
+              <p><strong>Período da Garantia:</strong> {formData.duracaoGarantia ? formData.duracaoGarantia + ' meses' : '-'}</p>
+              <p><strong>Garantia Estendida:</strong> {formData.garantiaEstendida}</p>
+              {formData.garantiaEstendida === "Sim" && (
+                <p><strong>Tempo Garantia Estendida:</strong> {formData.tempoGarantiaEstendida} meses</p>
+              )}
+              <p><strong>Número da Nota:</strong> {formData.numeroNota}</p>
+              <p><strong>Valor:</strong> {formData.valor}</p>
+              <p><strong>Observações:</strong> {observacoes || "-"}</p>
+            </div>
+
+            <div className="modal-botoes">
+              <button
+                className="btn-cadastrar-modal"
+                onClick={confirmarSalvar}
+              >
+                Confirmar
+              </button>
+
+              <button className="btn-cancelar-modal" onClick={fecharConfirmModal}>
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showSuccessModal && (
+        <div className="modal-overlay" onClick={fecharSuccessModal}>
+          <div
+            className="modal-content success"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button className="btn-fechar" onClick={fecharSuccessModal}>
+              ×
+            </button>
+
+            <h2 className="modal-titulo">{modoEdicao ? "Nota Atualizada!" : "Nota cadastrada!"}</h2>
+            <p className="modal-subtitulo">
+              Sua nota fiscal foi {modoEdicao ? "atualizada" : "cadastrada"} com sucesso.
+            </p>
+
+            <button className="btn-ok-modal" onClick={fecharSuccessModal}>
+              OK
+            </button>
+          </div>
+        </div>
+      )}
     </main>
   );
 };
