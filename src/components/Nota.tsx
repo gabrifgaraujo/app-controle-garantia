@@ -71,7 +71,7 @@ const Nota = ({
 
     Swal.fire({
       title: "Excluir nota?",
-      text: "Essa ação não pode ser desfeita.",
+      text: "A nota será movida para a lixeira.",
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Deletar",
@@ -89,9 +89,22 @@ const Nota = ({
         if (!usuarioLogado?.email) return;
 
         const chaveNotas = `notas_${usuarioLogado.email}`;
+        const chaveLixeira = `lixeira_${usuarioLogado.email}`;
 
         const notasSalvas = localStorage.getItem(chaveNotas);
         const notas = notasSalvas ? JSON.parse(notasSalvas) : [];
+
+        const notaParaDeletar = notas.find(
+          (nota: NotaProps) => nota.id === id
+        );
+
+        if (notaParaDeletar) {
+          const lixeiraAtual = JSON.parse(
+            localStorage.getItem(chaveLixeira) || "[]"
+          );
+          lixeiraAtual.push(notaParaDeletar);
+          localStorage.setItem(chaveLixeira, JSON.stringify(lixeiraAtual));
+        }
 
         const novasNotas = notas.filter(
           (nota: NotaProps) => nota.id !== id
@@ -105,7 +118,7 @@ const Nota = ({
 
         Swal.fire({
           icon: "success",
-          title: "Nota deletada!",
+          title: "Nota movida para a lixeira!",
           confirmButtonText: "OK",
           background: isDark ? "#141414" : "#ffffff",
           color: isDark ? "#e5e7eb" : "#1f2937",

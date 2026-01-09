@@ -10,7 +10,7 @@ import {
   Bell,
   Check,
   CheckCheck,
-  Key,
+  Trash2,
 } from "lucide-react";
 import "../style/MenuLateral.css";
 import ThemeToggle from "./ThemeToggle";
@@ -144,7 +144,7 @@ export default function MenuLateral({
       Perfil: "/perfil",
       Início: "/notas",
       "Visualizar Notas": "/notas",
-      "Alterar Senha": "/alterar-senha",
+      "Lixeira": "/lixeira",
     };
     navigate(map[page] || "/notas");
     setIsSidebarOpen(false);
@@ -220,22 +220,22 @@ export default function MenuLateral({
 
           <button
             className={`nav-item ${
+              currentPage === "Lixeira" ? "nav-item-active" : ""
+            }`}
+            onClick={() => navigateTo("Lixeira")}
+          >
+            <Trash2 />
+            <span>Lixeira</span>
+          </button>
+
+          <button
+            className={`nav-item ${
               currentPage === "Perfil" ? "nav-item-active" : ""
             }`}
             onClick={() => navigateTo("Perfil")}
           >
             <User />
             <span>Meu Perfil</span>
-          </button>
-
-          <button
-            className={`nav-item ${
-              currentPage === "Alterar Senha" ? "nav-item-active" : ""
-            }`}
-            onClick={() => navigateTo("Alterar Senha")}
-          >
-            <Key />
-            <span>Alterar Senha</span>
           </button>
         </nav>
         
