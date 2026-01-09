@@ -65,7 +65,7 @@ const Login: React.FC = () => {
 
       <div className="form-container">
         <div className="form-card">
-          <h2>Sistema de Controle de Garantia</h2>
+          <h2>Controle de Garantias</h2>
           <p>Entre com suas credenciais para acessar</p>
 
           <form onSubmit={handleLogin} className="login-form">
