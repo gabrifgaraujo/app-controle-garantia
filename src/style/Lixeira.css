@@ -1,9 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-* {
-    box-sizing: border-box;
+/* ================= BASE ================= */
+
+.lixeira-pagina {
     font-family: "Inter", sans-serif;
 }
+
+/* ================= PÁGINA ================= */
 
 .lixeira-pagina {
     width: 100%;
@@ -15,7 +18,9 @@
     overflow-x: hidden;
 }
 
-.lixeira-cabecalho {
+/* ================= CABEÇALHO ================= */
+
+.lixeira-pagina .lixeira-cabecalho {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -23,7 +28,7 @@
     gap: 1.5rem;
 }
 
-.lixeira-cabecalho .cabecalho-texto h1 {
+.lixeira-pagina .lixeira-cabecalho .cabecalho-texto h1 {
     font-size: 2rem;
     font-weight: 700;
     color: #1f2937;
@@ -31,14 +36,16 @@
     line-height: 1.2;
 }
 
-.lixeira-cabecalho .cabecalho-texto p {
+.lixeira-pagina .lixeira-cabecalho .cabecalho-texto p {
     font-size: 1rem;
     color: #6b7280;
     margin: 0;
     line-height: 1.5;
 }
 
-.btn-limpar-lixeira {
+/* ================= BOTÃO LIMPAR ================= */
+
+.lixeira-pagina .btn-limpar-lixeira {
     background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
     color: white;
     padding: 0.875rem 1.75rem;
@@ -56,24 +63,28 @@
     white-space: nowrap;
 }
 
-.btn-limpar-lixeira:hover {
+.lixeira-pagina .btn-limpar-lixeira:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
 }
 
-.btn-limpar-lixeira:focus {
+.lixeira-pagina .btn-limpar-lixeira:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.5);
 }
 
-.lixeira-container {
+/* ================= CONTAINER ================= */
+
+.lixeira-pagina .lixeira-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 1.5rem;
     width: 100%;
 }
 
-.lixeira-vazia {
+/* ================= LIXEIRA VAZIA ================= */
+
+.lixeira-pagina .lixeira-vazia {
     grid-column: 1 / -1;
     display: flex;
     flex-direction: column;
@@ -87,25 +98,27 @@
     text-align: center;
 }
 
-.lixeira-vazia .icone-vazio {
+.lixeira-pagina .lixeira-vazia .icone-vazio {
     font-size: 4rem;
     color: #d1d5db;
     margin-bottom: 1rem;
 }
 
-.lixeira-vazia p {
+.lixeira-pagina .lixeira-vazia p {
     font-size: 1.125rem;
     font-weight: 600;
     margin: 0 0 0.5rem 0;
     color: #4b5563;
 }
 
-.lixeira-vazia span {
+.lixeira-pagina .lixeira-vazia span {
     font-size: 0.95rem;
     color: #9ca3af;
 }
 
-.cartao-nota-lixeira {
+/* ================= CARD ================= */
+
+.lixeira-pagina .cartao-nota-lixeira {
     width: 100%;
     background: white;
     border-radius: 12px;
@@ -121,26 +134,28 @@
     opacity: 0.75;
 }
 
-.cartao-nota-lixeira:hover {
+.lixeira-pagina .cartao-nota-lixeira:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 24px rgba(239, 68, 68, 0.15);
     border-color: #fca5a5;
     opacity: 1;
 }
 
-.cabecalho-nota {
+/* ================= CONTEÚDO ================= */
+
+.lixeira-pagina .cabecalho-nota {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
 }
 
-.cabecalho-topo {
+.lixeira-pagina .cabecalho-topo {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
 }
 
-.icone-nota {
+.lixeira-pagina .icone-nota {
     width: 36px;
     height: 36px;
     background: linear-gradient(135deg, #fee2e2, #fecaca);
@@ -153,13 +168,13 @@
     flex-shrink: 0;
 }
 
-.info-principal-nota {
+.lixeira-pagina .info-principal-nota {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
 }
 
-.titulo-nota {
+.lixeira-pagina .titulo-nota {
     margin: 0;
     color: #dc2626;
     font-size: 1.05rem;
@@ -168,14 +183,14 @@
     word-wrap: break-word;
 }
 
-.sub-nota {
+.lixeira-pagina .sub-nota {
     margin: 0;
     font-size: 0.8rem;
     color: #6b7280;
     line-height: 1.4;
 }
 
-.data-garantia {
+.lixeira-pagina .data-garantia {
     font-size: 0.75rem;
     color: #4b5563;
     display: flex;
@@ -184,11 +199,13 @@
     margin-top: 0.125rem;
 }
 
-.data-garantia svg {
+.lixeira-pagina .data-garantia svg {
     flex-shrink: 0;
 }
 
-.acoes-nota-lixeira {
+/* ================= AÇÕES ================= */
+
+.lixeira-pagina .acoes-nota-lixeira {
     display: flex;
     justify-content: flex-end;
     margin-top: 0.875rem;
@@ -196,7 +213,7 @@
     border-top: 1px solid #f3f4f6;
 }
 
-.btn-restaurar {
+.lixeira-pagina .btn-restaurar {
     padding: 0.5rem 1rem;
     background: transparent;
     color: #2563eb;
@@ -211,7 +228,7 @@
     gap: 0.5rem;
 }
 
-.btn-restaurar:hover {
+.lixeira-pagina .btn-restaurar:hover {
     background: #2563eb;
     color: white;
     border-color: #2563eb;
@@ -219,99 +236,101 @@
     box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
 }
 
-.btn-restaurar:active {
+.lixeira-pagina .btn-restaurar:active {
     transform: translateY(0);
 }
 
-/* DARK MODE */
-body.dark .lixeira-cabecalho .cabecalho-texto h1 {
+/* ================= DARK MODE ================= */
+
+body.dark .lixeira-pagina .lixeira-cabecalho .cabecalho-texto h1 {
     color: #e5e7eb;
 }
 
-body.dark .lixeira-cabecalho .cabecalho-texto p {
+body.dark .lixeira-pagina .lixeira-cabecalho .cabecalho-texto p {
     color: #9ca3af;
 }
 
-body.dark .btn-limpar-lixeira {
+body.dark .lixeira-pagina .btn-limpar-lixeira {
     box-shadow: 0 4px 14px rgba(239, 68, 68, 0.5);
 }
 
-body.dark .btn-limpar-lixeira:focus {
+body.dark .lixeira-pagina .btn-limpar-lixeira:focus {
     box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.5);
 }
 
-body.dark .lixeira-vazia {
+body.dark .lixeira-pagina .lixeira-vazia {
     background: #141414;
     border-color: #262626;
     color: #9ca3af;
 }
 
-body.dark .lixeira-vazia .icone-vazio {
+body.dark .lixeira-pagina .lixeira-vazia .icone-vazio {
     color: #3f3f46;
 }
 
-body.dark .lixeira-vazia p {
+body.dark .lixeira-pagina .lixeira-vazia p {
     color: #d1d5db;
 }
 
-body.dark .cartao-nota-lixeira {
+body.dark .lixeira-pagina .cartao-nota-lixeira {
     background: #141414;
     border-color: #450a0a;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
-body.dark .cartao-nota-lixeira:hover {
+body.dark .lixeira-pagina .cartao-nota-lixeira:hover {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
     border-color: #7f1d1d;
 }
 
-body.dark .icone-nota {
+body.dark .lixeira-pagina .icone-nota {
     background: linear-gradient(135deg, #450a0a, #7f1d1d);
     color: #fca5a5;
 }
 
-body.dark .titulo-nota {
+body.dark .lixeira-pagina .titulo-nota {
     color: #fca5a5;
 }
 
-body.dark .sub-nota {
+body.dark .lixeira-pagina .sub-nota {
     color: #9ca3af;
 }
 
-body.dark .data-garantia {
+body.dark .lixeira-pagina .data-garantia {
     color: #d1d5db;
 }
 
-body.dark .acoes-nota-lixeira {
+body.dark .lixeira-pagina .acoes-nota-lixeira {
     border-top-color: #2a2a2a;
 }
 
-body.dark .btn-restaurar {
+body.dark .lixeira-pagina .btn-restaurar {
     border-color: #1e3a8a;
     color: #60a5fa;
 }
 
-body.dark .btn-restaurar:hover {
+body.dark .lixeira-pagina .btn-restaurar:hover {
     background: #2563eb;
     color: white;
     border-color: #2563eb;
 }
 
-/* RESPONSIVO */
+/* ================= RESPONSIVO ================= */
+
 @media (max-width: 1400px) {
-    .lixeira-container {
+    .lixeira-pagina .lixeira-container {
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     }
 }
 
 @media (max-width: 1200px) {
-    .lixeira-container {
+    .lixeira-pagina .lixeira-container {
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     }
 }
 
 @media (max-width: 1024px) {
-    .lixeira-container {
+    .lixeira-pagina .lixeira-container {
         grid-template-columns: repeat(2, 1fr);
     }
 }
@@ -321,25 +340,25 @@ body.dark .btn-restaurar:hover {
         padding: 1rem;
     }
 
-    .lixeira-cabecalho {
+    .lixeira-pagina .lixeira-cabecalho {
         flex-direction: column;
         align-items: stretch;
     }
 
-    .btn-limpar-lixeira {
+    .lixeira-pagina .btn-limpar-lixeira {
         width: 100%;
         justify-content: center;
     }
 
-    .lixeira-cabecalho .cabecalho-texto h1 {
+    .lixeira-pagina .lixeira-cabecalho .cabecalho-texto h1 {
         font-size: 1.5rem;
     }
 
-    .lixeira-cabecalho .cabecalho-texto p {
+    .lixeira-pagina .lixeira-cabecalho .cabecalho-texto p {
         font-size: 0.9rem;
     }
 
-    .lixeira-container {
+    .lixeira-pagina .lixeira-container {
         grid-template-columns: 1fr;
         gap: 1rem;
     }
@@ -350,23 +369,23 @@ body.dark .btn-restaurar:hover {
         padding: 0.75rem;
     }
 
-    .lixeira-cabecalho .cabecalho-texto h1 {
+    .lixeira-pagina .lixeira-cabecalho .cabecalho-texto h1 {
         font-size: 1.35rem;
     }
 
-    .lixeira-vazia {
+    .lixeira-pagina .lixeira-vazia {
         padding: 3rem 1.5rem;
     }
 
-    .lixeira-vazia .icone-vazio {
+    .lixeira-pagina .lixeira-vazia .icone-vazio {
         font-size: 3rem;
     }
 
-    .lixeira-vazia p {
+    .lixeira-pagina .lixeira-vazia p {
         font-size: 1rem;
     }
 
-    .lixeira-vazia span {
+    .lixeira-pagina .lixeira-vazia span {
         font-size: 0.875rem;
     }
 }
