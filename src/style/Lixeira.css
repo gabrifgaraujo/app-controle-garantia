@@ -1,12 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-/* ================= BASE ================= */
-
 .lixeira-pagina {
     font-family: "Inter", sans-serif;
 }
-
-/* ================= PÁGINA ================= */
 
 .lixeira-pagina {
     width: 100%;
@@ -17,8 +13,6 @@
     gap: 2rem;
     overflow-x: hidden;
 }
-
-/* ================= CABEÇALHO ================= */
 
 .lixeira-pagina .lixeira-cabecalho {
     display: flex;
@@ -42,8 +36,6 @@
     margin: 0;
     line-height: 1.5;
 }
-
-/* ================= BOTÃO LIMPAR ================= */
 
 .lixeira-pagina .btn-limpar-lixeira {
     background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
@@ -73,16 +65,12 @@
     box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.5);
 }
 
-/* ================= CONTAINER ================= */
-
 .lixeira-pagina .lixeira-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 1.5rem;
     width: 100%;
 }
-
-/* ================= LIXEIRA VAZIA ================= */
 
 .lixeira-pagina .lixeira-vazia {
     grid-column: 1 / -1;
@@ -116,8 +104,6 @@
     color: #9ca3af;
 }
 
-/* ================= CARD ================= */
-
 .lixeira-pagina .cartao-nota-lixeira {
     width: 100%;
     background: white;
@@ -140,8 +126,6 @@
     border-color: #fca5a5;
     opacity: 1;
 }
-
-/* ================= CONTEÚDO ================= */
 
 .lixeira-pagina .cabecalho-nota {
     display: flex;
@@ -203,8 +187,6 @@
     flex-shrink: 0;
 }
 
-/* ================= AÇÕES ================= */
-
 .lixeira-pagina .acoes-nota-lixeira {
     display: flex;
     justify-content: flex-end;
@@ -240,7 +222,7 @@
     transform: translateY(0);
 }
 
-/* ================= DARK MODE ================= */
+/* DARK MODE */
 
 body.dark .lixeira-pagina .lixeira-cabecalho .cabecalho-texto h1 {
     color: #e5e7eb;
@@ -315,7 +297,7 @@ body.dark .lixeira-pagina .btn-restaurar:hover {
     border-color: #2563eb;
 }
 
-/* ================= RESPONSIVO ================= */
+/* RESPONSIVO */
 
 @media (max-width: 1400px) {
     .lixeira-pagina .lixeira-container {
