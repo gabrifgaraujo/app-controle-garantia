@@ -181,8 +181,11 @@ export default function Perfil() {
 
         if (!novaSenha) {
             newErrors.novaSenha = 'Nova senha é obrigatória.';
-        } else if (novaSenha.length < 6) {
-            newErrors.novaSenha = 'A senha deve ter no mínimo 6 caracteres.';
+        } else if (novaSenha.length < 9) {
+            newErrors.novaSenha = 'A senha deve ter no mínimo 9 caracteres.';
+        }
+        else if (novaSenha === senhaAtual) {
+            newErrors.novaSenha = 'A nova senha não pode ser igual à senha atual.';
         }
 
         if (!confirmarSenha) {
@@ -196,11 +199,11 @@ export default function Perfil() {
         if (Object.keys(newErrors).length === 0) {
             const usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
             const index = usuarios.findIndex((u: any) => u.email === profileData.email);
-            
+
             if (index !== -1) {
                 usuarios[index].senha = novaSenha;
                 localStorage.setItem('usuarios', JSON.stringify(usuarios));
-                
+
                 const usuarioAtualizado = { ...profileData, senha: novaSenha };
                 setProfileData(usuarioAtualizado);
                 localStorage.setItem('usuarioLogado', JSON.stringify(usuarioAtualizado));

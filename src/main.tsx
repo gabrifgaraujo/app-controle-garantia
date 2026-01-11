@@ -12,12 +12,10 @@ const CadastroNota = lazy(() => import('./components/CadastroNota'))
 const EsqueceuSenha = lazy(() => import('./components/EsqueceuSenha'))
 const Notas = lazy(() => import('./pages/Notas'))
 const Perfil = lazy(() => import('./pages/Perfil'))
-const AlterarSenha = lazy(() => import('./pages/AlterarSenha'))
 const Lixeira = lazy(() => import('./pages/Lixeira'))
 
 // import ThemeToggle from './components/ThemeToggle'
 import './style/Theme.css'
-
 import './style/Cadastro.css'
 import './style/CadastroNota.css'
 import './style/Login.css'
@@ -25,8 +23,6 @@ import './style/esqueceu-senha.css'
 import './style/Nota.css'
 import './style/Notas.css'
 import './style/Perfil.css'
-import './style/AlterarSenha.css'
-
 import './style/Splash.css'
 import './style/Spinner.css'
 
@@ -58,7 +54,6 @@ const App: React.FC = () => {
           <Route path="/notas" element={<Notas />} />
           <Route path="/lixeira" element={<Lixeira />} />
           <Route path="/perfil" element={<Perfil />} />
-          <Route path="/alterar-senha" element={<AlterarSenha />} />
         </Routes>
       </HashRouter>
     </Suspense>
