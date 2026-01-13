@@ -12,7 +12,7 @@ body {
 .layout-container {
     display: flex;
     min-height: 100vh;
-    background: linear-gradient(135deg, #f3e7ff 0%, #e9d5ff 100%);
+    background: #8b5cf6;
     position: relative;
 }
 
@@ -428,7 +428,7 @@ body.dark .layout-container {
 
 body.dark .sidebar {
     background: #020617;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.6);
+    box-shadow: none;
 }
 
 body.dark .user-section:hover {

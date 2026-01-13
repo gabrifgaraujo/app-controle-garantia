@@ -186,8 +186,6 @@ const Notas = () => {
           </div>
         </div>
 
-
-
         <div className="secao-filtros">
           <div className="filtro-dropdown">
             <button
