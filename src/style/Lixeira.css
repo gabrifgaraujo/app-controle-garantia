@@ -224,12 +224,13 @@
 
 /* DARK MODE */
 
-body.dark .lixeira-pagina .lixeira-cabecalho .cabecalho-texto h1 {
-    color: #e5e7eb;
+.lixeira-pagina .lixeira-cabecalho .cabecalho-texto h1 {
+    color: #ffffff;
 }
 
-body.dark .lixeira-pagina .lixeira-cabecalho .cabecalho-texto p {
-    color: #9ca3af;
+.lixeira-pagina .lixeira-cabecalho .cabecalho-texto p {
+    color: #ffffff;
+    
 }
 
 body.dark .lixeira-pagina .btn-limpar-lixeira {
@@ -241,10 +242,10 @@ body.dark .lixeira-pagina .btn-limpar-lixeira:focus {
 }
 
 body.dark .lixeira-pagina .lixeira-vazia {
-    background: #141414;
-    border-color: #262626;
-    color: #9ca3af;
+    background: #120b14;
+    border-color: #2a0e12;
 }
+
 
 body.dark .lixeira-pagina .lixeira-vazia .icone-vazio {
     color: #3f3f46;
@@ -261,9 +262,11 @@ body.dark .lixeira-pagina .cartao-nota-lixeira {
 }
 
 body.dark .lixeira-pagina .cartao-nota-lixeira:hover {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
-    border-color: #7f1d1d;
+    box-shadow:
+      0 10px 30px rgba(20, 5, 10, 0.9),
+      0 0 0 1px rgba(248, 113, 113, 0.15);
 }
+
 
 body.dark .lixeira-pagina .icone-nota {
     background: linear-gradient(135deg, #450a0a, #7f1d1d);
@@ -283,7 +286,7 @@ body.dark .lixeira-pagina .data-garantia {
 }
 
 body.dark .lixeira-pagina .acoes-nota-lixeira {
-    border-top-color: #2a2a2a;
+    border-top-color: rgba(248, 113, 113, 0.12);
 }
 
 body.dark .lixeira-pagina .btn-restaurar {
