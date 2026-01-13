@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
 import "../style/Nota.css";
 import { IoShieldCheckmarkOutline } from "react-icons/io5";
 import { CiCalendarDate } from "react-icons/ci";
@@ -20,6 +19,7 @@ export interface NotaProps {
   arquivo?: string | null;
   garantiaEstendida?: string;
   tempoGarantiaEstendida?: string;
+  onDelete: (id: string) => void;
 }
 
 const Nota = ({
@@ -37,6 +37,7 @@ const Nota = ({
   arquivo,
   garantiaEstendida,
   tempoGarantiaEstendida,
+  onDelete,
 }: NotaProps) => {
   const [modalAberto, setModalAberto] = useState(false);
   const navigate = useNavigate();
@@ -67,67 +68,7 @@ const Nota = ({
 
   const deletarNota = () => {
     setModalAberto(false);
-    const isDark = document.body.classList.contains("dark");
-
-    Swal.fire({
-      title: "Excluir nota?",
-      text: "A nota será movida para a lixeira.",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Deletar",
-      cancelButtonText: "Cancelar",
-      background: isDark ? "#141414" : "#ffffff",
-      color: isDark ? "#e5e7eb" : "#1f2937",
-      confirmButtonColor: "#7c3aed",
-      cancelButtonColor: isDark ? "#374151" : "#9ca3af",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const usuarioLogado = JSON.parse(
-          localStorage.getItem("usuarioLogado") || "null"
-        );
-
-        if (!usuarioLogado?.email) return;
-
-        const chaveNotas = `notas_${usuarioLogado.email}`;
-        const chaveLixeira = `lixeira_${usuarioLogado.email}`;
-
-        const notasSalvas = localStorage.getItem(chaveNotas);
-        const notas = notasSalvas ? JSON.parse(notasSalvas) : [];
-
-        const notaParaDeletar = notas.find(
-          (nota: NotaProps) => nota.id === id
-        );
-
-        if (notaParaDeletar) {
-          const lixeiraAtual = JSON.parse(
-            localStorage.getItem(chaveLixeira) || "[]"
-          );
-          lixeiraAtual.push(notaParaDeletar);
-          localStorage.setItem(chaveLixeira, JSON.stringify(lixeiraAtual));
-        }
-
-        const novasNotas = notas.filter(
-          (nota: NotaProps) => nota.id !== id
-        );
-
-        localStorage.setItem(chaveNotas, JSON.stringify(novasNotas));
-
-        setModalAberto(false);
-
-        const isDark = document.body.classList.contains("dark");
-
-        Swal.fire({
-          icon: "success",
-          title: "Nota movida para a lixeira!",
-          confirmButtonText: "OK",
-          background: isDark ? "#141414" : "#ffffff",
-          color: isDark ? "#e5e7eb" : "#1f2937",
-          confirmButtonColor: "#7c3aed",
-        }).then(() => {
-          window.location.reload();
-        });
-      }
-    });
+    onDelete(id);
   };
 
   const renderArquivo = () => {
@@ -139,7 +80,7 @@ const Nota = ({
         rel="noreferrer"
         className="link-arquivo"
       >
-        📄 Abrir Arquivo
+        Abrir Arquivo
       </a>
     );
   };

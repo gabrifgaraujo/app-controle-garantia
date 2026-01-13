@@ -10,6 +10,7 @@ import {
   AiOutlineClockCircle,
   AiOutlineCloseCircle
 } from "react-icons/ai";
+import Swal from "sweetalert2";
 
 type StatusGarantia = "Ativa" | "A Expirar" | "Expirada";
 
@@ -58,6 +59,65 @@ const Notas = () => {
     if (diasRestantes < 0) return "Expirada";
     if (diasRestantes <= 30) return "A Expirar";
     return "Ativa";
+  };
+
+  const handleDelete = (id: string) => {
+    const isDark = document.body.classList.contains("dark");
+
+    Swal.fire({
+      title: "Excluir nota?",
+      text: "A nota será movida para a lixeira.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Deletar",
+      cancelButtonText: "Cancelar",
+      background: isDark ? "#141414" : "#ffffff",
+      color: isDark ? "#e5e7eb" : "#1f2937",
+      confirmButtonColor: "#7c3aed",
+      cancelButtonColor: isDark ? "#374151" : "#9ca3af",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const usuarioLogado = JSON.parse(
+          localStorage.getItem("usuarioLogado") || "null"
+        );
+
+        if (!usuarioLogado?.email) return;
+
+        const chaveNotas = `notas_${usuarioLogado.email}`;
+        const chaveLixeira = `lixeira_${usuarioLogado.email}`;
+
+        const notasSalvas = localStorage.getItem(chaveNotas);
+        const notasAtual = notasSalvas ? JSON.parse(notasSalvas) : [];
+
+        const notaParaDeletar = notasAtual.find(
+          (nota: NotaProps) => nota.id === id
+        );
+
+        if (notaParaDeletar) {
+          const lixeiraAtual = JSON.parse(
+            localStorage.getItem(chaveLixeira) || "[]"
+          );
+          lixeiraAtual.push(notaParaDeletar);
+          localStorage.setItem(chaveLixeira, JSON.stringify(lixeiraAtual));
+        }
+
+        const novasNotas = notasAtual.filter(
+          (nota: NotaProps) => nota.id !== id
+        );
+
+        localStorage.setItem(chaveNotas, JSON.stringify(novasNotas));
+        setNotas(novasNotas);
+
+        Swal.fire({
+          icon: "success",
+          title: "Nota movida para a lixeira!",
+          confirmButtonText: "OK",
+          background: isDark ? "#141414" : "#ffffff",
+          color: isDark ? "#e5e7eb" : "#1f2937",
+          confirmButtonColor: "#7c3aed",
+        });
+      }
+    });
   };
 
   const estatisticas = useMemo(() => {
@@ -249,6 +309,7 @@ const Notas = () => {
                   nota.dataCompra,
                   nota.duracaoGarantia
                 )}
+                onDelete={handleDelete}
               />
             ))
           )}
