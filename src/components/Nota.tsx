@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
 import "../style/Nota.css";
 import { IoShieldCheckmarkOutline } from "react-icons/io5";
 import { CiCalendarDate } from "react-icons/ci";
@@ -20,6 +19,7 @@ export interface NotaProps {
   arquivo?: string | null;
   garantiaEstendida?: string;
   tempoGarantiaEstendida?: string;
+  onDelete: (id: string) => void;
 }
 
 const Nota = ({
@@ -37,6 +37,7 @@ const Nota = ({
   arquivo,
   garantiaEstendida,
   tempoGarantiaEstendida,
+  onDelete,
 }: NotaProps) => {
   const [modalAberto, setModalAberto] = useState(false);
   const navigate = useNavigate();
@@ -67,43 +68,7 @@ const Nota = ({
 
   const deletarNota = () => {
     setModalAberto(false);
-    Swal.fire({
-      title: "Excluir nota?",
-      text: "Essa ação não pode ser desfeita.",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Deletar",
-      cancelButtonText: "Cancelar",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const usuarioLogado = JSON.parse(
-          localStorage.getItem("usuarioLogado") || "null"
-        );
-
-        if (!usuarioLogado?.email) return;
-
-        const chaveNotas = `notas_${usuarioLogado.email}`;
-
-        const notasSalvas = localStorage.getItem(chaveNotas);
-        const notas = notasSalvas ? JSON.parse(notasSalvas) : [];
-
-        const novasNotas = notas.filter(
-          (nota: NotaProps) => nota.id !== id
-        );
-
-        localStorage.setItem(chaveNotas, JSON.stringify(novasNotas));
-
-        setModalAberto(false);
-
-        Swal.fire({
-          icon: "success",
-          title: "Nota deletada!",
-          confirmButtonText: "OK",
-        }).then(() => {
-          window.location.reload();
-        });
-      }
-    });
+    onDelete(id);
   };
 
   const renderArquivo = () => {
@@ -115,7 +80,7 @@ const Nota = ({
         rel="noreferrer"
         className="link-arquivo"
       >
-        📄 Abrir Arquivo
+        Abrir Arquivo
       </a>
     );
   };

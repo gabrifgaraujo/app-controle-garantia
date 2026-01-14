@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "../assets/aponti_marca_horizontal.png";
+import logo from "../assets/apontilogo.png";
 import {
   FileText,
   User,
@@ -10,7 +10,7 @@ import {
   Bell,
   Check,
   CheckCheck,
-  Key,
+  Trash2,
 } from "lucide-react";
 import "../style/MenuLateral.css";
 import ThemeToggle from "./ThemeToggle";
@@ -50,8 +50,12 @@ export default function MenuLateral({
 
     const usuarioLogado = JSON.parse(usuario);
     const storageKey = `notas_${usuarioLogado.email}`;
+    const readStorageKey = `readNotifications_${usuarioLogado.email}`;
 
     const notasSalvas = localStorage.getItem(storageKey);
+    const readKeysJson = localStorage.getItem(readStorageKey);
+    const readKeys = new Set<string>(readKeysJson ? JSON.parse(readKeysJson) : []);
+
     if (!notasSalvas) {
       setNotificacoes([]);
       return;
@@ -85,12 +89,14 @@ export default function MenuLateral({
 
         if (!tipo) return null;
 
+        const key = `${nota.produto}-${nota.dataCompra}-${nota.duracaoGarantia}`;
+
         return {
           produto: nota.produto,
           dataCompra: nota.dataCompra,
           duracaoGarantia: nota.duracaoGarantia,
           tipo,
-          lida: false,
+          lida: readKeys.has(key),
         };
       })
       .filter(Boolean);
@@ -98,14 +104,34 @@ export default function MenuLateral({
     setNotificacoes(novasNotificacoes);
   }, []);
 
+  const saveReadKeys = (readKeys: Set<string>) => {
+    const usuario = localStorage.getItem("usuarioLogado");
+    if (!usuario) return;
+    const usuarioLogado = JSON.parse(usuario);
+    const readStorageKey = `readNotifications_${usuarioLogado.email}`;
+    localStorage.setItem(readStorageKey, JSON.stringify(Array.from(readKeys)));
+  };
+
   const marcarComoLida = (index: number) => {
-    setNotificacoes((prev) =>
-      prev.map((n, i) => (i === index ? { ...n, lida: true } : n))
-    );
+    setNotificacoes((prev) => {
+      const newNotifs = prev.map((n, i) => (i === index ? { ...n, lida: true } : n));
+      const readKeys = new Set(
+        newNotifs.filter((n) => n.lida).map((n) => `${n.produto}-${n.dataCompra}-${n.duracaoGarantia}`)
+      );
+      saveReadKeys(readKeys);
+      return newNotifs;
+    });
   };
 
   const marcarTodasComoLidas = () => {
-    setNotificacoes((prev) => prev.map((n) => ({ ...n, lida: true })));
+    setNotificacoes((prev) => {
+      const newNotifs = prev.map((n) => ({ ...n, lida: true }));
+      const readKeys = new Set(
+        newNotifs.map((n) => `${n.produto}-${n.dataCompra}-${n.duracaoGarantia}`)
+      );
+      saveReadKeys(readKeys);
+      return newNotifs;
+    });
   };
 
   const handleLogout = () => {
@@ -118,7 +144,7 @@ export default function MenuLateral({
       Perfil: "/perfil",
       Início: "/notas",
       "Visualizar Notas": "/notas",
-      "Alterar Senha": "/alterar-senha",
+      "Lixeira": "/lixeira",
     };
     navigate(map[page] || "/notas");
     setIsSidebarOpen(false);
@@ -194,22 +220,22 @@ export default function MenuLateral({
 
           <button
             className={`nav-item ${
+              currentPage === "Lixeira" ? "nav-item-active" : ""
+            }`}
+            onClick={() => navigateTo("Lixeira")}
+          >
+            <Trash2 />
+            <span>Lixeira</span>
+          </button>
+
+          <button
+            className={`nav-item ${
               currentPage === "Perfil" ? "nav-item-active" : ""
             }`}
             onClick={() => navigateTo("Perfil")}
           >
             <User />
             <span>Meu Perfil</span>
-          </button>
-
-          <button
-            className={`nav-item ${
-              currentPage === "Alterar Senha" ? "nav-item-active" : ""
-            }`}
-            onClick={() => navigateTo("Alterar Senha")}
-          >
-            <Key />
-            <span>Alterar Senha</span>
           </button>
         </nav>
         
@@ -267,14 +293,14 @@ export default function MenuLateral({
                 <div
                   key={index}
                   className={`
-                                        notification-item
-                                        ${
-                                          n.tipo === "Expirada"
-                                            ? "notification-expirada"
-                                            : "notification-proxima"
-                                        }
-                                        ${n.lida ? "notification-lida" : ""}
-                                    `}
+                    notification-item
+                    ${
+                      n.tipo === "Expirada"
+                        ? "notification-expirada"
+                        : "notification-proxima"
+                    }
+                    ${n.lida ? "notification-lida" : ""}
+                `}
                 >
                   <div>
                     <strong>{n.produto}</strong>

@@ -4,9 +4,11 @@ import {
     Building2,
     Camera,
     Save,
-    X
+    X,
+    Lock
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import '../style/Perfil.css';
 import MenuLateral from '../components/MenuLateral';
 
@@ -19,6 +21,7 @@ type ProfileData = {
     cnpj?: string;
     endereco?: string;
     avatar?: string | null;
+    senha?: string;
 };
 
 type Errors = {
@@ -27,6 +30,9 @@ type Errors = {
     telefone?: string;
     cpf?: string;
     cnpj?: string;
+    senhaAtual?: string;
+    novaSenha?: string;
+    confirmarSenha?: string;
 };
 
 export default function Perfil() {
@@ -34,6 +40,7 @@ export default function Perfil() {
 
     const [isEditing, setIsEditing] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [showPasswordModal, setShowPasswordModal] = useState(false);
 
     const [profileData, setProfileData] = useState<ProfileData>({
         nome: '',
@@ -48,6 +55,10 @@ export default function Perfil() {
 
     const [editData, setEditData] = useState<ProfileData>({ ...profileData });
     const [errors, setErrors] = useState<Errors>({});
+
+    const [senhaAtual, setSenhaAtual] = useState('');
+    const [novaSenha, setNovaSenha] = useState('');
+    const [confirmarSenha, setConfirmarSenha] = useState('');
 
     useEffect(() => {
         const usuarioLogado = localStorage.getItem('usuarioLogado');
@@ -124,6 +135,16 @@ export default function Perfil() {
         }
 
         setIsEditing(false);
+
+        const isDark = document.body.classList.contains('dark');
+        Swal.fire({
+            icon: 'success',
+            title: 'Perfil atualizado!',
+            confirmButtonText: 'OK',
+            background: isDark ? '#141414' : '#ffffff',
+            color: isDark ? '#e5e7eb' : '#1f2937',
+            confirmButtonColor: '#7c3aed',
+        });
     };
 
     const handleCancel = () => {
@@ -149,6 +170,61 @@ export default function Perfil() {
         navigate('/');
     };
 
+    const handleChangePassword = () => {
+        const newErrors: Errors = {};
+
+        if (!senhaAtual) {
+            newErrors.senhaAtual = 'Senha atual é obrigatória.';
+        } else if (senhaAtual !== profileData.senha) {
+            newErrors.senhaAtual = 'Senha atual incorreta.';
+        }
+
+        if (!novaSenha) {
+            newErrors.novaSenha = 'Nova senha é obrigatória.';
+        } else if (novaSenha.length < 9) {
+            newErrors.novaSenha = 'A senha deve ter no mínimo 9 caracteres.';
+        }
+        else if (novaSenha === senhaAtual) {
+            newErrors.novaSenha = 'A nova senha não pode ser igual à senha atual.';
+        }
+
+        if (!confirmarSenha) {
+            newErrors.confirmarSenha = 'Confirmação de senha é obrigatória.';
+        } else if (novaSenha !== confirmarSenha) {
+            newErrors.confirmarSenha = 'As senhas não coincidem.';
+        }
+
+        setErrors(newErrors);
+
+        if (Object.keys(newErrors).length === 0) {
+            const usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+            const index = usuarios.findIndex((u: any) => u.email === profileData.email);
+
+            if (index !== -1) {
+                usuarios[index].senha = novaSenha;
+                localStorage.setItem('usuarios', JSON.stringify(usuarios));
+
+                const usuarioAtualizado = { ...profileData, senha: novaSenha };
+                setProfileData(usuarioAtualizado);
+                localStorage.setItem('usuarioLogado', JSON.stringify(usuarioAtualizado));
+            }
+
+            setShowPasswordModal(false);
+            setSenhaAtual('');
+            setNovaSenha('');
+            setConfirmarSenha('');
+
+            const isDark = document.body.classList.contains('dark');
+            Swal.fire({
+                icon: 'success',
+                title: 'Senha alterada com sucesso!',
+                confirmButtonText: 'OK',
+                background: isDark ? '#141414' : '#ffffff',
+                color: isDark ? '#e5e7eb' : '#1f2937',
+                confirmButtonColor: '#7c3aed',
+            });
+        }
+    };
 
     return (
         <MenuLateral
@@ -357,6 +433,14 @@ export default function Perfil() {
                                 </button>
 
                                 <button
+                                    onClick={() => setShowPasswordModal(true)}
+                                    className="change-password-button"
+                                >
+                                    <Lock size={18} />
+                                    Alterar Senha
+                                </button>
+
+                                <button
                                     onClick={() => setShowDeleteModal(true)}
                                     className="delete-account-button"
                                 >
@@ -367,6 +451,70 @@ export default function Perfil() {
                     </div>
                 </div>
             </div>
+
+            {showPasswordModal && (
+                <div className="modal-overlay">
+                    <div className="modal password-modal">
+                        <h3 className="modal-title">Alterar Senha</h3>
+
+                        <div className="password-fields">
+                            <div className="info-field">
+                                <label className="field-label">Senha Atual</label>
+                                <input
+                                    type="password"
+                                    value={senhaAtual}
+                                    onChange={(e) => setSenhaAtual(e.target.value)}
+                                    className="field-input"
+                                />
+                                {errors.senhaAtual && <p className="error-text">{errors.senhaAtual}</p>}
+                            </div>
+
+                            <div className="info-field">
+                                <label className="field-label">Nova Senha</label>
+                                <input
+                                    type="password"
+                                    value={novaSenha}
+                                    onChange={(e) => setNovaSenha(e.target.value)}
+                                    className="field-input"
+                                />
+                                {errors.novaSenha && <p className="error-text">{errors.novaSenha}</p>}
+                            </div>
+
+                            <div className="info-field">
+                                <label className="field-label">Confirmar Nova Senha</label>
+                                <input
+                                    type="password"
+                                    value={confirmarSenha}
+                                    onChange={(e) => setConfirmarSenha(e.target.value)}
+                                    className="field-input"
+                                />
+                                {errors.confirmarSenha && <p className="error-text">{errors.confirmarSenha}</p>}
+                            </div>
+                        </div>
+
+                        <div className="modal-actions">
+                            <button
+                                onClick={() => {
+                                    setShowPasswordModal(false);
+                                    setSenhaAtual('');
+                                    setNovaSenha('');
+                                    setConfirmarSenha('');
+                                    setErrors({});
+                                }}
+                                className="modal-cancel"
+                            >
+                                Cancelar
+                            </button>
+                            <button
+                                onClick={handleChangePassword}
+                                className="modal-confirm"
+                            >
+                                Alterar Senha
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {showDeleteModal && (
                 <div className="modal-overlay">

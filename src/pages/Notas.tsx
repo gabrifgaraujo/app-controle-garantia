@@ -6,27 +6,27 @@ import "../style/Notas.css";
 import {
   AiOutlineFileText,
   AiOutlineCheckCircle,
+  AiOutlineCaretDown,
   AiOutlineClockCircle,
-  AiOutlineCloseCircle,
+  AiOutlineCloseCircle
 } from "react-icons/ai";
+import Swal from "sweetalert2";
 
 type StatusGarantia = "Ativa" | "A Expirar" | "Expirada";
 
 const Notas = () => {
-  const [busca] = useState("");
+  const [busca, setBusca] = useState("");
   const [notas, setNotas] = useState<NotaProps[]>([]);
-  const [filtrosSelecionados] = useState<
-    StatusGarantia[]
-  >([]);
+  const [filtrosSelecionados, setFiltrosSelecionados] = useState<StatusGarantia[]>([]);
+  const [abrirDropdown, setAbrirDropdown] = useState(false);
   const [usuarioLogado, setUsuarioLogado] = useState({
     nome: "",
     email: "",
-    avatar: null as string | null,
+    avatar: null as string | null
   });
 
   useEffect(() => {
     const usuario = localStorage.getItem("usuarioLogado");
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (usuario) setUsuarioLogado(JSON.parse(usuario));
   }, []);
 
@@ -38,7 +38,6 @@ const Notas = () => {
     const storageKey = `notas_${email}`;
 
     const notasSalvas = localStorage.getItem(storageKey);
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (notasSalvas) setNotas(JSON.parse(notasSalvas));
   }, []);
 
@@ -62,29 +61,111 @@ const Notas = () => {
     return "Ativa";
   };
 
+  const handleDelete = (id: string) => {
+    const isDark = document.body.classList.contains("dark");
+
+    Swal.fire({
+      title: "Excluir nota?",
+      text: "A nota será movida para a lixeira.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Deletar",
+      cancelButtonText: "Cancelar",
+      background: isDark ? "#141414" : "#ffffff",
+      color: isDark ? "#e5e7eb" : "#1f2937",
+      confirmButtonColor: "#7c3aed",
+      cancelButtonColor: isDark ? "#374151" : "#9ca3af",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const usuarioLogado = JSON.parse(
+          localStorage.getItem("usuarioLogado") || "null"
+        );
+
+        if (!usuarioLogado?.email) return;
+
+        const chaveNotas = `notas_${usuarioLogado.email}`;
+        const chaveLixeira = `lixeira_${usuarioLogado.email}`;
+
+        const notasSalvas = localStorage.getItem(chaveNotas);
+        const notasAtual = notasSalvas ? JSON.parse(notasSalvas) : [];
+
+        const notaParaDeletar = notasAtual.find(
+          (nota: NotaProps) => nota.id === id
+        );
+
+        if (notaParaDeletar) {
+          const lixeiraAtual = JSON.parse(
+            localStorage.getItem(chaveLixeira) || "[]"
+          );
+          lixeiraAtual.push(notaParaDeletar);
+          localStorage.setItem(chaveLixeira, JSON.stringify(lixeiraAtual));
+        }
+
+        const novasNotas = notasAtual.filter(
+          (nota: NotaProps) => nota.id !== id
+        );
+
+        localStorage.setItem(chaveNotas, JSON.stringify(novasNotas));
+        setNotas(novasNotas);
+
+        Swal.fire({
+          icon: "success",
+          title: "Nota movida para a lixeira!",
+          confirmButtonText: "OK",
+          background: isDark ? "#141414" : "#ffffff",
+          color: isDark ? "#e5e7eb" : "#1f2937",
+          confirmButtonColor: "#7c3aed",
+        });
+      }
+    });
+  };
+
   const estatisticas = useMemo(() => {
     return {
       total: notas.length,
-      ativas: notas.filter(
-        (nota) =>
-          calcularStatusGarantia(nota.dataCompra, nota.duracaoGarantia) ===
-          "Ativa"
-      ).length,
+
+      ativas: notas.filter(nota => {
+        const status = calcularStatusGarantia(
+          nota.dataCompra,
+          nota.duracaoGarantia
+        );
+        return status === "Ativa" || status === "A Expirar";
+      }).length,
+
       proximasExpirar: notas.filter(
-        (nota) =>
-          calcularStatusGarantia(nota.dataCompra, nota.duracaoGarantia) ===
-          "A Expirar"
+        nota =>
+          calcularStatusGarantia(
+            nota.dataCompra,
+            nota.duracaoGarantia
+          ) === "A Expirar"
       ).length,
+
       expiradas: notas.filter(
-        (nota) =>
-          calcularStatusGarantia(nota.dataCompra, nota.duracaoGarantia) ===
-          "Expirada"
-      ).length,
+        nota =>
+          calcularStatusGarantia(
+            nota.dataCompra,
+            nota.duracaoGarantia
+          ) === "Expirada"
+      ).length
     };
   }, [notas]);
 
+  const toggleFiltro = (status: StatusGarantia) => {
+    setFiltrosSelecionados(prev =>
+      prev.includes(status)
+        ? prev.filter(s => s !== status)
+        : [...prev, status]
+    );
+  };
+
+  const toggleTodos = () => {
+    setFiltrosSelecionados(prev =>
+      prev.length === 3 ? [] : ["Ativa", "A Expirar", "Expirada"]
+    );
+  };
+
   const notasFiltradas = useMemo(() => {
-    return notas.filter((nota) => {
+    return notas.filter(nota => {
       const matchBusca = nota.produto
         .toLowerCase()
         .includes(busca.toLowerCase());
@@ -148,7 +229,9 @@ const Notas = () => {
             </div>
             <div className="card-info">
               <span className="card-label">A Expirar</span>
-              <span className="card-valor">{estatisticas.proximasExpirar}</span>
+              <span className="card-valor">
+                {estatisticas.proximasExpirar}
+              </span>
             </div>
           </div>
 
@@ -161,6 +244,51 @@ const Notas = () => {
               <span className="card-valor">{estatisticas.expiradas}</span>
             </div>
           </div>
+        </div>
+
+        <div className="secao-filtros">
+          <div className="filtro-dropdown">
+            <button
+              className="btn-icone-filtro"
+              onClick={() => setAbrirDropdown(prev => !prev)}
+            >
+              <AiOutlineCaretDown /> Filtrar por status
+            </button>
+
+            {abrirDropdown && (
+              <div className="opcoes-filtro-card">
+                <label className="filtro-item">
+                  <input
+                    type="checkbox"
+                    checked={filtrosSelecionados.length === 3}
+                    onChange={toggleTodos}
+                  />
+                  Todas
+                </label>
+
+                {(["Ativa", "A Expirar", "Expirada"] as StatusGarantia[]).map(
+                  status => (
+                    <label key={status} className="filtro-item">
+                      <input
+                        type="checkbox"
+                        checked={filtrosSelecionados.includes(status)}
+                        onChange={() => toggleFiltro(status)}
+                      />
+                      {status}
+                    </label>
+                  )
+                )}
+              </div>
+            )}
+          </div>
+
+          <input
+            type="text"
+            className="input-busca"
+            placeholder="Buscar por produto..."
+            value={busca}
+            onChange={e => setBusca(e.target.value)}
+          />
         </div>
 
         <div className="container-notas">
@@ -181,6 +309,7 @@ const Notas = () => {
                   nota.dataCompra,
                   nota.duracaoGarantia
                 )}
+                onDelete={handleDelete}
               />
             ))
           )}

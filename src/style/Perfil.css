@@ -188,6 +188,7 @@
     align-items: center;
     gap: 0.75rem;
     width: 100%;
+    flex-wrap: wrap;
 }
 
 .profile-header-buttons button {
@@ -214,6 +215,17 @@
     background: #faf5ff;
     border-color: #c4b5fd;
     color: #7c3aed;
+}
+
+.change-password-button {
+    background: transparent;
+    color: #2563eb;
+    border: 1px solid #dbeafe;
+}
+
+.change-password-button:hover {
+    background: #eff6ff;
+    border-color: #93c5fd;
 }
 
 .delete-account-button {
@@ -293,6 +305,17 @@
     animation: modalFade 0.25s ease-out;
 }
 
+.password-modal {
+    max-width: 480px;
+}
+
+.password-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+}
+
 @keyframes modalFade {
     from {
         opacity: 0;
@@ -338,12 +361,16 @@
 }
 
 .modal-confirm {
-    background: #dc2626;
+    background: #8b5cf6;
     color: white;
     border: none;
     padding: 0.75rem 1.25rem;
     border-radius: 10px;
     cursor: pointer;
+}
+
+.modal-confirm.danger {
+    background: #dc2626;
 }
 
 /* DARK MODE */
@@ -408,6 +435,16 @@ body.dark .edit-name-input {
 body.dark .modal-cancel {
     background: #1f1f1f;
     color: #d1d5db;
+}
+
+body.dark .change-password-button {
+    border-color: #1e3a8a;
+    color: #60a5fa;
+}
+
+body.dark .change-password-button:hover {
+    background: rgba(37, 99, 235, 0.1);
+    border-color: #3b82f6;
 }
 
 /* RESPONSIVO */

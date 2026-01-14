@@ -165,7 +165,7 @@
 }
 
 .links {
-    margin-top: 1.75rem;
+    margin-top: 1.5rem;
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
@@ -178,7 +178,6 @@
     text-decoration: none;
     font-weight: 500;
     transition: all 0.2s ease;
-    padding: 0.25rem;
 }
 
 .links a:hover {

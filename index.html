@@ -1,13 +1,51 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="" href="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Aponti - Controle de Garantia</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/x-icon" href="./src/assets/iconaponti.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aponti - Controle de Garantia</title>
+  <style>
+    [vw].enabled {
+      position: fixed !important;
+      bottom: 20px !important;
+      right: 20px !important;
+      top: auto !important;
+      left: auto !important;
+      transform: none !important;
+      z-index: 9999 !important;
+    }
+
+    [vw-access-button] {
+      position: relative !important;
+      inset: auto !important;
+    }
+
+    @media (max-width: 768px) {
+      [vw].enabled {
+        bottom: 12px !important;
+        right: 12px !important;
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
+</body>
+
 </html>

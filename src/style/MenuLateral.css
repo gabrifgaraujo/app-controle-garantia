@@ -12,7 +12,7 @@ body {
 .layout-container {
     display: flex;
     min-height: 100vh;
-    background: linear-gradient(135deg, #f3e7ff 0%, #e9d5ff 100%);
+    background: #8b5cf6;
     position: relative;
 }
 
@@ -21,13 +21,13 @@ body {
     top: 1rem;
     left: 1rem;
     z-index: 1000;
-    background: #8b5cf6;
+    background: #4a2899;
     border: none;
     border-radius: 10px;
     padding: 0.75rem;
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
-    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Adicionado transições suaves */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .mobile-menu-button:hover {
@@ -37,7 +37,7 @@ body {
 
 .mobile-menu-button:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.5); /* Adicionado focus state para acessibilidade */
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.5);
 }
 
 .menu-icon {
@@ -47,7 +47,7 @@ body {
 .sidebar {
     width: 280px;
     background: white;
-    height: 100vh;
+    height: 100dvh;
     position: fixed;
     left: 0;
     top: 0;
@@ -56,7 +56,7 @@ body {
     box-shadow: 2px 0 10px rgba(139, 92, 246, 0.1);
     z-index: 1000;
     overflow-y: auto;
-    transition: transform 0.3s ease; /* Adicionado transição para abertura/fechamento */
+    transition: transform 0.3s ease;
 }
 
 .close-sidebar-button {
@@ -190,7 +190,7 @@ body {
     flex: 1;
     margin-left: 280px;
     padding: 2rem;
-    transition: margin-left 0.3s ease; /* Adicionado transição para ajuste de layout */
+    transition: margin-left 0.3s ease;
 }
 
 .notification-overlay {
@@ -270,7 +270,7 @@ body {
     margin-bottom: 0.75rem;
     border-radius: 14px;
     border-left: 4px solid;
-    transition: transform 0.2s ease, opacity 0.2s ease; /* Adicionado transições suaves */
+    transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
 .notification-item:hover {
@@ -380,6 +380,7 @@ body {
     display: flex;
     justify-content: center;
     gap: 0.75rem;
+    background: transparent;
 }
 
 .logout-actions button {
@@ -395,7 +396,7 @@ body {
 
 .logout-actions button:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.5); /* Adicionado focus genérico, ajustável por botão */
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.5);
 }
 
 .logout-cancel {
@@ -427,7 +428,7 @@ body.dark .layout-container {
 
 body.dark .sidebar {
     background: #020617;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.6);
+    box-shadow: none;
 }
 
 body.dark .user-section:hover {
@@ -469,7 +470,7 @@ body.dark .nav-item-active {
 
 body.dark .notification-popup {
     background: #161610;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5); /* Ajustado shadow para dark mode */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
 }
 
 body.dark .notification-header {
@@ -491,15 +492,15 @@ body.dark .notification-actions button:hover {
 }
 
 body.dark .notification-item strong {
-    color: #f8fafc; /* Ajustado para melhor contraste */
+    color: #f8fafc;
 }
 
 body.dark .notification-item small {
-    color: #94a3b8; /* Ajustado para melhor contraste */
+    color: #94a3b8;
 }
 
 body.dark .notification-item {
-    background: #1e293b !important; /* Override para itens específicos em dark */
+    background: #1e293b !important;
 }
 
 body.dark .notification-expirada {
@@ -553,7 +554,7 @@ body.dark .logout-confirm {
 }
 
 body.dark .logout-confirm:hover {
-    background: #ef4444; /* Ajustado hover para mais contraste */
+    background: #ef4444;
 }
 
 body.dark .logout-actions button:focus {
@@ -597,7 +598,7 @@ body.dark .logout-actions button:focus {
     }
 
     .notification-popup {
-        width: 95%; /* Mais largo em mobile para melhor usabilidade */
+        width: 95%;
         max-width: none;
     }
 
@@ -614,7 +615,7 @@ body.dark .logout-actions button:focus {
 
 @media (max-width: 480px) {
     .user-section {
-        padding: 1.5rem 1rem; /* Ajustado padding em telas muito pequenas */
+        padding: 1.5rem 1rem;
     }
 
     .nav-item {
@@ -622,6 +623,6 @@ body.dark .logout-actions button:focus {
     }
 
     .sidebar {
-        width: 240px; /* Reduz largura em mobile para caber melhor */
+        width: 240px;
     }
 }
