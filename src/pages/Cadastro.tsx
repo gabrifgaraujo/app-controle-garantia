@@ -253,11 +253,11 @@ const Cadastro: React.FC = () => {
                 />
                 <label>
                   Eu li e concordo com os{" "}
-                  <a href="./public/termos/termos.html" target="_blank">
+                  <a href="/termos/termos.html" target="_blank" rel="noopener noreferrer">
                     Termos e Condições de Uso
                   </a>{" "}
                   e com a{" "}
-                  <a href="./public/termos/politica.html" target="_blank">
+                  <a href="/termos/politica.html" target="_blank" rel="noopener noreferrer">
                     Política de Privacidade
                   </a>.
                 </label>
