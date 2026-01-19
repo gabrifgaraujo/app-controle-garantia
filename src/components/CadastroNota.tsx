@@ -18,6 +18,7 @@ interface NotaProps {
   tempoGarantiaEstendida?: string;
   observacoes: string;
   arquivo?: string | null;
+  quantidadeProduto: number;
 }
 
 const CadastroNota: React.FC = () => {
@@ -35,7 +36,8 @@ const CadastroNota: React.FC = () => {
     numeroNota: notaEdicao?.numeroNota || "",
     valor: notaEdicao?.valor || "",
     garantiaEstendida: notaEdicao?.garantiaEstendida || "Não",
-    tempoGarantiaEstendida: notaEdicao?.tempoGarantiaEstendida || ""
+    tempoGarantiaEstendida: notaEdicao?.tempoGarantiaEstendida || "",
+    quantidadeProduto: notaEdicao?.quantidadeProduto || 1
   });
 
   const [observacoes, setObservacoes] = useState(notaEdicao?.observacoes || "");
@@ -201,21 +203,35 @@ const CadastroNota: React.FC = () => {
             {erros.tipoNota && <span className="erro-texto">{erros.tipoNota}</span>}
           </div>
 
+
+          {/*input de texto para garantia*/}
           <div className="campo duracaoGarantia">
             {renderLabel("Período de Garantia", "duracaoGarantia")}
-            <select
+            <input
               name="duracaoGarantia"
+              type="number"
+              min="1"
               value={formData.duracaoGarantia}
               onChange={handleChange}
+              placeholder="Ex: 12"
               className={erroClass("duracaoGarantia")}
-            >
-              {!modoEdicao && <option value="">Selecione o tempo</option>}
-              <option value="3">3 meses</option>
-              <option value="6">6 meses</option>
-              <option value="12">12 meses</option>
-              <option value="24">24 meses</option>
-            </select>
+            />
             {erros.duracaoGarantia && <span className="erro-texto">{erros.duracaoGarantia}</span>}
+          </div>
+
+          {/* Quantidade de Produto */}
+          <div className="campo">
+            {renderLabel("Quantidade de Produto", "quantidadeProduto")}
+            <input
+              name="quantidadeProduto"
+              type="number"
+              value={formData.quantidadeProduto}
+              onChange={handleChange}
+              placeholder="Ex: 1"
+              className={erroClass("quantidadeProduto")}
+              min={0}
+            />
+            {erros.quantidadeProduto && <span className="erro-texto">{erros.quantidadeProduto}</span>}
           </div>
 
           <div className="campo produto">
