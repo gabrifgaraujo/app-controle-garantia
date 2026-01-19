@@ -17,7 +17,7 @@ interface NotaProps {
   garantiaEstendida: string;
   tempoGarantiaEstendida?: string;
   observacoes: string;
-  arquivo?: string | null;
+  arquivo?: string[] | null;
   quantidadeProduto: number;
 }
 
@@ -41,28 +41,28 @@ const CadastroNota: React.FC = () => {
   });
 
   const [observacoes, setObservacoes] = useState(notaEdicao?.observacoes || "");
-  const [arquivo, setArquivo] = useState<string | null>(notaEdicao?.arquivo || null);
+  const [arquivos, setArquivos] = useState<string[]>(
+    Array.isArray(notaEdicao?.arquivo) ? notaEdicao.arquivo : []
+  );
   const [erros, setErros] = useState<{ [key: string]: string }>({});
 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const formatarData = (valor: string) => {
-    const numeros = valor.replace(/\D/g, "");
-    if (numeros.length > 8) return numeros.slice(0, 8);
-
-    let formatted = numeros;
-    if (formatted.length > 2) formatted = formatted.slice(0, 2) + "/" + formatted.slice(2);
-    if (formatted.length > 5) formatted = formatted.slice(0, 5) + "/" + formatted.slice(5);
-
-    return formatted;
+    const numeros = valor.replace(/\D/g, "").slice(0, 8);
+    if (numeros.length <= 2) return numeros;
+    if (numeros.length <= 4) return numeros.replace(/(\d{2})(\d+)/, "$1/$2");
+    return numeros.replace(/(\d{2})(\d{2})(\d+)/, "$1/$2/$3");
   };
 
   const formatarValor = (valor: string) => {
     const numeros = valor.replace(/\D/g, "");
     if (!numeros) return "";
-    const numero = parseInt(numeros, 10);
-    return (numero / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+    return (parseInt(numeros, 10) / 100).toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL"
+    });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -70,7 +70,7 @@ const CadastroNota: React.FC = () => {
     let valorFinal = value;
 
     if (name === "dataCompra") valorFinal = formatarData(value);
-    else if (name === "valor") valorFinal = formatarValor(value);
+    if (name === "valor") valorFinal = formatarValor(value);
 
     setFormData(prev => ({ ...prev, [name]: valorFinal }));
     setErros(prev => ({ ...prev, [name]: "" }));
@@ -81,16 +81,25 @@ const CadastroNota: React.FC = () => {
   };
 
   const handleArquivoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
+    const files = e.target.files;
+    if (!files) return;
+
+    Array.from(files).forEach(file => {
       const reader = new FileReader();
-      reader.onloadend = () => setArquivo(reader.result as string);
+      reader.onloadend = () => {
+        if (reader.result) {
+          setArquivos(prev => [...prev, reader.result as string]);
+        }
+      };
       reader.readAsDataURL(file);
-    }
+    });
+
     setErros(prev => ({ ...prev, arquivo: "" }));
   };
 
-  const removerArquivo = () => setArquivo(null);
+  const removerArquivo = (index: number) => {
+    setArquivos(prev => prev.filter((_, i) => i !== index));
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -106,14 +115,7 @@ const CadastroNota: React.FC = () => {
       novosErros["tempoGarantiaEstendida"] = "Campo obrigatório";
     }
 
-    if (!arquivo) novosErros["arquivo"] = "Campo obrigatório";
-
-    if (formData.dataCompra) {
-      const partes = formData.dataCompra.split("/");
-      if (partes.length !== 3 || partes[2].length !== 4) {
-        novosErros["dataCompra"] = "Ano deve ter 4 dígitos";
-      }
-    }
+    if (arquivos.length === 0) novosErros["arquivo"] = "Campo obrigatório";
 
     setErros(novosErros);
     if (Object.keys(novosErros).length > 0) return;
@@ -128,7 +130,7 @@ const CadastroNota: React.FC = () => {
       id: modoEdicao ? notaEdicao.id : crypto.randomUUID(),
       ...formData,
       observacoes,
-      arquivo
+      arquivo: arquivos
     };
 
     const usuario = localStorage.getItem("usuarioLogado");
@@ -141,22 +143,15 @@ const CadastroNota: React.FC = () => {
     const notasExistentes = localStorage.getItem(storageKey);
     let notasArray: NotaProps[] = notasExistentes ? JSON.parse(notasExistentes) : [];
 
-    if (modoEdicao) {
-      notasArray = notasArray.map(n =>
-        n.id === notaEdicao.id ? novaNota : n
-      );
-    } else {
-      notasArray = [novaNota, ...notasArray];
-    }
+    notasArray = modoEdicao
+      ? notasArray.map(n => n.id === notaEdicao.id ? novaNota : n)
+      : [novaNota, ...notasArray];
 
     localStorage.setItem(storageKey, JSON.stringify(notasArray));
-
     setShowSuccessModal(true);
   };
 
-  const fecharConfirmModal = () => {
-    setShowConfirmModal(false);
-  };
+  const fecharConfirmModal = () => setShowConfirmModal(false);
 
   const fecharSuccessModal = () => {
     setShowSuccessModal(false);
@@ -342,27 +337,29 @@ const CadastroNota: React.FC = () => {
             />
           </div>
 
-          <div className="campo anexar-nota">
+           <div className="campo anexar-nota">
             {renderLabel("Anexar Nota", "arquivo")}
-            {arquivo ? (
-              <div className="preview-arquivo">
-                <span className="preview-documento">Documento carregado</span>
+
+            {arquivos.map((arquivo, index) => (
+              <div className="preview-arquivo" key={index}>
+                <span className="preview-documento">Documento {index + 1}</span>
                 <a href={arquivo} target="_blank" rel="noreferrer" className="preview-abrir">Abrir</a>
-                <span className="preview-remover" onClick={removerArquivo} title="Remover arquivo">×</span>
+                <span className="preview-remover" onClick={() => removerArquivo(index)}>×</span>
               </div>
-            ) : (
-              <div className="linha-arquivo">
-                <span className="texto-upload">Selecione um documento</span>
-                <input
-                  type="file"
-                  id="arquivo"
-                  className={`input-arquivo ${erros.arquivo ? "input-erro" : ""}`}
-                  onChange={handleArquivoChange}
-                />
-                <label htmlFor="arquivo" className="button small purple">Anexar Nota</label>
-                {erros.arquivo && <span className="erro-texto">{erros.arquivo}</span>}
-              </div>
-            )}
+            ))}
+
+            <div className="linha-arquivo">
+              <span className="texto-upload">Selecione um ou mais documentos</span>
+              <input
+                type="file"
+                id="arquivo"
+                multiple
+                className={`input-arquivo ${erros.arquivo ? "input-erro" : ""}`}
+                onChange={handleArquivoChange}
+              />
+              <label htmlFor="arquivo" className="button small purple">Anexar Nota</label>
+              {erros.arquivo && <span className="erro-texto">{erros.arquivo}</span>}
+            </div>
           </div>
 
           <div className="acoes-formulario">
