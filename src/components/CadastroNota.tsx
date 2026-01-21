@@ -285,18 +285,16 @@ const CadastroNota: React.FC = () => {
           {formData.garantiaEstendida === 'Sim' && (
             <div className="campo tempoGarantiaEstendida">
               {renderLabel("Tempo Garantia Estendida (meses)", "tempoGarantiaEstendida")}
-              <select
+              <input
                 name="tempoGarantiaEstendida"
+                type="number"
+                min="1"
                 value={formData.tempoGarantiaEstendida}
                 onChange={handleChange}
+                placeholder='Ex: 12'
                 className={erroClass("tempoGarantiaEstendida")}
               >
-                <option value="">Selecione o tempo</option>
-                <option value="3">3 meses</option>
-                {Number(formData.duracaoGarantia) >= 6 && <option value="6">6 meses</option>}
-                {Number(formData.duracaoGarantia) >= 12 && <option value="12">12 meses</option>}
-                {Number(formData.duracaoGarantia) >= 24 && <option value="24">24 meses</option>}
-              </select>
+              </input>
               {erros.tempoGarantiaEstendida && <span className="erro-texto">{erros.tempoGarantiaEstendida}</span>}
             </div>
           )}
