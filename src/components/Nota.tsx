@@ -16,7 +16,7 @@ export interface NotaProps {
   numeroNota: string;
   valor: string;
   observacoes: string;
-  arquivo?: string | null;
+  arquivo?: string | string[] | null;
   garantiaEstendida?: string;
   tempoGarantiaEstendida?: string;
   onDelete: (id: string) => void;
@@ -71,17 +71,26 @@ const Nota = ({
     onDelete(id);
   };
 
-  const renderArquivo = () => {
+  const renderArquivos = () => {
     if (!arquivo) return null;
+
+    const arquivosArray = Array.isArray(arquivo) ? arquivo : [arquivo];
+
     return (
-      <a
-        href={arquivo}
-        target="_blank"
-        rel="noreferrer"
-        className="link-arquivo"
-      >
-        Abrir Arquivo
-      </a>
+      <ul className="lista-arquivos">
+        {arquivosArray.map((item, index) => (
+          <li key={index}>
+            <a
+              href={item}
+              target="_blank"
+              rel="noreferrer"
+              className="link-arquivo"
+            >
+              Abrir Arquivo {arquivosArray.length > 1 ? index + 1 : ""}
+            </a>
+          </li>
+        ))}
+      </ul>
     );
   };
 
@@ -165,9 +174,10 @@ const Nota = ({
               <p><strong>Observações:</strong> {observacoes || "-"}</p>
 
               {arquivo && (
-                <p className="arquivo-anexo">
-                  <strong>Arquivo Anexado:</strong> {renderArquivo()}
-                </p>
+                <div className="arquivo-anexo">
+                  <strong>Arquivos Anexados:</strong>
+                  {renderArquivos()}
+                </div>
               )}
             </div>
 

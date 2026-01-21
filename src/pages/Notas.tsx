@@ -45,16 +45,27 @@ const Notas = () => {
     dataCompra: string,
     duracaoGarantia: string
   ): StatusGarantia => {
-    const [dia, mes, ano] = dataCompra.split("/");
-    const dataCompraObj = new Date(`${ano}-${mes}-${dia}`);
+    if (!dataCompra || !duracaoGarantia) return "Expirada"; // fallback seguro
+
+    const partes = dataCompra.split("/");
+    if (partes.length !== 3) return "Expirada"; // formato inválido
+
+    const [dia, mes, ano] = partes.map(Number);
+    const dataCompraObj = new Date(ano, mes - 1, dia); // meses são 0-indexed
+
+    if (isNaN(dataCompraObj.getTime())) {
+      console.warn("Data de compra inválida:", dataCompra);
+      return "Expirada"; // ou "Inválida", mas fallback para Expirada
+    }
+
     const meses = Number(duracaoGarantia);
+    if (isNaN(meses)) return "Expirada";
 
     const dataExp = new Date(dataCompraObj);
     dataExp.setMonth(dataExp.getMonth() + meses);
 
     const hoje = new Date();
-    const diasRestantes =
-      (dataExp.getTime() - hoje.getTime()) / (1000 * 60 * 60 * 24);
+    const diasRestantes = (dataExp.getTime() - hoje.getTime()) / (1000 * 60 * 60 * 24);
 
     if (diasRestantes < 0) return "Expirada";
     if (diasRestantes <= 30) return "A Expirar";

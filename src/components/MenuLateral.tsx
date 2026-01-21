@@ -136,7 +136,10 @@ export default function MenuLateral({
 
   const handleLogout = () => {
     localStorage.removeItem("usuarioLogado");
-    navigate("/");
+    localStorage.clear();
+
+    const basePath = window.location.origin + window.location.pathname.split('#')[0];
+    window.location.replace(`${basePath}#/`);
   };
 
   const navigateTo = (page: string) => {
