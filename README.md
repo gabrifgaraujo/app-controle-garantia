@@ -1,310 +1,68 @@
 # Aponti — Sistema de Controle de Garantia
 
-O Aponti é o projeto integrador do curso de Frontend, desenvolvido para resolver o problema da má gestão de notas fiscais e certificados de garantia. O aplicativo tem como objetivo centralizar, organizar e emitir alertas sobre o prazo de validade das garantias de equipamentos adquiridos pelos usuários.
+<div align="start">
+  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
+  <img src="https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E" />
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" />
+  <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" />
+</div>
 
-Este projeto está sendo desenvolvido em um ambiente ágil, com foco em aprendizado e boas práticas de desenvolvimento.
+O 'app-controle-garantia' é um aplicativo frontend desenvolvido como projeto integrador da trilha Frontend disponibilizado pela Aponti (Bolsa Futuro Digital. O sistema centraliza notas fiscais e certificados de garantia, organiza equipamentos adquiridos e emite alertas automáticos sobre prazos de validade, tudo em uma interface moderna e responsiva.
 
-## DICA IMPORTANTÍSSIMA SOBRE O FLUXO DE TRABALHO NÃO PULE ISSO!
-A partir de agora, seguiremos um fluxo de branches estruturado para evitar conflitos, perda de código e garantir organização. TODOS DEVEM SEGUIR À RISCA.
-Regras do Novo Fluxo (GitFlow Simplificado)
-  1. main = Produção: Contém apenas o código estável, testado e pronto. NINGUÉM faz push direto aqui.
-  2. develop = Integração: É a branch principal de desenvolvimento. Todo o trabalho das features é integrado aqui primeiro.
+Tecnologias e Decisões de Arquitetura
+Neste projeto, focamos em experiência do usuário, performance e manutenibilidade:
 
-# **Guia de Instalação, Configuração do Git e Fluxo Completo de Contribuição**
-Leiam por favor eu imploro façam direitinho amo vocês
+* React + TypeScript: Interface declarativa com tipagem forte, reduzindo erros em tempo de desenvolvimento e facilitando a escalabilidade.
+* Vite: Ferramenta de build extremamente rápida, com hot module replacement (HMR) para desenvolvimento ágil.
+* React Router DOM: Navegação SPA fluida e organizada entre múltiplas páginas sem recarregar a aplicação.
+* Tailwind CSS: Estilização utilitária, responsiva e altamente produtiva, sem necessidade de CSS customizado excessivo.
+* Lucide React + React Icons: Ícones leves, consistentes e otimizados para performance.
+* SweetAlert2: Notificações e alertas elegantes e intuitivos para feedback ao usuário (cadastros, expirações, erros).
+* ESLint (configuração flat) + Prettier: Padronização automática de código e qualidade garantida em todo o projeto.
+* Deploy via GitHub Pages: Script automatizado (`gh-pages`) para publicação instantânea da versão de produção.
 
-## 1. Instalando o Git
-### **Windows**
-1. Acesse: https://git-scm.com/downloads
-2. Baixe o instalador de Windows.
-3. Execute o arquivo `.exe`.
-4. Mantenha as opções padrão.
-5. Conclua a instalação.
-### **Linux (Ubuntu/Debian)**
-```bash
-sudo apt update
-sudo apt install git
-```
-### **MacOS**
-```bash
-brew install git
-```
----
-## 2. Configurando Git ( na hora que você instala antes de tudo você tem que configurar seu email e nome )
-```bash
-git config --global user.name "Seu Nome"
-git config --global user.email "seuemail@exemplo.com"
-```
----
-## 3. Clonando o Repositório
-```bash
-git clone https://github.com/gabrifgaraujo/aponti-controle-garantia
+## Como Executar
+Você pode rodar a aplicação de duas formas:
 
-```
-depois você abre o vscode e seleciona a pasta onde está esse projeto que você clonou.
-
-## 4. Seu fluxo de trabalho padrão
-```bash
-# serve pra puxar todas as alterações que provavelmente tem SEMPRE FAÇA GIT PULL ANTES DE QUALQUER COISA!!
-git pull
-# pra entrar na branch develop e mexer só nela, SO MEXA NELA POR FAVOR
-git checkout develop
-# primeiro passo pra lançar pro repositório suas alterações
-git add .
-git commit -m "(o tipo lá de commit): sua alteração"
-# pra enviar todas as suas alterações :) 
-git push origin develop
-
-```
----
-## 12. Regras OBRIGATÓRIAS!!
-| Regra | Motivo |
-|------|--------|
-| Não comitarás em cima do código do teu irmão | Pecado Grave |
-| Não enviarás código para a main | Sujeito á Chicotada |
-| Não mexerás no mesmo código que teu irmão ao mesmo tempo | Burrice |
-| Manterás teu vscode atualizado | Evita conflitos |
-| Lembra-te de irritar Maria | Divertido |
----
-## 13. SEU Checklist rápido (guarde em um bloquinho de notas)
-- [ ] Atualizei dev
-- [ ] Criei branch
-- [ ] Commits feitos
-- [ ] Push realizado
-- [ ] PR aberto
-- [ ] Branch deletada
-
-## 3. Desenvolvimento e Commits
-
-Cada novo commit faça desse jeitinho e tenha certeza de que seus **commits são descritivos** e seguem um padrão de mensagem [Conventional Commits](https://medium.com/linkapi-solutions/conventional-commits-pattern-3778d1a1e657).
-
-## Visão Geral
-
-O Aponti é um projeto frontend moderno, construído com:
-
-*   **React**
-*   **TypeScript**
-*   **Vite** (versão atual)
-*   **TailwindCSS**
-*   **ESLint + Prettier**
-*   **Estrutura para colaboração**: `.github`, `.vscode`, `.gitignore`, templates e scripts padronizados
-
-O objetivo é garantir um fluxo de desenvolvimento limpo, organizado e pronto para contribuir.
-
-## Início Rápido (Quick Start)
-
-### 1. Pré-requisitos
-
-Certifique-se de ter instalado:
-
-*   Node.js 18+
-*   Git
-*   VSCode
-
-### 2. Instalando o projeto
-
-**Clone o repo:**
+### Opção 1: Desenvolvimento Local (Recomendado)
+Certifique-se de ter Node.js 18+ instalado. No terminal, na raiz do projeto:
 
 ```bash
-git clone https://github.com/gabrifgaraujo/aponti-controle-garantia
-cd aponti-controle-garantia
-```
+# 1. Clonar o repositório
+git clone https://github.com/gabrifgaraujo/app-controle-garantia.git
 
-**Instale as dependências:**
+# 2. Entrar na pasta
+cd app-controle-garantia
 
-```bash
+# 3. Instalar dependências
 npm install
-```
 
-**Execute:**
-
-```bash
+# 4. Iniciar o servidor de desenvolvimento
 npm run dev
 ```
+A aplicação estará disponível em http://localhost:5173
 
-**Acesse:**
-
-O projeto estará disponível em `http://localhost:5173`.
-
-## Tecnologias e Motivos
-
-| Tecnologia | Uso |
-| :--- | :--- |
-| React | Interface do usuário |
-| TypeScript | Tipagem estática e segurança |
-| Vite | Build rápido e moderno |
-| TailwindCSS | Estilização utilitária e produtiva |
-| ESLint | Padronização e qualidade do código |
-| Prettier | Formatação consistente |
-
-## Arquivos e Pastas Criadas (explicação clara)
-
-Aqui está o que existe no projeto e por quê:
-
-### `.github/pull_request_template.md`
-
-Template automático para qualquer Pull Request. Serve pra manter o histórico organizado e padronizado.
-
-### `.vscode/settings.json`
-
-Configura o VSCode pra formatar automaticamente ao salvar, usando o Prettier:
-
-```json
-"editor.formatOnSave": true
-"editor.defaultFormatter": "esbenp.prettier-vscode"
-```
-
-Resultado: zero arquivos desformatados no repositório.
-
-### `.gitignore`
-
-Exclui arquivos que nunca devem ir para o Git:
-
-```
-node_modules/
-dist/
-.env
-logs
-```
-
-Mantém o repo limpo e leve.
-
-### `.prettierrc`
-
-Configura a formatação global:
-
-*   ponto e vírgula
-*   aspas duplas
-*   trailing comma
-*   etc.
-
-Deixa tudo consistente entre devs.
-
-### `.eslintrc.json`
-
-Criado automaticamente via:
+### Opção 2: Build de Produção
 
 ```bash
-npm init @eslint/config@latest
+npm run build
+npm run preview
 ```
+Gera e pré-visualiza a versão otimizada para produção.
 
-Inclui regras para:
+## Funcionalidades Principais
 
-*   TypeScript
-*   React
-*   Plugins do Prettier
-*   Padrão atualizado do ESLint
-*   Integração com importações modernas
+- Cadastro de Garantias
+Formulário completo para inserir dados do equipamento, nota fiscal e data de validade.
+Validações em tempo real e feedback visual via SweetAlert2.
 
-Ele evita erros bobos e mantém o código limpo.
+- Lista e Organização
+Visualização centralizada de todos os equipamentos cadastrados.
+Ordenação, filtros e exibição clara dos prazos restantes.
 
-### `tsconfig.json`
+- Alertas Automáticos
+Notificações inteligentes sobre garantias próximas do vencimento.
+Interface responsiva que funciona perfeitamente em desktop e mobile.
 
-Arquivo de configuração do TypeScript usando opções recomendadas pelo Vite moderno:
-
-```json
-"target": "ES2020"
-"moduleResolution": "bundler"
-"jsx": "react-jsx"
-"strict": true
-```
-
-Garantindo tipagem forte e suporte aos recursos recentes do JS.
-
-### `tailwind.config.js`
-
-Criado com:
-
-```bash
-npx tailwindcss init -p
-```
-
-Inclui:
-
-```javascript
-content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
-```
-
-Necessário pra que o Tailwind remova classes não usadas no build.
-
-### `postcss.config.js`
-
-Usado pelo Vite para processar Tailwind + Autoprefixer.
-
-## Estilos
-
-No `src/index.css` foram adicionadas as diretivas:
-
-```css
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-```
-
-Isso habilita todo o Tailwind na aplicação.
-
-## Scripts do Projeto
-
-Adicionados via `npm pkg set`:
-
-| Script | Para que serve |
-| :--- | :--- |
-| `npm run dev` | Inicia o servidor Vite |
-| `npm run build` | Gera build de produção |
-| `npm run preview` | Previsualiza o build localmente |
-| `npm run lint` | Verifica problemas com ESLint |
-| `npm run format` | Formata todo o projeto com Prettier |
-
-## Fluxo de Contribuição
-
-A branch `main` é protegida. Toda alteração precisa:
-
-**Criar branch:**
-
-```bash
-git checkout -b feat/nome-da-feature
-```
-
-**Comitar:**
-
-```bash
-git add .
-git commit -m "feat: descrição da mudança"
-```
-
-**Enviar:**
-
-```bash
-git push origin feat/nome-da-feature
-```
-
-Abrir um Pull Request (PR) usando o template criado em `.github/`.
-
-## Extensões Recomendadas no VSCode
-
-*   ESLint
-*   Prettier
-*   Tailwind CSS IntelliSense
-*   TypeScript Importer (opcional)
-
-## Comandos úteis (resumo)
-
-| Comando | Função |
-| :--- | :--- |
-| `npm run dev` | Roda o projeto |
-| `npm run build` | Gera build |
-| `npm run preview` | Testa build |
-| `npm run lint` | Checa qualidade |
-| `npm run format` | Formata tudo |
-| `npm install` | Instala dependências |
-
-## Conclusão
-
-Esse README descreve todo o setup moderno utilizado:
-
-*   Estrutura atual do Vite
-*   Configuração do Tailwind oficial
-*   ESLint + Prettier atualizados
-*   Pastas automáticas (`.github`, `.vscode`)
-*   Scripts saneados
-*   Fluxo de contribuição profissional
+- Armazenamento Local Persistente
+Dados salvos no navegador
